@@ -18,6 +18,9 @@ def test_trend_follower_assertions() -> None:
     data = result["data"]
 
     assert result["quality_status"] in {"valid", "degraded", "error"}
+    if result["quality_status"] == "error":
+        assert data.get("fetch_error") == "抓取失败"
+        return
     assert isinstance(data["upside_reasons"], list)
     assert len(data["upside_reasons"]) > 0
 
@@ -30,6 +33,9 @@ def test_fund_diagnostic_assertions() -> None:
     result = skill_engine.generate_skill_card("fund_diagnostic", "001410")
     data = result["data"]
 
+    if result["quality_status"] == "error":
+        assert data.get("fetch_error") == "抓取失败"
+        return
     assert len(data["top10_holdings"]) == 10
     assert data["industry_concentration"]["breakdown"]
 
@@ -38,6 +44,9 @@ def test_stock_diagnostic_assertions() -> None:
     input_codes = ["600519", "002594", "600036", "601012", "601318"]
     result = skill_engine.generate_skill_card("stock_diagnostic", input_codes)
     data = result["data"]
+    if result["quality_status"] == "error":
+        assert data.get("fetch_error") == "抓取失败"
+        return
 
     industry_sum = _sum_pct(data["industry_concentration"]["breakdown"])
     cap_sum = _sum_pct(data["market_cap_style"]["cap_breakdown"])
@@ -69,8 +78,9 @@ def test_degraded_reason_logged(monkeypatch: pytest.MonkeyPatch, caplog: pytest.
     with caplog.at_level("WARNING"):
         result = skill_engine.generate_skill_card("trend_follower", "300750")
 
-    assert result["quality_status"] in {"degraded", "error"}
+    assert result["quality_status"] == "error"
     assert "degraded_reason=akshare_failed" in caplog.text
+    assert "fetch_error=抓取失败" in caplog.text
 
 
 def test_prompt_context_trend_is_slimmed_and_limited() -> None:
@@ -97,30 +107,48 @@ def test_prompt_context_trend_is_slimmed_and_limited() -> None:
 
 
 def test_prompt_context_fund_whitelist_only() -> None:
-    ak_data = skill_engine._sample_ak_data("fund_diagnostic", {"raw": "001410", "symbol": "SZ001410"})
+    ak_data = {
+        "fund_code": "001410",
+        "top10": [
+            {"name": "贵州茅台", "weight": 9.2, "industry": "白酒"},
+            {"name": "美的集团", "weight": 7.8, "industry": "白电"},
+        ],
+        "industry": [
+            {"industry": "消费", "weight": 62.5},
+            {"industry": "金融", "weight": 10.1},
+        ],
+    }
     ctx = skill_engine._build_prompt_context("fund_diagnostic", ak_data)
-    assert set(ctx.keys()) == {"fund_code", "top10_holdings", "industry_top5", "style_ratio"}
+    assert set(ctx.keys()) == {"fund_code", "top10_holdings", "industry_top5"}
     assert len(ctx["top10_holdings"]) <= 10
     assert len(ctx["industry_top5"]) <= 5
 
 
 def test_prompt_context_stock_aggregate_and_buckets() -> None:
-    ak_data = skill_engine._sample_ak_data(
-        "stock_diagnostic",
-        [
-            {"raw": "600519", "symbol": "SH600519"},
-            {"raw": "002594", "symbol": "SZ002594"},
-            {"raw": "600036", "symbol": "SH600036"},
-            {"raw": "601012", "symbol": "SH601012"},
-            {"raw": "601318", "symbol": "SH601318"},
-        ],
-    )
+    ak_data = {
+        "stocks": [
+            {"code": "600519", "industry": "消费", "market_cap": 2_300_000_000_000, "pe": 28},
+            {"code": "002594", "industry": "新能源", "market_cap": 760_000_000_000, "pe": 31},
+            {"code": "600036", "industry": "金融", "market_cap": 910_000_000_000, "pe": 7},
+            {"code": "601012", "industry": "新能源", "market_cap": 190_000_000_000, "pe": 16},
+            {"code": "601318", "industry": "保险", "market_cap": 860_000_000_000, "pe": 10},
+        ]
+    }
     ctx = skill_engine._build_prompt_context("stock_diagnostic", ak_data)
     assert "aggregate" in ctx
     assert "per_stock_summary" in ctx
     assert len(ctx["per_stock_summary"]) == 5
     for row in ctx["per_stock_summary"]:
         assert set(row.keys()) == {"code", "industry", "market_cap_bucket", "pe_bucket", "market_cap", "pe"}
+
+
+def test_fetch_failed_returns_error_with_message(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(skill_engine, "_fetch_akshare_with_fallback", lambda *_args, **_kwargs: ({}, False))
+    result = skill_engine.generate_skill_card("fund_diagnostic", "001410")
+    assert result["quality_status"] == "error"
+    assert result["data"].get("fetch_error") == "抓取失败"
+    # Ensure no hard-coded mock style ratio values.
+    assert "market_cap_style" not in result["data"]
 
 
 def test_stream_success_parses_json(monkeypatch: pytest.MonkeyPatch) -> None:

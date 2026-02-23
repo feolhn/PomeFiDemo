@@ -85,9 +85,15 @@ def generate_skill_card(
     symbol_bundle = _normalize_symbol_by_market(skill_type, normalized_input)
     ak_data, ak_ok = _fetch_akshare_with_fallback(skill_type, symbol_bundle)
     if not ak_ok:
-        response["quality_status"] = "degraded"
+        response["quality_status"] = "error"
         degraded_reason = "akshare_failed"
         logger.warning("degraded_reason=%s skill=%s", degraded_reason, skill_type)
+        data = _minimal_renderable_payload(skill_type, normalized_input)
+        data["fetch_error"] = "抓取失败"
+        enforce_disclaimer(data)
+        response["data"] = data
+        logger.warning("fetch_error=抓取失败 skill=%s", skill_type)
+        return response
 
     prompt = _build_kimi_prompt(skill_type, normalized_input, ak_data)
     llm_json, llm_ok = _call_kimi_with_optional_stream(
@@ -163,7 +169,7 @@ def _normalize_symbol_by_market(skill_type: str, normalized_input: Any) -> Any:
 
 def _fetch_akshare_with_fallback(skill_type: str, symbol_bundle: Any) -> tuple[dict[str, Any], bool]:
     if ak is None:
-        return _sample_ak_data(skill_type, symbol_bundle), False
+        return _empty_ak_data(skill_type), False
 
     try:
         if skill_type == "trend_follower":
@@ -173,7 +179,7 @@ def _fetch_akshare_with_fallback(skill_type: str, symbol_bundle: Any) -> tuple[d
         return _fetch_stock_diag_ak(symbol_bundle), True
     except Exception as exc:
         logger.warning("akshare fetch failed: %s", exc)
-        return _sample_ak_data(skill_type, symbol_bundle), False
+        return _empty_ak_data(skill_type), False
 
 
 def _fetch_trend_ak(symbol_bundle: dict[str, str]) -> dict[str, Any]:
@@ -338,6 +344,7 @@ def _build_kimi_prompt(skill_type: str, normalized_input: Any, ak_data: dict[str
         "system": (
             "你是冷静、理性、结构化的金融分析师。"
             "输出必须是 JSON，不要 Markdown，不要投资建议，不要出现强烈推荐或必涨。"
+            "所有自然语言说明字段请使用简体中文（zh-CN）输出。"
         ),
         "skill": skill_type,
         "input": normalized_input,
@@ -362,7 +369,10 @@ def _safe_call_and_parse_kimi(prompt: str) -> tuple[dict[str, Any], bool]:
         resp = client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": "Return valid JSON only."},
+                {
+                    "role": "system",
+                    "content": "Return valid JSON only. All natural-language fields must be Simplified Chinese (zh-CN).",
+                },
                 {"role": "user", "content": prompt},
             ],
             temperature=temperature,
@@ -408,7 +418,10 @@ def _stream_kimi_response(
         stream = client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": "Return valid JSON only."},
+                {
+                    "role": "system",
+                    "content": "Return valid JSON only. All natural-language fields must be Simplified Chinese (zh-CN).",
+                },
                 {"role": "user", "content": prompt},
             ],
             temperature=temperature,
@@ -511,17 +524,10 @@ def _build_prompt_context(skill_type: str, ak_data: dict[str, Any]) -> dict[str,
                 }
             )
 
-        # Fund source does not provide stable market-cap/style split in current pipeline.
-        # Keep deterministic defaults so prompt has compact, stable structure.
-        style_ratio = {
-            "cap_breakdown": {"大盘": 70.0, "中盘": 20.0, "小盘": 10.0},
-            "style_breakdown": {"价值": 60.0, "平衡": 25.0, "成长": 15.0},
-        }
         return {
             "fund_code": str(ak_data.get("fund_code", "N/A")),
             "top10_holdings": top10,
             "industry_top5": industry_items,
-            "style_ratio": style_ratio,
         }
 
     # stock_diagnostic
@@ -775,16 +781,16 @@ def _normalize_fund_data(ak_data: dict[str, Any], llm_json: dict[str, Any]) -> d
             ),
         },
         "market_cap_style": {
-            "cap_breakdown": llm_json.get("market_cap_style", {}).get("cap_breakdown", {"大盘": "70.0%", "中盘": "20.0%", "小盘": "10.0%"})
+            "cap_breakdown": llm_json.get("market_cap_style", {}).get("cap_breakdown", {})
             if isinstance(llm_json.get("market_cap_style"), dict)
-            else {"大盘": "70.0%", "中盘": "20.0%", "小盘": "10.0%"},
-            "style_breakdown": llm_json.get("market_cap_style", {}).get("style_breakdown", {"价值": "60.0%", "平衡": "25.0%", "成长": "15.0%"})
+            else {},
+            "style_breakdown": llm_json.get("market_cap_style", {}).get("style_breakdown", {})
             if isinstance(llm_json.get("market_cap_style"), dict)
-            else {"价值": "60.0%", "平衡": "25.0%", "成长": "15.0%"},
+            else {},
             "interpretation": sanitize_analysis_text(
-                llm_json.get("market_cap_style", {}).get("interpretation", "组合偏大盘价值，波动通常低于成长风格。")
+                llm_json.get("market_cap_style", {}).get("interpretation", "N/A")
                 if isinstance(llm_json.get("market_cap_style"), dict)
-                else "组合偏大盘价值，波动通常低于成长风格。"
+                else "N/A"
             ),
         },
         "risks": llm_json.get("risks") if isinstance(llm_json.get("risks"), list) else ["行业暴露集中", "风格漂移风险"],
@@ -803,8 +809,6 @@ def _normalize_fund_data(ak_data: dict[str, Any], llm_json: dict[str, Any]) -> d
 
 def _normalize_stock_diag_data(ak_data: dict[str, Any], llm_json: dict[str, Any]) -> dict[str, Any]:
     stocks = ak_data.get("stocks", [])
-    if not stocks:
-        stocks = _sample_ak_data("stock_diagnostic", []).get("stocks", [])
 
     count = len(stocks) or 1
     unit = 100.0 / count
@@ -903,66 +907,12 @@ def _minimal_renderable_payload(skill_type: str, normalized_input: Any) -> dict[
     return data
 
 
-def _sample_ak_data(skill_type: str, symbol_bundle: Any) -> dict[str, Any]:
+def _empty_ak_data(skill_type: str) -> dict[str, Any]:
     if skill_type == "trend_follower":
-        code = symbol_bundle["raw"] if isinstance(symbol_bundle, dict) else "300750"
-        return {
-            "symbol": code,
-            "name": "宁德时代",
-            "industry": "动力电池",
-            "prices": [
-                {"date": "2026-02-18", "close": 190.2},
-                {"date": "2026-02-19", "close": 193.8},
-                {"date": "2026-02-20", "close": 196.1},
-            ],
-            "current_pe": 32.4,
-            "pe_percentile": 62.0,
-        }
-
+        return {"symbol": "N/A", "name": "N/A", "industry": "N/A", "prices": [], "current_pe": None, "pe_percentile": None}
     if skill_type == "fund_diagnostic":
-        return {
-            "fund_code": symbol_bundle.get("raw", "001410") if isinstance(symbol_bundle, dict) else "001410",
-            "top10": [
-                {"name": "贵州茅台", "weight": 9.2, "industry": "白酒"},
-                {"name": "美的集团", "weight": 7.8, "industry": "白电"},
-                {"name": "五粮液", "weight": 7.5, "industry": "白酒"},
-                {"name": "泸州老窖", "weight": 6.1, "industry": "白酒"},
-                {"name": "格力电器", "weight": 5.8, "industry": "白电"},
-                {"name": "中国平安", "weight": 5.2, "industry": "保险"},
-                {"name": "招商银行", "weight": 4.9, "industry": "银行"},
-                {"name": "伊利股份", "weight": 4.5, "industry": "乳制品"},
-                {"name": "恒瑞医药", "weight": 4.1, "industry": "创新药"},
-                {"name": "宁德时代", "weight": 3.8, "industry": "动力电池"},
-            ],
-            "industry": [
-                {"industry": "消费", "weight": 62.5},
-                {"industry": "金融", "weight": 10.1},
-                {"industry": "制造", "weight": 8.9},
-                {"industry": "医药", "weight": 4.1},
-                {"industry": "其他", "weight": 14.4},
-            ],
-        }
-
-    stocks = []
-    for idx, item in enumerate(symbol_bundle if isinstance(symbol_bundle, list) else []):
-        defaults = [
-            ("半导体", 220_000_000_000, 35),
-            ("AI", 180_000_000_000, 42),
-            ("金融", 350_000_000_000, 8),
-            ("新能源", 120_000_000_000, 28),
-            ("保险", 280_000_000_000, 12),
-        ]
-        industry, cap, pe = defaults[idx % len(defaults)]
-        stocks.append({"code": item["raw"], "industry": industry, "market_cap": cap, "pe": pe})
-    if not stocks:
-        stocks = [
-            {"code": "600519", "industry": "消费", "market_cap": 2_300_000_000_000, "pe": 28},
-            {"code": "002594", "industry": "新能源", "market_cap": 760_000_000_000, "pe": 31},
-            {"code": "600036", "industry": "金融", "market_cap": 910_000_000_000, "pe": 7},
-            {"code": "601012", "industry": "新能源", "market_cap": 190_000_000_000, "pe": 16},
-            {"code": "601318", "industry": "保险", "market_cap": 860_000_000_000, "pe": 10},
-        ]
-    return {"stocks": stocks}
+        return {"fund_code": "N/A", "top10": [], "industry": []}
+    return {"stocks": []}
 
 
 def _to_float(value: Any) -> float | None:

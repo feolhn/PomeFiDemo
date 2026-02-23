@@ -6,7 +6,6 @@ from typing import Any
 import plotly.graph_objects as go
 import streamlit as st
 
-from mock_data import CHAT_THREADS, MESSAGE_FEED, PROFILE
 from skill_engine import generate_skill_card
 
 st.set_page_config(page_title="PomeFi Demo", layout="wide")
@@ -144,12 +143,37 @@ def _render_stock_charts(data: dict[str, Any]) -> None:
         st.plotly_chart(radar, use_container_width=True)
 
 
-def _render_skill_lab() -> None:
+def _render_skill_lab_page() -> None:
     st.subheader("Skill Lab")
-    skill = st.selectbox(
-        "选择 Skill",
-        options=["trend_follower", "fund_diagnostic", "stock_diagnostic"],
-    )
+    st.caption("选择一个 Skill 进入详情页")
+
+    skill_items = [
+        ("trend_follower", "趋势跟踪"),
+        ("fund_diagnostic", "基金诊断"),
+        ("stock_diagnostic", "个股诊断"),
+    ]
+    for skill_id, display_name in skill_items:
+        if st.button(f"{display_name}（{skill_id}）", key=f"open_{skill_id}", use_container_width=True):
+            st.session_state["selected_skill"] = skill_id
+            st.session_state["page"] = "skll_widget"
+            st.rerun()
+
+
+def _render_skll_widget_page() -> None:
+    skill = st.session_state.get("selected_skill")
+    if skill not in {"trend_follower", "fund_diagnostic", "stock_diagnostic"}:
+        st.warning("未选择 Skill，已返回 Skill Lab。")
+        st.session_state["page"] = "skill_lab"
+        st.rerun()
+        return
+
+    col_back, col_title = st.columns([1, 5])
+    with col_back:
+        if st.button("返回 Skill Lab", key="back_to_skill_lab"):
+            st.session_state["page"] = "skill_lab"
+            st.rerun()
+    with col_title:
+        st.subheader(f"skll_widget · {skill}")
 
     default_input = {
         "trend_follower": "300750",
@@ -209,63 +233,42 @@ def _render_skill_lab() -> None:
                 stream_callback=on_stream,
             )
             stream_box.empty()
+            st.session_state[f"last_result_{skill}"] = result
 
+    result = st.session_state.get(f"last_result_{skill}")
+    if result:
         _render_status_badge(result["quality_status"])
         data = result["data"]
 
         st.markdown(f"**Skill ID**: `{data.get('skill_id', 'N/A')}`")
         st.markdown(f"**分类**: {data.get('skill_category', 'N/A')}")
         st.markdown(f"**创建者**: {data.get('creator', 'N/A')}")
-
-        if skill == "trend_follower":
-            _render_trend_charts(data)
-        elif skill == "fund_diagnostic":
-            _render_fund_charts(data)
+        if result["quality_status"] == "error" and data.get("fetch_error") == "抓取失败":
+            st.error("抓取失败")
         else:
-            _render_stock_charts(data)
+            if skill == "trend_follower":
+                _render_trend_charts(data)
+            elif skill == "fund_diagnostic":
+                _render_fund_charts(data)
+            else:
+                _render_stock_charts(data)
 
         st.markdown("### 结构化输出（JSON）")
         st.code(json.dumps(result, ensure_ascii=False, indent=2), language="json")
         st.caption(data.get("disclaimer", ""))
 
 
-def _render_message() -> None:
-    st.subheader("Message")
-    for item in MESSAGE_FEED:
-        st.markdown(f"**{item['user']}** · {item['time']} · {item['location']}")
-        st.write(item["content"])
-        st.caption(f"👍 {item['likes']}")
-        st.divider()
-
-
-def _render_chat() -> None:
-    st.subheader("Chat")
-    for row in CHAT_THREADS:
-        badge = f" ({row['unread']} unread)" if row["unread"] else ""
-        st.markdown(f"**{row['name']}**{badge}")
-        st.caption(row["preview"])
-
-
-def _render_profile() -> None:
-    st.subheader("Profile")
-    st.markdown(f"**{PROFILE['name']}**")
-    st.caption(PROFILE["bio"])
-    st.write(f"人格标签: {PROFILE['persona']} | MBTI: {PROFILE['mbti']}")
-    st.json(PROFILE["stats"])
-
-
 def main() -> None:
-    st.title("PomeFi AI 理财 App - v0.3.0 MVP")
-    page = st.radio("导航", ["Message", "Skill Lab", "Chat", "Profile"], horizontal=True)
+    st.title("PomeFi Skill Lab")
+    if "page" not in st.session_state:
+        st.session_state["page"] = "skill_lab"
+    if "selected_skill" not in st.session_state:
+        st.session_state["selected_skill"] = None
 
-    if page == "Message":
-        _render_message()
-    elif page == "Skill Lab":
-        _render_skill_lab()
-    elif page == "Chat":
-        _render_chat()
+    if st.session_state["page"] == "skll_widget":
+        _render_skll_widget_page()
     else:
-        _render_profile()
+        _render_skill_lab_page()
 
 
 if __name__ == "__main__":

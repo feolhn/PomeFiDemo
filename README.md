@@ -18,7 +18,6 @@ pytest -q
 
 ## Notes
 
-- `app.py`: UI only
+- `app.py`: Skill Lab single-page UI
 - `skill_engine.py`: real logic entry
 - `utils.py`: helper utilities
-- `mock_data.py`: non-core page mock data
