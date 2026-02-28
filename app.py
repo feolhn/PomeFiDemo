@@ -1,274 +1,324 @@
 from __future__ import annotations
 
+import asyncio
 import json
+import re
+from pathlib import Path
+import sys
 from typing import Any
 
-import plotly.graph_objects as go
+import akshare as ak
 import streamlit as st
 
-from skill_engine import generate_skill_card
+PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT_TEXT = str(PROJECT_ROOT)
+if PROJECT_ROOT_TEXT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT_TEXT)
 
-st.set_page_config(page_title="PomeFi Demo", layout="wide")
+from pomefi import BudgetTracker, EventLogger, assemble_garden_card
+from pomefi.agent.loop import KimiAgentLoop
+from pomefi.config import resolve_kimi_config
+from pomefi.protocol import fallback_response
+from pomefi.tools import FormulaToolClient, execute_akshare_tool, get_akshare_tool_schema
+from pomefi.ui import inject_page_styles, render_header, render_question_hint, render_result_card
+
+FORMULA_URIS = [
+    "moonshot/date:latest",
+    "moonshot/web-search:latest",
+]
+
+APP_SYSTEM_PROMPT = """
+你是 PomeFi 的研究引擎。
+
+规则：
+1. 当前版本只支持 A 股单标的、宏观/新闻类问题。
+2. 任何价格、估值、波动率、财务增速相关判断，必须调用 akshare_tool。
+3. 任何“今天 / 最新 / 新闻 / 事件”相关判断，必须优先调用 date，必要时再调用 web_search。
+4. 不要臆造数值；工具拿不到就明确承认缺口。
+5. 最终回答保持冷静、克制、结构化，用中文输出 2-4 句即可。
+""".strip()
+
+MACRO_KEYWORDS = {
+    "宏观",
+    "新闻",
+    "政策",
+    "行业",
+    "市场",
+    "大盘",
+    "经济",
+    "利率",
+    "今天",
+    "最新",
+    "事件",
+    "公告",
+    "ai",
+}
+
+UNSUPPORTED_KEYWORDS = {
+    "美股",
+    "港股",
+    "基金",
+    "etf",
+    "期货",
+    "比特币",
+    "btc",
+    "ethereum",
+    "黄金",
+    "原油",
+}
 
 
-def _render_status_badge(status: str) -> None:
-    if status == "valid":
-        st.success("质量状态：valid")
-    elif status == "degraded":
-        st.warning("质量状态：degraded（已启用降级结果）")
-    else:
-        st.error("质量状态：error（仅展示最小可渲染结构）")
+def _preview_text(value: Any, limit: int = 160) -> str:
+    text = "" if value is None else str(value)
+    return text if len(text) <= limit else f"{text[:limit]}..."
 
 
-def _dict_pct_to_items(data: dict[str, str]) -> tuple[list[str], list[float]]:
-    labels, values = [], []
-    for k, v in data.items():
-        labels.append(k)
-        values.append(float(str(v).replace("%", "")))
-    return labels, values
+def _extract_primary_local_context(trace: dict[str, Any]) -> dict[str, Any]:
+    local_context = dict(trace.get("local_context") or {})
+    for value in local_context.values():
+        if isinstance(value, dict) and "metrics_data" in value:
+            return value
+    return {}
 
 
-def _render_trend_charts(data: dict[str, Any]) -> None:
-    series = data.get("price_series", [])
-    if series:
-        fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(
-                x=[x["date"] for x in series],
-                y=[x["close"] for x in series],
-                mode="lines",
-                name="价格",
-                line={"color": "#111111", "width": 2},
-                yaxis="y",
-                hovertemplate="日期=%{x}<br>价格=%{y:.2f}<extra></extra>",
-            )
+def _parse_date_value(trace: dict[str, Any]) -> str | None:
+    for event in list(trace.get("tool_events") or []):
+        if str(event.get("tool_name") or "") != "date":
+            continue
+        content = str(event.get("tool_content") or event.get("tool_content_preview") or "").strip()
+        if not content:
+            continue
+        try:
+            loaded = json.loads(content)
+        except json.JSONDecodeError:
+            return content
+        if isinstance(loaded, dict):
+            for key in ("date", "today", "current_date", "formatted_date"):
+                if loaded.get(key):
+                    return str(loaded[key])
+        return content
+    return None
+
+
+def _parse_search_summaries(trace: dict[str, Any]) -> list[dict[str, Any]]:
+    summaries: list[dict[str, Any]] = []
+    for event in list(trace.get("tool_events") or []):
+        if str(event.get("tool_name") or "") != "web_search":
+            continue
+        content = str(event.get("tool_content") or "").strip()
+        if not content:
+            continue
+        try:
+            loaded = json.loads(content)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(loaded, list):
+            summaries.extend([dict(item) for item in loaded if isinstance(item, dict)])
+        elif isinstance(loaded, dict):
+            items = loaded.get("items") or loaded.get("results") or loaded.get("data")
+            if isinstance(items, list):
+                summaries.extend([dict(item) for item in items if isinstance(item, dict)])
+    return summaries[:5]
+
+
+def _looks_unsupported(question: str) -> bool:
+    lower_question = question.lower()
+    return any(keyword in lower_question for keyword in UNSUPPORTED_KEYWORDS)
+
+
+def _looks_macro(question: str) -> bool:
+    lower_question = question.lower()
+    return any(keyword in lower_question for keyword in MACRO_KEYWORDS)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _load_stock_table() -> list[dict[str, str]]:
+    stock_info = ak.stock_info_a_code_name()
+    if stock_info.empty:
+        return []
+    rows: list[dict[str, str]] = []
+    for row in stock_info[["code", "name"]].to_dict(orient="records"):
+        code = str(row.get("code") or "").strip()
+        name = str(row.get("name") or "").strip()
+        if code and name:
+            rows.append({"code": code, "name": name})
+    return rows
+
+
+def resolve_symbol(question: str) -> tuple[str | None, str | None]:
+    code_match = re.search(r"(?<!\d)(\d{6})(?!\d)", question)
+    if code_match:
+        code = code_match.group(1)
+        for row in _load_stock_table():
+            if row["code"] == code:
+                return code, row["name"]
+        return code, None
+
+    exact_matches = [row for row in _load_stock_table() if row["name"] == question.strip()]
+    if len(exact_matches) == 1:
+        return exact_matches[0]["code"], exact_matches[0]["name"]
+
+    contains_matches = [row for row in _load_stock_table() if row["name"] in question]
+    if len(contains_matches) == 1:
+        return contains_matches[0]["code"], contains_matches[0]["name"]
+
+    return None, None
+
+
+def _validate_app_config() -> tuple[bool, str]:
+    config = resolve_kimi_config()
+    if not config.api_key:
+        return False, "缺少 KIMI_API_KEY。"
+    if config.stream:
+        return False, "当前前台仅支持 KIMI_STREAM=0。"
+    if config.model == "kimi-k2.5" and config.temperature != 1.0:
+        return False, "KIMI_MODEL=kimi-k2.5 时，KIMI_TEMPERATURE 必须为 1.0。"
+    return True, ""
+
+
+def build_user_prompt(question: str, resolved_symbol: str | None, resolved_name: str | None) -> str:
+    if resolved_symbol:
+        return (
+            f"已解析到 A 股标的：{resolved_symbol}"
+            f"{f'（{resolved_name}）' if resolved_name else ''}。"
+            f"用户问题：{question}"
         )
+    return question
 
-        pe_raw = data.get("valuation_5y", {}).get("current_pe")
-        pe_value = None
-        if isinstance(pe_raw, (int, float)):
-            pe_value = float(pe_raw)
-        elif isinstance(pe_raw, str):
-            txt = pe_raw.replace("%", "").strip()
-            if txt and txt != "N/A":
-                try:
-                    pe_value = float(txt)
-                except Exception:
-                    pe_value = None
-        if pe_value is not None:
-            fig.add_trace(
-                go.Scatter(
-                    x=[x["date"] for x in series],
-                    y=[pe_value for _ in series],
-                    mode="lines",
-                    name="PE(当前值参照线)",
-                    line={"color": "#666666", "dash": "dot"},
-                    yaxis="y2",
-                    hovertemplate="日期=%{x}<br>PE=%{y:.2f}<extra></extra>",
-                )
-            )
 
-        fig.update_layout(
-            title="价格趋势 + 估值参照",
-            template="plotly_white",
-            hovermode="x unified",
-            legend={"orientation": "h"},
-            yaxis={"title": "价格", "rangemode": "normal", "automargin": True},
-            yaxis2={"title": "PE", "overlaying": "y", "side": "right", "automargin": True},
+async def _run_analysis(question: str) -> dict[str, Any]:
+    config = resolve_kimi_config()
+    logger = EventLogger(debug=config.debug)
+
+    if _looks_unsupported(question):
+        card = fallback_response(
+            question=question,
+            model=config.model,
+            answer="当前版本只支持 A 股单标的与宏观/新闻类问题。",
+            degrade_reason="unsupported_scope",
         )
-        st.plotly_chart(fig, use_container_width=True)
+        return {"card": card, "trace": {"tool_events": [], "events": logger.snapshot(), "local_context": {}}, "local_context": {}}
 
-
-def _render_fund_charts(data: dict[str, Any]) -> None:
-    industry = data.get("industry_concentration", {}).get("breakdown", {})
-    if industry:
-        labels, values = _dict_pct_to_items(industry)
-        pie = go.Figure(
-            data=[
-                go.Pie(
-                    labels=labels,
-                    values=values,
-                    hole=0.45,
-                    marker={"colors": ["#111111", "#444444", "#777777", "#AAAAAA", "#DDDDDD"]},
-                )
-            ]
+    resolved_symbol, resolved_name = resolve_symbol(question)
+    if not resolved_symbol and not _looks_macro(question):
+        card = fallback_response(
+            question=question,
+            model=config.model,
+            answer="当前无法解析 A 股标的，请直接输入 6 位代码或准确公司名。",
+            degrade_reason="symbol_unresolved",
         )
-        pie.update_layout(title="行业集中度")
-        st.plotly_chart(pie, use_container_width=True)
+        return {"card": card, "trace": {"tool_events": [], "events": logger.snapshot(), "local_context": {}}, "local_context": {}}
 
-    style = data.get("market_cap_style", {}).get("cap_breakdown", {})
-    if style:
-        labels, values = _dict_pct_to_items(style)
-        bar = go.Figure(
-            data=[
-                go.Bar(x=labels, y=values, marker={"color": ["#111111", "#555555", "#999999"]})
-            ]
+    formula_client: FormulaToolClient | None = None
+    agent: KimiAgentLoop | None = None
+    try:
+        formula_client = FormulaToolClient(base_url=config.base_url, api_key=config.api_key)
+        await formula_client.load_tools(FORMULA_URIS)
+        agent = KimiAgentLoop(config=config, formula_client=formula_client)
+        budget_tracker = BudgetTracker()
+
+        trace = await agent.run_conversation_trace(
+            user_prompt=build_user_prompt(question, resolved_symbol, resolved_name),
+            system_prompt=APP_SYSTEM_PROMPT,
+            local_tools=[get_akshare_tool_schema()],
+            local_tool_handlers={"akshare_tool": execute_akshare_tool},
+            budget_tracker=budget_tracker,
+            logger=logger,
         )
-        bar.update_layout(title="市值风格分布", template="plotly_white")
-        st.plotly_chart(bar, use_container_width=True)
+        if not str(trace.get("final_content") or "").strip() and not list(trace.get("tool_events") or []):
+            trace["degrade_reason"] = trace.get("degrade_reason") or budget_tracker.note_no_progress()
+            trace["events"] = logger.snapshot()
 
-
-def _render_stock_charts(data: dict[str, Any]) -> None:
-    industry = data.get("industry_concentration", {}).get("breakdown", {})
-    if industry:
-        labels, values = _dict_pct_to_items(industry)
-        donut = go.Figure(
-            data=[
-                go.Pie(
-                    labels=labels,
-                    values=values,
-                    hole=0.5,
-                    marker={"colors": ["#111111", "#444444", "#777777", "#AAAAAA", "#DDDDDD"]},
-                )
-            ]
+        local_context = _extract_primary_local_context(trace)
+        card = assemble_garden_card(
+            question=question,
+            answer=str(trace.get("final_content") or ""),
+            model=config.model,
+            trace=trace,
+            search_summaries=_parse_search_summaries(trace),
+            date_value=_parse_date_value(trace),
+            usage=trace.get("usage"),
+            degrade_reason=trace.get("degrade_reason"),
+            logger=logger,
         )
-        donut.update_layout(title="行业集中度（等权）")
-        st.plotly_chart(donut, use_container_width=True)
-
-    style = data.get("market_cap_style", {}).get("style_breakdown", {})
-    if style:
-        categories = list(style.keys())
-        values = [float(str(v).replace("%", "")) for v in style.values()]
-        radar = go.Figure()
-        radar.add_trace(
-            go.Scatterpolar(
-                r=values + [values[0]],
-                theta=categories + [categories[0]],
-                fill="toself",
-                name="风格分布",
-                line={"color": "#222222"},
-            )
-        )
-        radar.update_layout(title="市值风格雷达", polar={"radialaxis": {"visible": True, "range": [0, 100]}})
-        st.plotly_chart(radar, use_container_width=True)
+        trace["budget"] = budget_tracker.snapshot()
+        trace["events"] = logger.snapshot()
+        return {"card": card, "trace": trace, "local_context": local_context}
+    finally:
+        if agent is not None:
+            await agent.aclose()
+        if formula_client is not None:
+            await formula_client.aclose()
 
 
-def _render_skill_lab_page() -> None:
-    st.subheader("Skill Lab")
-    st.caption("选择一个 Skill 进入详情页")
-
-    skill_items = [
-        ("trend_follower", "趋势跟踪"),
-        ("fund_diagnostic", "基金诊断"),
-        ("stock_diagnostic", "个股诊断"),
-    ]
-    for skill_id, display_name in skill_items:
-        if st.button(f"{display_name}（{skill_id}）", key=f"open_{skill_id}", use_container_width=True):
-            st.session_state["selected_skill"] = skill_id
-            st.session_state["page"] = "skll_widget"
-            st.rerun()
-
-
-def _render_skll_widget_page() -> None:
-    skill = st.session_state.get("selected_skill")
-    if skill not in {"trend_follower", "fund_diagnostic", "stock_diagnostic"}:
-        st.warning("未选择 Skill，已返回 Skill Lab。")
-        st.session_state["page"] = "skill_lab"
-        st.rerun()
-        return
-
-    col_back, col_title = st.columns([1, 5])
-    with col_back:
-        if st.button("返回 Skill Lab", key="back_to_skill_lab"):
-            st.session_state["page"] = "skill_lab"
-            st.rerun()
-    with col_title:
-        st.subheader(f"skll_widget · {skill}")
-
-    default_input = {
-        "trend_follower": "300750",
-        "fund_diagnostic": "001410",
-        "stock_diagnostic": "600519,002594,600036,601012,601318",
-    }[skill]
-    input_key = f"skill_input_{skill}"
-    if input_key not in st.session_state:
-        st.session_state[input_key] = default_input
-
-    if skill == "trend_follower":
-        st.caption("热门公司")
-        company_options = [
-            ("贵州茅台", "600519"),
-            ("宁德时代", "300750"),
-            ("东方财富", "300059"),
-        ]
-        labels = [f"{name}（{code}）" for name, code in company_options]
-        selected = st.radio("公司快捷选择", labels, horizontal=True, label_visibility="collapsed")
-        selected_code = dict(zip(labels, [code for _, code in company_options]))[selected]
-        if st.button("使用该公司代码", key="use_company_code"):
-            st.session_state[input_key] = selected_code
-
-    elif skill == "fund_diagnostic":
-        st.caption("热门基金")
-        fund_options = [
-            ("华泰柏瑞沪深 300ETF", "510300"),
-            ("华夏国证半导体芯片 ETF", "159995"),
-            ("南方中证申万有色金属 ETF", "512400"),
-        ]
-        labels = [f"{name}（{code}）" for name, code in fund_options]
-        selected = st.radio("基金快捷选择", labels, horizontal=False, label_visibility="collapsed")
-        selected_code = dict(zip(labels, [code for _, code in fund_options]))[selected]
-        if st.button("使用该基金代码", key="use_fund_code"):
-            st.session_state[input_key] = selected_code
-
-    input_text = st.text_input("输入参数", key=input_key)
-    stream_box = st.empty()
-
-    if st.button("生成 Skill 卡片", type="primary"):
-        if skill == "stock_diagnostic":
-            payload_input: Any = [x.strip() for x in input_text.split(",") if x.strip()]
-        else:
-            payload_input = input_text.strip()
-
-        with st.spinner("生成中..."):
-            stream_box.info("正在流式生成分析内容...")
-
-            def on_stream(text: str) -> None:
-                preview = text[-800:]
-                stream_box.code(preview, language="text")
-
-            result = generate_skill_card(
-                skill,
-                payload_input,
-                stream_mode=True,
-                stream_callback=on_stream,
-            )
-            stream_box.empty()
-            st.session_state[f"last_result_{skill}"] = result
-
-    result = st.session_state.get(f"last_result_{skill}")
-    if result:
-        _render_status_badge(result["quality_status"])
-        data = result["data"]
-
-        st.markdown(f"**Skill ID**: `{data.get('skill_id', 'N/A')}`")
-        st.markdown(f"**分类**: {data.get('skill_category', 'N/A')}")
-        st.markdown(f"**创建者**: {data.get('creator', 'N/A')}")
-        if result["quality_status"] == "error" and data.get("fetch_error") == "抓取失败":
-            st.error("抓取失败")
-        else:
-            if skill == "trend_follower":
-                _render_trend_charts(data)
-            elif skill == "fund_diagnostic":
-                _render_fund_charts(data)
-            else:
-                _render_stock_charts(data)
-
-        st.markdown("### 结构化输出（JSON）")
-        st.code(json.dumps(result, ensure_ascii=False, indent=2), language="json")
-        st.caption(data.get("disclaimer", ""))
+def run_analysis(question: str) -> dict[str, Any]:
+    return asyncio.run(_run_analysis(question))
 
 
 def main() -> None:
-    st.title("PomeFi Skill Lab")
-    if "page" not in st.session_state:
-        st.session_state["page"] = "skill_lab"
-    if "selected_skill" not in st.session_state:
-        st.session_state["selected_skill"] = None
+    st.set_page_config(
+        page_title="PomeFi Finance Garden",
+        page_icon="P",
+        layout="wide",
+        initial_sidebar_state="collapsed",
+    )
+    inject_page_styles()
+    render_header()
+    render_question_hint()
 
-    if st.session_state["page"] == "skll_widget":
-        _render_skll_widget_page()
-    else:
-        _render_skill_lab_page()
+    config_ok, config_error = _validate_app_config()
+    if not config_ok:
+        st.error(config_error)
+        return
+
+    if "analysis_payload" not in st.session_state:
+        st.session_state.analysis_payload = None
+
+    with st.form("question_form", clear_on_submit=False):
+        question = st.text_area(
+            "输入你的问题",
+            value=st.session_state.get("last_question", ""),
+            placeholder="例如：300750 现在估值高吗？",
+            height=120,
+            label_visibility="collapsed",
+        )
+        submitted = st.form_submit_button("生成花园卡片", use_container_width=True)
+
+    if submitted:
+        cleaned_question = question.strip()
+        st.session_state.last_question = cleaned_question
+        if not cleaned_question:
+            st.warning("先输入一个问题。")
+        else:
+            with st.spinner("研究中，正在调用工具和整理卡片..."):
+                try:
+                    st.session_state.analysis_payload = run_analysis(cleaned_question)
+                except Exception as exc:
+                    config = resolve_kimi_config()
+                    st.session_state.analysis_payload = {
+                        "card": fallback_response(
+                            question=cleaned_question,
+                            model=config.model,
+                            answer=f"前台运行失败：{_preview_text(exc)}",
+                            degrade_reason="assembler_error",
+                        ),
+                        "trace": {"tool_events": [], "events": [], "local_context": {}},
+                        "local_context": {},
+                    }
+
+    payload = st.session_state.analysis_payload
+    if not payload:
+        st.markdown(
+            '<div class="pf-empty">输入一个问题后，这里会出现新的金融花园卡片，而不是聊天气泡。</div>',
+            unsafe_allow_html=True,
+        )
+        return
+
+    render_result_card(
+        result=payload["card"],
+        trace=payload["trace"],
+        local_context=payload.get("local_context") or {},
+    )
 
 
 if __name__ == "__main__":
