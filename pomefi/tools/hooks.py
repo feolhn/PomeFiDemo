@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from typing import Any
 
+# 这是最关键的数据分层层。
+# metrics_data -> LLM，chart_index -> frontend。
+# raw_bundle 只留本地，不进入模型上下文。
+
 
 def _iso_date(value: Any) -> str | None:
     if value is None:
@@ -12,6 +16,8 @@ def _iso_date(value: Any) -> str | None:
 
 
 def build_chart_index(raw_bundle: dict[str, Any]) -> list[dict[str, Any]]:
+    # 这里只生成图表索引。
+    # 它描述怎么画图，不负责生成叙事文本。
     chart_index: list[dict[str, Any]] = []
 
     price_history = raw_bundle.get("price_history_1y")
@@ -54,6 +60,8 @@ def build_hook_payload(
     notes: list[str],
     raw_bundle: dict[str, Any],
 ) -> dict[str, Any]:
+    # 这里定义本地工具的三层输出结构。
+    # metrics_data 给 LLM，chart_index 给前端，raw_bundle 留本地。
     metrics_data = {
         "asof": asof,
         "symbol": symbol,
@@ -70,6 +78,8 @@ def build_hook_payload(
 
 
 def to_local_tool_result(hook_payload: dict[str, Any]) -> dict[str, Any]:
+    # 这是 agent loop 和本地工具之间的桥接协议。
+    # 这里决定什么能回给模型，什么只能留在 local_context。
     return {
         "__pomefi_local_tool_result__": True,
         "tool_content": {

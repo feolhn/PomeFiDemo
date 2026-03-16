@@ -3,8 +3,10 @@ from __future__ import annotations
 from pathlib import Path
 from textwrap import dedent
 
-from streamlit.testing.v1 import AppTest
+import pytest
 
+pytest.importorskip("streamlit")
+AppTest = pytest.importorskip("streamlit.testing.v1").AppTest
 import app
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -53,8 +55,8 @@ app.main()
     at.run()
 
     markdown_values = [item.value or "" for item in at.markdown]
-    assert any("Finance Garden" in value for value in markdown_values)
-    assert any("这里会出现新的金融花园卡片" in value for value in markdown_values)
+    assert any("Stock Wiki" in value for value in markdown_values)
+    assert any("并行生成 Summary / Entity / Timeline / Calendar / Relationship" in value for value in markdown_values)
 
 
 def test_app_renders_valid_payload_after_submit(tmp_path: Path, sample_result_card_input: dict) -> None:
@@ -91,7 +93,7 @@ def test_app_renders_valid_payload_after_submit(tmp_path: Path, sample_result_ca
         tmp_path,
         body=f"""
 app._validate_app_config = lambda: (True, '')
-app.run_analysis = lambda question: {repr(valid_payload)}
+app.run_analysis_stream = lambda question, on_event=None: {repr(valid_payload)}
 app.main()
 """,
     )
@@ -139,7 +141,7 @@ def test_app_renders_degraded_payload_without_chart(tmp_path: Path) -> None:
         tmp_path,
         body=f"""
 app._validate_app_config = lambda: (True, '')
-app.run_analysis = lambda question: {repr(degraded_payload)}
+app.run_analysis_stream = lambda question, on_event=None: {repr(degraded_payload)}
 app.main()
 """,
     )
@@ -168,3 +170,53 @@ app.main()
 
     assert len(at.error) == 1
     assert at.error[0].value == "配置错误"
+
+
+def test_app_renders_relationship_pending_hint(tmp_path: Path) -> None:
+    pending_payload = {
+        "card": {
+            "data": {
+                "question": "宁德时代怎么看",
+                "answer": "先看其余四张卡，关系图谱还在补全。",
+                "blocks": [
+                    {"id": "y", "type": "yields", "title": "果实", "summary": "指标", "bullets": ["最新价: 201.50"], "metric_refs": [], "reference_ids": [], "chart_ids": []},
+                    {"id": "p", "type": "pests", "title": "害虫", "summary": "风险", "bullets": ["波动率偏高"], "metric_refs": [], "reference_ids": [], "chart_ids": []},
+                    {"id": "r", "type": "pruning", "title": "修剪建议", "summary": "先观察", "bullets": ["等待关系图谱"], "metric_refs": [], "reference_ids": [], "chart_ids": []},
+                ],
+                "chart_index": [],
+                "references": [],
+            },
+            "metadata": {
+                "generated_at": "2026-03-15T00:00:00+00:00",
+                "trace_id": "trace_pending",
+                "model": "kimi-k2.5",
+                "used_tools": [],
+                "sources": [],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 10, "total_tokens": 20},
+                "degrade_reason": None,
+                "partial_release": True,
+                "relationship_pending": True,
+            },
+            "quality_status": "degraded",
+        },
+        "trace": {"tool_events": [], "events": [], "local_context": {}},
+        "local_context": {},
+    }
+    wrapper = _write_wrapper(
+        tmp_path,
+        body=f"""
+app._validate_app_config = lambda: (True, '')
+app.run_analysis_stream = lambda question, on_event=None: {repr(pending_payload)}
+app.main()
+""",
+    )
+
+    at = AppTest.from_file(wrapper)
+    at.run()
+    at.text_area[0].set_value("宁德时代怎么看")
+    at.button[0].click().run()
+
+    markdown_values = [item.value or "" for item in at.markdown]
+    caption_values = [item.value or "" for item in at.caption]
+    assert any("relationship · pending" in value for value in markdown_values)
+    assert any("Relationship 正在深度分析中" in value for value in caption_values)

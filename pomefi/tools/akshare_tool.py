@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import inspect
 from math import sqrt
 import sys
 from pathlib import Path
@@ -23,6 +24,10 @@ from pomefi.tools.hooks import (
 )
 from pomefi.tools.metrics import AKSHARE_METRICS, AKSHARE_RATE_METRICS, get_akshare_tool_schema
 
+# 这是当前唯一金融数值工具。
+# 所有数值型判断都应源于这里，而不是让 LLM 补数字。
+# 这里的输出还要继续经过 hook 分层。
+
 REVENUE_YOY_CANDIDATES = [
     "营业总收入同比增长率(%)",
     "营业总收入增长率(%)",
@@ -37,6 +42,10 @@ PROFIT_YOY_CANDIDATES = [
     "扣非净利润同比增长率(%)",
 ]
 
+AKSHARE_TIMEOUT_SECONDS = 8.0
+PRICE_HISTORY_LOOKBACK_DAYS = 420
+_PRICE_HISTORY_CACHE: dict[tuple[str, str, str], pd.DataFrame] = {}
+
 
 def _xq_symbol(symbol: str) -> str:
     if symbol.startswith(("6", "9")):
@@ -44,6 +53,13 @@ def _xq_symbol(symbol: str) -> str:
     if symbol.startswith(("4", "8")):
         return f"BJ{symbol}"
     return f"SZ{symbol}"
+
+
+def _call_ak(func: Any, **kwargs: Any) -> Any:
+    signature = inspect.signature(func)
+    if "timeout" in signature.parameters and "timeout" not in kwargs:
+        kwargs["timeout"] = AKSHARE_TIMEOUT_SECONDS
+    return func(**kwargs)
 
 
 def _quantile_from_series(series: pd.Series) -> float | None:
@@ -74,7 +90,7 @@ def _safe_stock_profile(symbol: str, notes: list[str]) -> dict[str, Any]:
         "listed_at": None,
     }
     try:
-        info_df = ak.stock_individual_info_em(symbol=symbol)
+        info_df = _call_ak(ak.stock_individual_info_em, symbol=symbol)
     except Exception as exc:
         notes.append(f"stock_individual_info_em failed: {exc}")
         return profile
@@ -96,17 +112,28 @@ def _safe_stock_profile(symbol: str, notes: list[str]) -> dict[str, Any]:
     return profile
 
 
-def _safe_price_history(symbol: str, notes: list[str]) -> pd.DataFrame:
+def get_cached_price_history(symbol: str, *, lookback_days: int = PRICE_HISTORY_LOOKBACK_DAYS) -> pd.DataFrame:
     end_date = datetime.now().strftime("%Y%m%d")
-    start_date = (datetime.now() - timedelta(days=760)).strftime("%Y%m%d")
+    start_date = (datetime.now() - timedelta(days=lookback_days)).strftime("%Y%m%d")
+    cache_key = (symbol, start_date, end_date)
+    cached = _PRICE_HISTORY_CACHE.get(cache_key)
+    if cached is not None:
+        return cached.copy()
+    history_df = _call_ak(
+        ak.stock_zh_a_hist,
+        symbol=symbol,
+        period="daily",
+        start_date=start_date,
+        end_date=end_date,
+        adjust="qfq",
+    )
+    _PRICE_HISTORY_CACHE[cache_key] = history_df.copy()
+    return history_df
+
+
+def _safe_price_history(symbol: str, notes: list[str]) -> pd.DataFrame:
     try:
-        history_df = ak.stock_zh_a_hist(
-            symbol=symbol,
-            period="daily",
-            start_date=start_date,
-            end_date=end_date,
-            adjust="qfq",
-        )
+        history_df = get_cached_price_history(symbol)
     except Exception as exc:
         notes.append(f"stock_zh_a_hist failed: {exc}")
         return pd.DataFrame()
@@ -136,7 +163,7 @@ def _safe_price_history(symbol: str, notes: list[str]) -> pd.DataFrame:
 
 def _safe_valuation_series(symbol: str, notes: list[str], indicator: str) -> pd.DataFrame:
     try:
-        valuation_df = ak.stock_zh_valuation_baidu(symbol=symbol, indicator=indicator, period="近五年")
+        valuation_df = _call_ak(ak.stock_zh_valuation_baidu, symbol=symbol, indicator=indicator, period="近五年")
     except Exception as exc:
         notes.append(f"stock_zh_valuation_baidu({indicator}) failed: {exc}")
         return pd.DataFrame()
@@ -154,7 +181,7 @@ def _safe_valuation_series(symbol: str, notes: list[str], indicator: str) -> pd.
 
 def _safe_spot_snapshot(symbol: str, notes: list[str]) -> pd.DataFrame:
     try:
-        spot_df = ak.stock_individual_spot_xq(symbol=_xq_symbol(symbol))
+        spot_df = _call_ak(ak.stock_individual_spot_xq, symbol=_xq_symbol(symbol))
     except Exception as exc:
         notes.append(f"stock_individual_spot_xq failed: {exc}")
         return pd.DataFrame()
@@ -206,6 +233,8 @@ def _requested(symbol: str, metrics: list[str]) -> tuple[str, list[str]]:
 
 
 def execute(arguments: dict[str, Any]) -> dict[str, Any]:
+    # 这里负责抓数据、算指标、再交给 hook 分层。
+    # 输出不会直接整包进前端，也不会直接整包回给 LLM。
     symbol, metrics = _requested(arguments.get("symbol", ""), list(arguments.get("metrics") or []))
     if not symbol:
         raise RuntimeError("akshare_tool requires a non-empty symbol")
@@ -260,15 +289,19 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         ps_value = pd.to_numeric(pd.Series([spot_map.get("市销率")]), errors="coerce").dropna()
         metrics_out["ps_ttm"] = float(ps_value.iloc[0]) if not ps_value.empty else None
         if metrics_out["ps_ttm"] is None:
+            # None + notes 是设计行为。
+            # 这里保留可追溯缺口，而不是伪造指标值。
             notes.append("ps_ttm is unavailable from stock_individual_spot_xq")
 
     if "revenue_yoy" in metrics_out:
         metrics_out["revenue_yoy"] = _extract_named_rate(financial_df, REVENUE_YOY_CANDIDATES)
         if metrics_out["revenue_yoy"] is None:
+            # 缺字段时返回 None，并把原因写入 notes。
             notes.append("revenue_yoy could not be resolved from financial indicators")
     if "profit_yoy" in metrics_out:
         metrics_out["profit_yoy"] = _extract_named_rate(financial_df, PROFIT_YOY_CANDIDATES)
         if metrics_out["profit_yoy"] is None:
+            # 缺字段时返回 None，并把原因写入 notes。
             notes.append("profit_yoy could not be resolved from financial indicators")
 
     valuation_merged: list[dict[str, Any]] = []

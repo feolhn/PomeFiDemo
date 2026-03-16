@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
+# 这是最终 Garden Card 的公共 contract。
+# 它是前后端边界，不是内部临时结构。
+
 QUALITY_VALID = "valid"
 QUALITY_DEGRADED = "degraded"
 QUALITY_ERROR = "error"
@@ -110,6 +113,8 @@ def infer_quality_status(*, blocks: list[dict[str, Any]], answer: str, degrade_r
 
 
 def ensure_required_blocks(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    # yields / pests / pruning 是首版强制 block。
+    # 即使上游信息不足，也要补最小展示壳。
     block_map = {str(block.get("type") or ""): block for block in blocks}
     for block_type in REQUIRED_BLOCK_TYPES:
         if block_type not in block_map:
@@ -147,6 +152,8 @@ def make_response(
     degrade_reason: str | None = None,
     trace_id: str | None = None,
 ) -> dict[str, Any]:
+    # 这是顶层公共结果 contract。
+    # data / metadata / quality_status 不应随手改字段名。
     normalized_blocks = ensure_required_blocks(blocks)
     return {
         "data": {
@@ -184,6 +191,8 @@ def fallback_response(
     sources: list[str] | None = None,
     usage: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    # 这里用于 degraded / error 壳。
+    # 它不是正常 happy path，而是失败后的最小可展示结果。
     fallback_answer = answer.strip() or "当前结果不足以生成完整卡片，已返回降级结果。"
     return make_response(
         question=question,

@@ -1,22 +1,14 @@
-# PomeFi v0.6.4 Rebuild
+# PomeFi v0.7.0 Stock Wiki
 
-PomeFi is being rebuilt from scratch on top of the Moonshot/Kimi tool loop prototype in `scripts/probe_moonshot_sdk.py`.
+PomeFi 当前实现为 Router -> Parallel Skills -> Aggregator 的股票百科 MVP。
 
 ## Current Phase
 
-Step 3 is complete when the core loop is no longer trapped inside `scripts/probe_moonshot_sdk.py`:
-
-- `pomefi.config` owns config resolution and probe validation
-- `pomefi.tools.formula` owns Formula tool loading and fiber execution
-- `pomefi.agent.loop` owns the reusable Kimi tool loop
-- `scripts/probe_moonshot_sdk.py` is now a thin live-probe entrypoint
-
-## Planned Shape
-
-- Single-agent financial analysis engine
-- Streamlit single-page "Finance Garden" card UI
-- Formula-backed `date` and `web_search`
-- Single custom `akshare_tool` for numeric finance data
+- `pomefi.stock_wiki.router`：意图与 A 股标的解析
+- `pomefi.stock_wiki.orchestrator`：5 个并行技能调度
+- `pomefi.stock_wiki.aggregator`：统一 payload 与 metadata
+- `pomefi.stock_wiki.engine`：主执行链路
+- `scripts/probe_stock_wiki.py`：Stock Wiki live probe
 
 ## Repository Layout
 
@@ -26,9 +18,11 @@ docs/
   Kimi_API_Usage_Guide_v1.md
 pomefi/
   agent/
+  stock_wiki/
   tools/
   ui/
 scripts/
   probe_moonshot_sdk.py
+  probe_stock_wiki.py
 tests/
 ```

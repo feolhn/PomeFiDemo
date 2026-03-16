@@ -7,6 +7,10 @@ from typing import Any
 from pomefi.logging import EventLogger
 from pomefi.protocol import fallback_response, make_block, make_reference, make_response
 
+# 这是结果治理层。
+# 它把 trace、local_context 和 references 组装成 Garden Card。
+# 这里不再发起工具调用。
+
 METRIC_LABELS = {
     "price_last": "最新价",
     "ret_1d": "近1日收益",
@@ -162,6 +166,8 @@ def arbitrate_references(
     *,
     logger: EventLogger | None = None,
 ) -> list[dict[str, Any]]:
+    # 当前采用 Time-Priority + source priority。
+    # 这是搜索结果与工具结果冲突时的仲裁核心。
     decorated = []
     for reference in references:
         time_flag, normalized_time = _parse_iso_timestamp(reference.get("published_at"))
@@ -318,6 +324,8 @@ def assemble_garden_card(
     trace_id: str | None = None,
     logger: EventLogger | None = None,
 ) -> dict[str, Any]:
+    # 输入来自 trace、local_context、date 和 search summaries。
+    # 这里统一产出 blocks、references、quality_status 和 degrade_reason。
     logger = logger or EventLogger(debug=False)
     try:
         local_context = _extract_primary_local_context(trace)

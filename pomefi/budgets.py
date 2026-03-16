@@ -5,6 +5,9 @@ from typing import Any
 
 from pomefi.protocol import DEGRADE_REASONS
 
+# 这是软熔断层。
+# 它只负责预算状态，不负责调度或 tool 选择。
+
 
 @dataclass(frozen=True)
 class BudgetLimits:
@@ -31,6 +34,8 @@ class BudgetState:
 
 
 class BudgetTracker:
+    # BudgetTracker 统一累计 search/tool/turn/token/cost。
+    # budget 触发后，上层应转降级，而不是继续盲跑。
     def __init__(self, limits: BudgetLimits | None = None):
         self.limits = limits or BudgetLimits()
         self.state = BudgetState()

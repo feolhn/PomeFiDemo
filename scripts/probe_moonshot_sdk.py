@@ -16,6 +16,9 @@ from pomefi.agent.loop import KimiAgentLoop
 from pomefi.config import print_probe_env_summary, validate_probe_env_or_raise
 from pomefi.tools.formula import FormulaToolClient
 
+# 这是人工 live probe 脚本。
+# 它不是正式应用入口，只用于 ENV / Formula / 本地工具闭环验收。
+
 FORMULA_URIS = [
     "moonshot/date:latest",
     "moonshot/web-search:latest",
@@ -92,6 +95,8 @@ async def run_probe_case(
     local_tool_handlers: dict[str, Any] | None = None,
     allowed_formula_uris: set[str] | None = None,
 ) -> dict[str, Any]:
+    # 这是验收器，不是业务复用层。
+    # 它按固定条件检查 tool loop 是否完成闭环。
     trace = await agent.run_conversation_trace(
         user_prompt=prompt,
         system_prompt=SYSTEM_PROMPT,
@@ -144,6 +149,8 @@ async def run_probe_case(
 
 
 async def main() -> int:
+    # 这里按固定顺序执行三段 live checks。
+    # 顺序是 ENV_CHECK -> OFFICIAL_TOOL_LOOP -> COMPANY_INFO_LOOP。
     try:
         config = validate_probe_env_or_raise()
     except Exception as exc:

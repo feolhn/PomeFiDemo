@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+# 这里定义 akshare_tool 的能力边界。
+# metrics 白名单是为了限制模型乱造指标，不只是方便枚举。
+
 AKSHARE_METRICS = [
     "price_last",
     "ret_1d",
@@ -30,6 +33,8 @@ AKSHARE_RATE_METRICS = {
 
 
 def get_akshare_tool_schema() -> dict[str, object]:
+    # 这个 schema 是给模型看的能力面。
+    # 改这里等于改模型可调用边界。
     return {
         "type": "function",
         "function": {

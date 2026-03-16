@@ -5,6 +5,10 @@ from typing import Any
 
 import httpx
 
+# 这是 Moonshot Formula 协议适配层。
+# 它只负责 remote tools 发现和 fiber 调用。
+# 这里不做业务判断，也不做结果装配。
+
 
 def _json_string(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, default=str)
@@ -34,6 +38,8 @@ class FormulaToolClient:
         await self.http.aclose()
 
     async def load_tools(self, formula_uris: list[str]) -> list[dict[str, Any]]:
+        # 这里建立 tool_name -> formula_uri 映射。
+        # 这是 remote tool 注册入口，供 tool loop 后续分发使用。
         tools: list[dict[str, Any]] = []
         tool_to_uri: dict[str, str] = {}
 
@@ -60,6 +66,8 @@ class FormulaToolClient:
         return self._tool_to_uri.get(tool_name)
 
     async def call_tool(self, formula_uri: str, function_payload: dict[str, Any]) -> dict[str, Any]:
+        # 这里必须保持官方 Formula body 格式。
+        # arguments 必须是 JSON string，不要回写成 dict 继续下传。
         function_name = str(function_payload.get("name") or "")
         arguments_text = function_payload.get("arguments") or "{}"
         if not isinstance(arguments_text, str):

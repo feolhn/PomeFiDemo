@@ -3,6 +3,9 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any
 
+# 这是结构化事件日志层。
+# 它服务于 debug / 验收，不直接参与业务判断。
+
 EVENT_TYPES = (
     "LLM_REQUEST",
     "LLM_RESPONSE",
@@ -19,6 +22,7 @@ def _now_iso() -> str:
 
 
 class EventLogger:
+    # EventLogger 只收集事件，不解释事件。
     def __init__(self, *, debug: bool = False):
         self.debug = debug
         self._events: list[dict[str, Any]] = []
