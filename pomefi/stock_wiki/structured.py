@@ -20,23 +20,28 @@ async def stream_json_object(
     system_prompt: str,
     user_prompt: str,
     event_scope: str,
-    max_completion_tokens: int = 16000,
+    max_completion_tokens: int = 4096,
+    disable_thinking: bool = True,
 ) -> AsyncIterator[dict[str, Any]]:
     client = AsyncOpenAI(api_key=config.api_key, base_url=config.base_url)
     finish_reason = ""
     content_chunks: list[str] = []
     try:
-        stream = await client.chat.completions.create(
-            model=config.model,
-            messages=[
+        request_payload: dict[str, Any] = {
+            "model": config.model,
+            "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            response_format={"type": "json_object"},
-            temperature=config.temperature,
-            max_completion_tokens=max_completion_tokens,
-            stream=True,
-        )
+            "response_format": {"type": "json_object"},
+            "temperature": config.temperature,
+            "max_completion_tokens": max_completion_tokens,
+            "stream": True,
+        }
+        if disable_thinking and config.model == "kimi-k2.5":
+            request_payload["extra_body"] = {"thinking": {"type": "disabled"}}
+
+        stream = await client.chat.completions.create(**request_payload)
         async for chunk in stream:
             for choice in list(getattr(chunk, "choices", None) or []):
                 reason = getattr(choice, "finish_reason", None)
@@ -83,7 +88,8 @@ async def json_object_once(
     system_prompt: str,
     user_prompt: str,
     event_scope: str,
-    max_completion_tokens: int = 16000,
+    max_completion_tokens: int = 4096,
+    disable_thinking: bool = True,
 ) -> dict[str, Any]:
     json_object: dict[str, Any] | None = None
     async for event in stream_json_object(
@@ -92,6 +98,7 @@ async def json_object_once(
         user_prompt=user_prompt,
         event_scope=event_scope,
         max_completion_tokens=max_completion_tokens,
+        disable_thinking=disable_thinking,
     ):
         if event.get("type") == "structured_json_done":
             loaded = event.get("json")

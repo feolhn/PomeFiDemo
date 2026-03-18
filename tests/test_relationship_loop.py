@@ -1,47 +1,9 @@
 from __future__ import annotations
 
 import asyncio
-import json
 
 from pomefi.config import KimiConfig
 from pomefi.stock_wiki.skills import relationship
-
-
-class _FakeAgentLoop:
-    def __init__(self, *, config, formula_client):
-        _ = config
-        _ = formula_client
-
-    async def run_conversation_trace(self, **kwargs):
-        _ = kwargs
-        return {
-            "turns": [{"index": 0, "has_tool_calls": True}],
-            "tool_events": [
-                {
-                    "tool_name": "web_search",
-                    "tool_content": json.dumps(
-                        [{"title": "上游材料企业A", "published_at": "2026-03-01", "source": "新华社"}],
-                        ensure_ascii=False,
-                    ),
-                }
-            ],
-            "final_content": json.dumps(
-                {
-                    "summary": "产业链集中在材料与整车两端。",
-                    "nodes": [{"id": "宁德时代", "role": "theme"}],
-                    "edges": [],
-                },
-                ensure_ascii=False,
-            ),
-            "degrade_reason": None,
-        }
-
-    async def run_conversation_trace_stream(self, **kwargs):
-        trace = await self.run_conversation_trace(**kwargs)
-        yield {"type": "session_done", "trace": trace}
-
-    async def aclose(self):
-        return None
 
 
 class _FakeFormulaClient:
@@ -49,7 +11,27 @@ class _FakeFormulaClient:
 
 
 def test_relationship_returns_structured_json(monkeypatch) -> None:
-    monkeypatch.setattr(relationship, "KimiAgentLoop", _FakeAgentLoop)
+    async def _fake_probe(**kwargs):
+        _ = kwargs
+        return {
+            "content_json": {
+                "summary": "产业链集中在材料与整车两端。",
+                "nodes": [{"id": "宁德时代", "role": "theme"}],
+                "edges": [],
+            },
+            "tool_trace": {
+                "turns": [{"index": 0, "has_tool_calls": True}],
+                "tool_events": [{"tool_name": "web_search", "tool_content_preview": "ok"}],
+                "degrade_reason": None,
+            },
+            "sources": [{"source": "新华社", "kind": "web_search", "title": "上游材料企业A", "published_at": "2026-03-01"}],
+            "error": None,
+            "retry_count": 0,
+            "tool_call_observed": True,
+            "observed_tools": ["web_search"],
+        }
+
+    monkeypatch.setattr(relationship, "run_tool_grounded_json_skill", _fake_probe)
     config = KimiConfig(
         api_key="test",
         base_url="https://api.test",
@@ -72,25 +54,23 @@ def test_relationship_returns_structured_json(monkeypatch) -> None:
 
 
 def test_relationship_retries_when_no_tool_call(monkeypatch) -> None:
-    class _NoToolAgentLoop(_FakeAgentLoop):
-        def __init__(self, *, config, formula_client):
-            super().__init__(config=config, formula_client=formula_client)
-            self.calls = 0
-
-        async def run_conversation_trace(self, **kwargs):
-            _ = kwargs
-            self.calls += 1
-            return {
+    async def _fake_no_tool_probe(**kwargs):
+        _ = kwargs
+        return {
+            "content_json": None,
+            "tool_trace": {
                 "turns": [{"index": 0, "has_tool_calls": False}],
                 "tool_events": [],
-                "final_content": json.dumps(
-                    {"summary": "空结果", "nodes": [], "edges": []},
-                    ensure_ascii=False,
-                ),
                 "degrade_reason": None,
-            }
+            },
+            "sources": [],
+            "error": "relationship_required_tool_call_missing",
+            "retry_count": 2,
+            "tool_call_observed": False,
+            "observed_tools": [],
+        }
 
-    monkeypatch.setattr(relationship, "KimiAgentLoop", _NoToolAgentLoop)
+    monkeypatch.setattr(relationship, "run_tool_grounded_json_skill", _fake_no_tool_probe)
     config = KimiConfig(
         api_key="test",
         base_url="https://api.test",

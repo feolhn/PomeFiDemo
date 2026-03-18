@@ -63,11 +63,11 @@ def _validate_app_config() -> tuple[bool, str]:
 
 def _error_payload(question: str, model: str, reason: str, message: str) -> dict[str, Any]:
     skills = {
-        "summary": {"skill": "summary", "status": "degraded", "latency_ms": 0, "data": {"summary": message}, "sources": [], "error": reason},
-        "entity_info": {"skill": "entity_info", "status": "degraded", "latency_ms": 0, "data": {"summary": message}, "sources": [], "error": reason},
-        "timeline": {"skill": "timeline", "status": "degraded", "latency_ms": 0, "data": {"summary": message, "series": [], "events": []}, "sources": [], "error": reason},
-        "watch_calendar": {"skill": "watch_calendar", "status": "degraded", "latency_ms": 0, "data": {"summary": message, "items": []}, "sources": [], "error": reason},
-        "relationship": {"skill": "relationship", "status": "degraded", "latency_ms": 0, "data": {"summary": message, "pending": False, "nodes": [], "edges": []}, "sources": [], "error": reason},
+        "summary": {"skill": "summary", "status": "error", "latency_ms": 0, "data": {"summary": message}, "sources": [], "error": reason, "data_ready": False, "is_critical": True},
+        "entity_info": {"skill": "entity_info", "status": "error", "latency_ms": 0, "data": {"summary": message}, "sources": [], "error": reason, "data_ready": False, "is_critical": False},
+        "timeline": {"skill": "timeline", "status": "error", "latency_ms": 0, "data": {"summary": message, "series": [], "events": []}, "sources": [], "error": reason, "data_ready": False, "is_critical": True},
+        "watch_calendar": {"skill": "watch_calendar", "status": "error", "latency_ms": 0, "data": {"summary": message, "items": []}, "sources": [], "error": reason, "data_ready": False, "is_critical": False},
+        "relationship": {"skill": "relationship", "status": "error", "latency_ms": 0, "data": {"summary": message, "pending": False, "nodes": [], "edges": []}, "sources": [], "error": reason, "data_ready": False, "is_critical": False},
     }
     return {
         "card": {
@@ -87,12 +87,13 @@ def _error_payload(question: str, model: str, reason: str, message: str) -> dict
                 "relationship_pending": False,
                 "degrade_reason": reason,
                 "strict_fail": True,
-                "critical_failures": ["summary", "timeline", "watch_calendar"],
-                "failure_mask": {
-                    "summary": reason,
-                    "timeline": reason,
-                    "watch_calendar": reason,
-                },
+                "critical_failures": ["summary", "timeline"],
+                "failure_mask": {"summary": reason, "timeline": reason},
+                "execution_status": "failed",
+                "failure_reason_code": "UNKNOWN_UNRECOVERED",
+                "failure_reason_message": message,
+                "failure_stage": "routing",
+                "failure_evidence": {"source": "app", "reason": reason},
             },
             "quality_status": "error",
             "sources": [],
@@ -185,6 +186,16 @@ def _apply_live_event(state: dict[str, Any], event: dict[str, Any]) -> None:
         status = str(event.get("status") or "done")
         if skill:
             state["skill_states"][skill] = status
+        data_origin = str(event.get("data_origin") or "").strip()
+        if skill and data_origin:
+            state["tool_lines"].append(f"{skill} data_origin: {data_origin}")
+        for evidence in list(event.get("network_evidence") or [])[:2]:
+            if not isinstance(evidence, dict):
+                continue
+            interface = str(evidence.get("interface") or "akshare")
+            err = _preview_text(evidence.get("error"), limit=120)
+            status_text = str(evidence.get("status") or "error")
+            state["tool_lines"].append(f"{skill} network {interface} {status_text}: {err}")
         if event.get("error"):
             state["tool_lines"].append(f"{skill}: {_preview_text(event.get('error'), limit=160)}")
         return
@@ -227,6 +238,17 @@ def _apply_live_event(state: dict[str, Any], event: dict[str, Any]) -> None:
         tool_name = str(nested.get("tool_name") or "")
         preview = _preview_text(nested.get("content_preview"), limit=120)
         state["tool_lines"].append(f"{skill} <- tool_result {tool_name} {preview}")
+        return
+
+    if nested_type == "tool_grounded_retry":
+        reason = _preview_text(nested.get("reason"), limit=120)
+        attempt = nested.get("attempt")
+        state["tool_lines"].append(f"{skill} retry attempt={attempt} reason={reason}")
+        return
+
+    if nested_type == "session_error":
+        error_text = _preview_text(nested.get("error"), limit=160)
+        state["tool_lines"].append(f"{skill} session_error: {error_text}")
 
 
 def main() -> None:

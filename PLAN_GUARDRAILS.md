@@ -1,3 +1,8 @@
+# [归档说明] 本文件已迁移
+
+- 主入口已迁移到 `/Users/hujiawei/Documents/PomeFiDemo/agent-instructions.md`（静态规则）与 `/Users/hujiawei/Documents/PomeFiDemo/progress.md`（动态进度）。
+- 本文件保留为历史归档，不再作为每次任务的主入口。
+
 # PomeFi 计划护栏（Kimi 对齐版）
 
 ## 1. 文档用途（强制）
@@ -110,6 +115,11 @@
 - [ ] A8
 - [ ] A9
 - [ ] A10
+- [ ] A11
+- [ ] A12
+- [ ] A13
+- [ ] A14
+- [ ] A15
 
 ## 测试与验收
 - 自动化: `pytest -q`
@@ -134,10 +144,15 @@
 - [ ] 同请求无重复 AkShare 拉数（symbol+period 去重）。
 - [ ] AkShare 错误可归类并可追踪。
 - [ ] 前端无 `None` 指标直出。
+- [ ] timeout 为 per-skill 独立计时，不会相互挤占。
+- [ ] 单标的主链路不依赖 `stock_individual_spot_xq` 才能给出核心行情。
+- [ ] 已运行 `scripts/probe_akshare_spot_mvp.py` 并记录接口可用性证据。
+- [ ] 若出现 Eastmoney `ProxyError`，已先排查网络/代理再判代码问题。
 
 ## 10. 变更记录
 - 2026-03-16: 初版建立。固定 Kimi 兼容硬约束、实时展示最低要求、计划模板与上线验收清单。
 - 2026-03-16: 新增第 11 章 AkShare 护栏（A1-A10），并扩展计划模板与验收清单。
+- 2026-03-17: 新增 A11-A15（timeout 分配、单标的主链路、schema 漂移兼容、探针前置、ProxyError 排查顺序）。
 
 ## 11. AkShare 数据源硬约束（新增）
 - A1: 禁止在在线请求主链路调用全市场实时接口（如 `stock_zh_a_spot_em`、`stock_us_spot_em`、`stock_hk_spot_em`）。
@@ -150,3 +165,8 @@
 - A8: 前端禁止直接渲染 `None` 指标，必须转为“不可用 + 原因”。
 - A9: 调试信息必须保留 AkShare 调用证据：接口名、symbol、耗时、错误摘要。
 - A10: `stock_individual_spot_xq` 必须统一走交易所前缀映射（`SH/SZ/BJ`）并做参数校验。
+- A11: Orchestrator 的 soft-timeout 必须按 skill 独立计时，禁止用全局 elapsed 扣减后续 skill 的 timeout 窗口。
+- A12: A 股单标的主链路必须优先 `stock_zh_a_hist + stock_individual_info_em`；`stock_individual_spot_xq` 仅作补充，禁止作为硬依赖。
+- A13: 对 `stock_individual_info_em` 与 `stock_individual_spot_xq` 的解析必须兼容 schema 漂移（至少兼容 `item/value` 与第一/第二列回退）。
+- A14: 在前端问题排查前，必须先运行个股探针脚本（`scripts/probe_akshare_spot_mvp.py`），先确认接口可用性再改业务代码。
+- A15: 若 Eastmoney 域名（`push2.eastmoney.com` / `push2his.eastmoney.com`）出现 `ProxyError`，必须先定位代理/网络问题，禁止误判为业务逻辑 bug。

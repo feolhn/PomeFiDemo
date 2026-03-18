@@ -59,6 +59,9 @@ def build_hook_payload(
     metrics: dict[str, Any],
     notes: list[str],
     raw_bundle: dict[str, Any],
+    akshare_calls: list[dict[str, Any]] | None = None,
+    data_origin: str = "partial",
+    network_evidence: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     # 这里定义本地工具的三层输出结构。
     # metrics_data 给 LLM，chart_index 给前端，raw_bundle 留本地。
@@ -68,6 +71,9 @@ def build_hook_payload(
         "resolved_name": resolved_name or "",
         "metrics": metrics,
         "notes": notes,
+        "akshare_calls": list(akshare_calls or []),
+        "data_origin": str(data_origin or "partial"),
+        "network_evidence": [dict(item) for item in list(network_evidence or []) if isinstance(item, dict)],
     }
     chart_index = build_chart_index(raw_bundle)
     return {

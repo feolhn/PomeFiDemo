@@ -89,7 +89,14 @@ def test_stock_wiki_masks_failed_card_and_hides_none_metrics(tmp_path: Path) -> 
                 "failure_mask": {"summary": "price_fetch_failed"},
                 "relationship_pending": False,
                 "partial_release": False,
-                "degrade_reason": "strict_fail",
+                "degrade_reason": "AKSHARE_NETWORK_UNRECOVERED",
+                "execution_status": "failed",
+                "failure_reason_code": "AKSHARE_NETWORK_UNRECOVERED",
+                "failure_reason_message": "核心行情链路未恢复",
+                "failure_stage": "summary",
+                "failure_evidence": {"skill": "summary", "error": "price_fetch_failed"},
+                "short_circuit": True,
+                "cancelled_skills": ["entity_info", "watch_calendar", "relationship"],
             },
             "quality_status": "error",
             "sources": [],
@@ -103,6 +110,8 @@ def test_stock_wiki_masks_failed_card_and_hides_none_metrics(tmp_path: Path) -> 
     at.text_area[0].set_value("宁德时代怎么看")
     at.button[0].click().run()
     markdown_values = [item.value or "" for item in at.markdown]
-    assert any("strict_fail" in value for value in markdown_values)
-    assert any("数据暂不可达，已启用失败遮罩" in value for value in markdown_values)
+    assert any("Execution Failed" in value for value in markdown_values)
+    assert any("AKSHARE_NETWORK_UNRECOVERED" in value for value in markdown_values)
+    assert any("short_circuit" in value for value in markdown_values)
+    assert any("cancelled_skills" in value for value in markdown_values)
     assert not any("price_last: None" in value for value in markdown_values)

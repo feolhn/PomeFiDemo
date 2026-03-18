@@ -286,26 +286,69 @@ def _status_class(status: str) -> str:
         "valid": "pf-status-valid",
         "degraded": "pf-status-degraded",
         "error": "pf-status-error",
+        "success": "pf-status-valid",
+        "failed": "pf-status-error",
     }.get(status, "pf-status-degraded")
 
 
 def render_status(result: dict[str, Any]) -> None:
-    status = str(result.get("quality_status") or "degraded")
     metadata = dict(result.get("metadata") or {})
-    degrade_reason = str(metadata.get("degrade_reason") or "").strip()
-    text = status if not degrade_reason else f"{status} · {degrade_reason}"
+    execution_status = str(metadata.get("execution_status") or "").strip().lower()
+    status = str(result.get("quality_status") or "error")
+    if execution_status == "success":
+        status = "valid"
+    elif execution_status == "failed":
+        status = "error"
+    degrade_reason = str(metadata.get("failure_reason_code") or metadata.get("degrade_reason") or "").strip()
+    text = execution_status if execution_status else status
+    if degrade_reason:
+        text = f"{text} · {degrade_reason}"
     st.markdown(
         f'<div class="pf-status {_status_class(status)}">{text}</div>',
         unsafe_allow_html=True,
     )
-    if bool(metadata.get("strict_fail")):
-        st.markdown('<div class="pf-status pf-status-error">strict_fail</div>', unsafe_allow_html=True)
-        critical = list(metadata.get("critical_failures") or [])
-        if critical:
-            st.caption(f"关键链路失败：{', '.join(str(item) for item in critical)}")
-    if bool(metadata.get("relationship_pending")):
+    if execution_status == "failed":
+        failure_stage = str(metadata.get("failure_stage") or "").strip()
+        failure_message = str(metadata.get("failure_reason_message") or "").strip()
+        caption_parts = []
+        if failure_stage:
+            caption_parts.append(f"stage={failure_stage}")
+        if failure_message:
+            caption_parts.append(failure_message)
+        if caption_parts:
+            st.caption(" | ".join(caption_parts))
+    if execution_status != "failed" and bool(metadata.get("relationship_pending")):
         st.markdown('<div class="pf-status pf-status-degraded">relationship · pending</div>', unsafe_allow_html=True)
         st.caption("Relationship 正在深度分析中，已先展示其他卡片。")
+
+
+def _render_failed_stock_wiki_result(result: dict[str, Any]) -> None:
+    metadata = dict(result.get("metadata") or {})
+    failure_code = str(metadata.get("failure_reason_code") or "UNKNOWN_UNRECOVERED")
+    failure_message = str(metadata.get("failure_reason_message") or "本次执行失败。")
+    failure_stage = str(metadata.get("failure_stage") or "-")
+    short_circuit = bool(metadata.get("short_circuit"))
+    cancelled_skills = [str(item) for item in list(metadata.get("cancelled_skills") or []) if str(item)]
+    evidence = metadata.get("failure_evidence")
+    evidence_text = json.dumps(evidence, ensure_ascii=False) if isinstance(evidence, (dict, list)) else str(evidence or "-")
+    cancelled_text = ", ".join(cancelled_skills) if cancelled_skills else "-"
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">Execution Failed</div>
+            <div class="pf-card-badge">FAILED</div>
+          </div>
+          <div><strong>失败码：</strong>{escape(failure_code)}</div>
+          <div><strong>失败阶段：</strong>{escape(failure_stage)}</div>
+          <div><strong>short_circuit：</strong>{'true' if short_circuit else 'false'}</div>
+          <div><strong>cancelled_skills：</strong>{escape(cancelled_text)}</div>
+          <div style="margin-top:0.35rem;">{escape(failure_message)}</div>
+          <div class="pf-foot">evidence: {escape(evidence_text)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def render_answer(result: dict[str, Any]) -> None:
@@ -351,6 +394,8 @@ def _source_footer(skill_result: dict[str, Any], fallback: str) -> str:
 
 
 def _format_metric_value(value: Any) -> str:
+    if value is None:
+        return "不可用"
     if isinstance(value, float):
         return f"{value:.6g}"
     return str(value)
@@ -441,6 +486,8 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
     summary_skill = dict(skills.get("summary") or {})
     metrics = dict(summary_data.get("metrics") or {})
     missing = [str(item) for item in list(summary_data.get("metrics_missing") or [])]
+    data_origin = str(summary_data.get("data_origin") or "")
+    network_evidence = [dict(item) for item in list(summary_data.get("network_evidence") or []) if isinstance(item, dict)]
     price_last = metrics.get("price_last")
     kv_rows = []
     for key in ("mkt_cap", "pe_ttm", "vol_20d", "pb", "ret_1d", "ret_5d"):
@@ -449,8 +496,15 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
     if not kv_rows:
         kv_rows = [(key, _format_metric_value(val)) for key, val in list(metrics.items())[:6] if val is not None]
     summary_bullets = [f"{key}: {_format_metric_value(value)}" for key, value in list(metrics.items())[:4] if value is not None]
+    summary_reason = str(failure_mask.get("summary") or "").strip()
+    if not summary_reason and network_evidence:
+        summary_reason = str(network_evidence[0].get("error") or "network").strip()
     if missing:
-        summary_bullets.append(f"不可用: {', '.join(missing[:5])}")
+        summary_bullets.extend(
+            [f"{item}: 不可用（{summary_reason or '数据暂不可达'}）" for item in missing[:3]]
+        )
+    if data_origin:
+        summary_bullets.append(f"data_origin: {data_origin}")
     summary_text, summary_bullets = _masked_or_default(
         skill="summary",
         failure_mask=failure_mask,
@@ -461,7 +515,7 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
         f"<div><div class='pf-kv-label'>{escape(label)}</div><div class='pf-kv-value'>{escape(value)}</div></div>"
         for label, value in kv_rows[:6]
     )
-    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in summary_bullets[:4])
+    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in summary_bullets[:6])
     price_text = "--" if price_last is None else f"${float(price_last):.2f}"
     st.markdown(
         f"""
@@ -511,12 +565,23 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
     timeline_skill = dict(skills.get("timeline") or {})
     events = [dict(item) for item in list(timeline_data.get("events") or []) if isinstance(item, dict)]
     series = [dict(item) for item in list(timeline_data.get("series") or []) if isinstance(item, dict)]
+    timeline_data_origin = str(timeline_data.get("data_origin") or "")
+    timeline_network_evidence = [
+        dict(item) for item in list(timeline_data.get("network_evidence") or []) if isinstance(item, dict)
+    ]
     timeline_summary, timeline_bullets = _masked_or_default(
         skill="timeline",
         failure_mask=failure_mask,
         default_summary=str(timeline_data.get("summary") or "近三个月价格与事件时间线。"),
         default_bullets=[str(item.get("title") or "") for item in events[:3] if str(item.get("title") or "").strip()] or ["当前没有可展示的事件。"],
     )
+    if timeline_data_origin:
+        timeline_bullets.append(f"data_origin: {timeline_data_origin}")
+    if timeline_network_evidence:
+        first = timeline_network_evidence[0]
+        timeline_bullets.append(
+            f"网络证据: {first.get('interface') or 'akshare'} {first.get('status') or 'error'}"
+        )
     timeline_bullet_html = "".join(f"<li>{escape(item)}</li>" for item in timeline_bullets)
     st.markdown(
         f"""
@@ -765,6 +830,11 @@ def render_result_card(
     # 这里渲染的是 Garden Card，不是自由聊天文本。
     render_status(result)
     if _is_stock_wiki_result(result):
+        metadata = dict(result.get("metadata") or {})
+        if str(metadata.get("execution_status") or "").strip().lower() == "failed":
+            _render_failed_stock_wiki_result(result)
+            render_debug(trace, result, local_context=local_context)
+            return
         _render_stock_wiki_cards(result)
         render_debug(trace, result, local_context=local_context)
         return

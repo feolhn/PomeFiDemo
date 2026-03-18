@@ -1,69 +1,150 @@
 from __future__ import annotations
 
-import asyncio
-import json
-
-import pandas as pd
-
-from pomefi.config import KimiConfig
+from pomefi.stock_wiki.aggregator import aggregate_stock_wiki_payload
 from pomefi.stock_wiki.skills.timeline import get_timeline
 
+import asyncio
 
-class _FakeFormulaClient:
-    async def call_tool(self, formula_uri, function_payload):
-        assert formula_uri == "moonshot/web-search:latest"
-        _ = function_payload
+
+def test_get_timeline_returns_price_series_when_live_fetch_succeeds(monkeypatch) -> None:
+    def _fake_load_price_rows(symbol: str) -> dict[str, object]:
+        _ = symbol
         return {
-            "content": json.dumps(
-                [
-                    {"title": "2026-03-01 电池新技术发布", "published_at": "2026-03-01", "source": "新华社", "url": "https://example.com/1"},
-                    {"title": "2026-03-05 产业政策更新", "published_at": "2026-03-05", "source": "证券时报", "url": "https://example.com/2"},
-                ],
-                ensure_ascii=False,
-            )
+            "rows": [
+                {"date": "2026-03-01", "close": 200.0, "event_desc": ""},
+                {"date": "2026-03-05", "close": 202.0, "event_desc": ""},
+            ],
+            "asof": "2026-03-05",
+            "data_origin": "live",
+            "network_evidence": [],
+            "akshare_calls": [],
+            "error": None,
         }
 
-
-def test_get_timeline_merges_price_and_events(monkeypatch) -> None:
-    history_df = pd.DataFrame(
-        {
-            "日期": ["2026-03-01", "2026-03-05", "2026-03-10"],
-            "收盘": [200.0, 202.0, 203.5],
-        }
-    )
-    monkeypatch.setattr("pomefi.stock_wiki.skills.timeline.get_cached_price_history", lambda symbol: history_df)
-    async def _fake_stream_json_object(**kwargs):
-        _ = kwargs
-        yield {
-            "type": "structured_json_done",
-            "json": {
-                "summary": "近三个月有两条关键事件。",
-                "events": [
-                    {"date": "2026-03-01", "title": "电池新技术发布", "source": "新华社", "url": "https://example.com/1"},
-                    {"date": "2026-03-05", "title": "产业政策更新", "source": "证券时报", "url": "https://example.com/2"},
-                ],
-                "merge_notes": "按日期合并",
-            },
-        }
-    monkeypatch.setattr("pomefi.stock_wiki.skills.timeline.stream_json_object", _fake_stream_json_object)
-    config = KimiConfig(
-        api_key="test",
-        base_url="https://api.test",
-        model="kimi-k2.5",
-        temperature=1.0,
-        stream=True,
-        debug=False,
-    )
+    monkeypatch.setattr("pomefi.stock_wiki.skills.timeline._load_price_rows", _fake_load_price_rows)
 
     result = asyncio.run(
         get_timeline(
             "300750",
             "宁德时代",
-            config=config,
-            formula_client=_FakeFormulaClient(),
         )
     )
 
-    assert result["status"] in {"valid", "degraded"}
-    assert len(result["data"]["series"]) == 3
-    assert any(row.get("event_desc") for row in result["data"]["series"])
+    assert result["status"] == "valid"
+    assert len(result["data"]["series"]) == 2
+    assert result["data"]["events"] == []
+    assert result["data"]["summary"] == "已抓取近三个月价格折线图；事件支路当前停用。"
+    assert result["data"]["trace"]["phase_status"] == {"price_series": "valid", "events_json": "skipped"}
+    assert result["data"]["trace"]["phase_error"]["events_json"] == "disabled_for_price_only"
+
+
+def test_get_timeline_fails_when_price_series_unrecovered(monkeypatch) -> None:
+    def _fake_load_price_rows(symbol: str) -> dict[str, object]:
+        _ = symbol
+        return {
+            "rows": [],
+            "asof": "",
+            "data_origin": "partial",
+            "network_evidence": [{"interface": "stock_zh_a_hist", "status": "error", "error": "proxy"}],
+            "akshare_calls": [{"interface": "stock_zh_a_hist", "status": "error", "error": "proxy"}],
+            "error": "price_fetch_failed: proxy",
+        }
+
+    monkeypatch.setattr("pomefi.stock_wiki.skills.timeline._load_price_rows", _fake_load_price_rows)
+
+    result = asyncio.run(
+        get_timeline(
+            "300750",
+            "宁德时代",
+        )
+    )
+
+    assert result["status"] == "error"
+    assert result["data"]["series"] == []
+    assert result["data"]["events"] == []
+    assert result["data"]["unrecovered_reason_code"] == "AKSHARE_NETWORK_UNRECOVERED"
+    assert result["data"]["trace"]["phase_status"]["price_series"] == "error"
+    assert result["data"]["trace"]["phase_status"]["events_json"] == "skipped"
+    assert result["data"]["trace"]["phase_error"]["price_series"] == "price_fetch_failed: proxy"
+
+
+def test_aggregate_exposes_timeline_phase_failure_evidence() -> None:
+    payload = aggregate_stock_wiki_payload(
+        question="宁德时代怎么看",
+        symbol="300750",
+        company_name="宁德时代",
+        skill_results={
+            "summary": {
+                "skill": "summary",
+                "status": "valid",
+                "latency_ms": 10,
+                "data": {"summary": "ok"},
+                "sources": [],
+                "error": None,
+                "error_category": None,
+                "data_ready": True,
+                "is_critical": True,
+            },
+            "entity_info": {
+                "skill": "entity_info",
+                "status": "valid",
+                "latency_ms": 10,
+                "data": {"summary": "ok"},
+                "sources": [],
+                "error": None,
+                "error_category": None,
+                "data_ready": True,
+                "is_critical": False,
+            },
+            "timeline": {
+                "skill": "timeline",
+                "status": "error",
+                "latency_ms": 20000,
+                "data": {
+                    "summary": "价格折线图抓取失败，timeline 无法生成。",
+                    "series": [],
+                    "events": [],
+                    "trace": {
+                        "phase_latency_ms": {"price_series": 122, "events_json": 0},
+                        "phase_status": {"price_series": "error", "events_json": "skipped"},
+                        "phase_error": {"price_series": "price_fetch_failed: proxy", "events_json": "disabled_for_price_only"},
+                    },
+                    "recovered": False,
+                    "unrecovered_reason_code": "AKSHARE_NETWORK_UNRECOVERED",
+                },
+                "sources": [],
+                "error": "price_fetch_failed: proxy",
+                "error_category": "network",
+                "data_ready": False,
+                "is_critical": True,
+            },
+            "watch_calendar": {
+                "skill": "watch_calendar",
+                "status": "valid",
+                "latency_ms": 10,
+                "data": {"summary": "ok"},
+                "sources": [],
+                "error": None,
+                "error_category": None,
+                "data_ready": True,
+                "is_critical": False,
+            },
+            "relationship": {
+                "skill": "relationship",
+                "status": "degraded",
+                "latency_ms": 5000,
+                "data": {"summary": "pending", "pending": True, "nodes": [], "edges": []},
+                "sources": [],
+                "error": "timeout_soft_5s",
+                "error_category": "timeout",
+                "data_ready": False,
+                "is_critical": False,
+            },
+        },
+    )
+
+    evidence = payload["metadata"]["failure_evidence"]
+    assert payload["metadata"]["failure_reason_code"] == "AKSHARE_NETWORK_UNRECOVERED"
+    assert evidence["phase_latency_ms"] == {"price_series": 122, "events_json": 0}
+    assert evidence["phase_status"] == {"price_series": "error", "events_json": "skipped"}
+    assert evidence["phase_error"] == {"price_series": "price_fetch_failed: proxy", "events_json": "disabled_for_price_only"}

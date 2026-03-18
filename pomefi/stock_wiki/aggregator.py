@@ -4,38 +4,112 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
+CRITICAL_SKILLS = ("timeline",)
+
+FAILURE_REASON_MESSAGES = {
+    "ROUTING_UNRESOLVED": "路由失败：未解析到可分析的A股标的。",
+    "AKSHARE_NETWORK_UNRECOVERED": "核心行情链路未恢复：AkShare 网络请求失败且无可用回退数据。",
+    "TIMELINE_TIMEOUT_UNRECOVERED": "时间线链路未恢复：timeline 在超时后仍无可用序列。",
+    "KIMI_TIMEOUT_UNRECOVERED": "模型链路未恢复：Kimi 调用超时且未恢复。",
+    "TOOL_CALL_MISSING_UNRECOVERED": "工具调用链路未恢复：必需 tool_call 缺失。",
+    "UNKNOWN_UNRECOVERED": "链路未恢复：出现未知错误，请查看 failure_evidence。",
+}
+
 
 def _iso_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _compute_strict_fail(skill_results: dict[str, dict[str, Any]]) -> tuple[bool, dict[str, str], list[str]]:
+def _compute_failure_mask(skill_results: dict[str, dict[str, Any]]) -> tuple[dict[str, str], list[str]]:
     failure_mask: dict[str, str] = {}
     critical_failures: list[str] = []
     for skill, result in skill_results.items():
         item = dict(result or {})
-        is_critical = bool(item.get("is_critical"))
         status = str(item.get("status") or "")
         data_ready = item.get("data_ready")
         if data_ready is None:
             data_ready = status == "valid"
         is_failure = status == "error" or data_ready is False
-        if is_critical and is_failure:
-            reason = str(item.get("error") or item.get("error_category") or status or "failed")
-            failure_mask[skill] = reason
-            critical_failures.append(skill)
-    return bool(critical_failures), failure_mask, critical_failures
+        if skill not in CRITICAL_SKILLS or not is_failure:
+            continue
+        data = dict(item.get("data") or {})
+        data_origin = str(data.get("data_origin") or "")
+        error_category = str(item.get("error_category") or "")
+        if error_category == "network":
+            reason = "network_live_failed_cache_hit" if data_origin == "cache_fallback" else "network_live_failed_cache_miss"
+        else:
+            reason = str(item.get("error") or error_category or status or "failed")
+        failure_mask[skill] = reason
+        critical_failures.append(skill)
+    return failure_mask, critical_failures
 
 
-def _infer_quality_status(skill_results: dict[str, dict[str, Any]], *, strict_fail: bool) -> str:
-    if strict_fail:
-        return "error"
-    statuses = [str(item.get("status") or "error") for item in skill_results.values()]
-    if statuses and all(status == "valid" for status in statuses):
-        return "valid"
-    if any(status in {"valid", "degraded"} for status in statuses):
-        return "degraded"
-    return "error"
+def _map_failure_code(skill: str, result: dict[str, Any]) -> str:
+    data = dict(result.get("data") or {})
+    explicit = str(data.get("unrecovered_reason_code") or "").strip()
+    if explicit:
+        return explicit
+
+    error = str(result.get("error") or "").strip().lower()
+    error_category = str(result.get("error_category") or "").strip().lower()
+
+    if "required_tool_call_missing" in error or error_category == "tool":
+        return "TOOL_CALL_MISSING_UNRECOVERED"
+    if "timeout_soft_" in error or error_category == "timeout":
+        if skill == "timeline":
+            return "TIMELINE_TIMEOUT_UNRECOVERED"
+        return "KIMI_TIMEOUT_UNRECOVERED"
+    if "network" in error or "proxyerror" in error or "httpsconnectionpool" in error:
+        return "UNKNOWN_UNRECOVERED"
+    return "UNKNOWN_UNRECOVERED"
+
+
+def _build_failure_evidence(skill: str, result: dict[str, Any]) -> dict[str, Any]:
+    data = dict(result.get("data") or {})
+    trace = dict(data.get("trace") or {})
+    return {
+        "skill": skill,
+        "status": str(result.get("status") or ""),
+        "error": result.get("error"),
+        "error_category": result.get("error_category"),
+        "latency_ms": int(result.get("latency_ms") or 0),
+        "data_ready": bool(result.get("data_ready")),
+        "recovered": data.get("recovered"),
+        "unrecovered_reason_code": data.get("unrecovered_reason_code"),
+        "data_origin": data.get("data_origin"),
+        "network_evidence": [dict(item) for item in list(data.get("network_evidence") or []) if isinstance(item, dict)],
+        "akshare_calls": [dict(item) for item in list(data.get("akshare_calls") or []) if isinstance(item, dict)][:12],
+        "phase_latency_ms": dict(trace.get("phase_latency_ms") or {}),
+        "phase_status": dict(trace.get("phase_status") or {}),
+        "phase_error": dict(trace.get("phase_error") or {}),
+    }
+
+
+def resolve_execution_outcome(skill_results: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    for skill in CRITICAL_SKILLS:
+        result = dict(skill_results.get(skill) or {})
+        data_ready = result.get("data_ready")
+        if data_ready is None:
+            data_ready = str(result.get("status") or "") == "valid"
+        if bool(data_ready):
+            continue
+
+        reason_code = _map_failure_code(skill, result)
+        return {
+            "execution_status": "failed",
+            "failure_reason_code": reason_code,
+            "failure_reason_message": FAILURE_REASON_MESSAGES.get(reason_code, FAILURE_REASON_MESSAGES["UNKNOWN_UNRECOVERED"]),
+            "failure_stage": skill,
+            "failure_evidence": _build_failure_evidence(skill, result),
+        }
+
+    return {
+        "execution_status": "success",
+        "failure_reason_code": None,
+        "failure_reason_message": None,
+        "failure_stage": None,
+        "failure_evidence": None,
+    }
 
 
 def aggregate_stock_wiki_payload(
@@ -45,11 +119,20 @@ def aggregate_stock_wiki_payload(
     company_name: str,
     skill_results: dict[str, dict[str, Any]],
     trace_id: str | None = None,
+    short_circuit: bool = False,
+    cancelled_skills: list[str] | None = None,
 ) -> dict[str, Any]:
     relationship = dict(skill_results.get("relationship") or {})
     relationship_pending = bool((relationship.get("data") or {}).get("pending"))
-    partial_release = relationship_pending
-    strict_fail, failure_mask, critical_failures = _compute_strict_fail(skill_results)
+    timeout_skills = [
+        skill
+        for skill, result in skill_results.items()
+        if str((result or {}).get("error") or "").startswith("timeout_soft_")
+    ]
+    partial_release = relationship_pending or bool(timeout_skills)
+    failure_mask, critical_failures = _compute_failure_mask(skill_results)
+    outcome = resolve_execution_outcome(skill_results)
+    strict_fail = outcome["execution_status"] == "failed"
 
     per_skill_latency = {
         skill: int((result or {}).get("latency_ms") or 0)
@@ -81,15 +164,23 @@ def aggregate_stock_wiki_payload(
         "per_skill_latency": per_skill_latency,
         "partial_release": partial_release,
         "relationship_pending": relationship_pending,
+        "timeout_skills": timeout_skills,
         "strict_fail": strict_fail,
         "critical_failures": critical_failures,
         "failure_mask": failure_mask,
-        "degrade_reason": "strict_fail" if strict_fail else None,
+        "degrade_reason": outcome["failure_reason_code"] if strict_fail else None,
+        "execution_status": outcome["execution_status"],
+        "failure_reason_code": outcome["failure_reason_code"],
+        "failure_reason_message": outcome["failure_reason_message"],
+        "failure_stage": outcome["failure_stage"],
+        "failure_evidence": outcome["failure_evidence"],
+        "short_circuit": bool(short_circuit),
+        "cancelled_skills": [str(item) for item in list(cancelled_skills or [])],
     }
 
     return {
         "data": data,
         "metadata": metadata,
-        "quality_status": _infer_quality_status(skill_results, strict_fail=strict_fail),
+        "quality_status": "error" if strict_fail else "valid",
         "sources": sources,
     }

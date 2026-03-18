@@ -1,205 +1,259 @@
 from __future__ import annotations
 
 import asyncio
+from datetime import datetime
 import inspect
-import json
-import re
+import time
 from typing import Any, Awaitable, Callable
 
-from pomefi.config import KimiConfig
-from pomefi.stock_wiki.structured import stream_json_object
-from pomefi.tools.akshare_tool import get_cached_price_history
+import akshare as ak
+
+from pomefi.tools.akshare_tool import extract_network_evidence
 
 from .common import classify_error, make_skill_result
 
-TIMELINE_SYSTEM_PROMPT = """
-你是A股事件抽取助手。必须输出 JSON object，不要 markdown。
-schema:
-{
-  "summary": "string",
-  "events": [
-    {"date":"YYYY-MM-DD","title":"string","source":"string","url":"string"}
-  ],
-  "merge_notes": "string"
-}
-""".strip()
+TIMELINE_PRICE_START_DATE = "20250101"
+TIMELINE_PRICE_TIMEOUT_SECONDS = 8.0
 
 
-def _load_price_rows(symbol: str) -> list[dict[str, Any]]:
-    history_df = get_cached_price_history(symbol)
+def _load_price_rows(symbol: str) -> dict[str, Any]:
+    call_logs: list[dict[str, Any]] = []
+    started = time.perf_counter()
+    try:
+        history_df = ak.stock_zh_a_hist(
+            symbol=symbol,
+            period="daily",
+            start_date=TIMELINE_PRICE_START_DATE,
+            end_date=datetime.now().strftime("%Y%m%d"),
+            adjust="qfq",
+            timeout=TIMELINE_PRICE_TIMEOUT_SECONDS,
+        )
+        call_logs.append(
+            {
+                "interface": "stock_zh_a_hist",
+                "symbol": symbol,
+                "latency_ms": max(int((time.perf_counter() - started) * 1000), 0),
+                "status": "ok",
+                "error": "",
+                "attempt": 1,
+                "retry_count": 0,
+                "dedup_hit": False,
+            }
+        )
+    except Exception as exc:
+        call_logs.append(
+            {
+                "interface": "stock_zh_a_hist",
+                "symbol": symbol,
+                "latency_ms": max(int((time.perf_counter() - started) * 1000), 0),
+                "status": "error",
+                "error": str(exc),
+                "attempt": 1,
+                "retry_count": 0,
+                "dedup_hit": False,
+            }
+        )
+        return {
+            "rows": [],
+            "asof": "",
+            "data_origin": "partial",
+            "network_evidence": extract_network_evidence(call_logs),
+            "akshare_calls": call_logs,
+            "error": f"price_fetch_failed: {exc}",
+        }
     if history_df.empty:
-        return []
-    history_df = history_df.rename(columns={"日期": "date", "收盘": "close"})
+        return {
+            "rows": [],
+            "asof": "",
+            "data_origin": "partial",
+            "network_evidence": extract_network_evidence(call_logs),
+            "akshare_calls": call_logs,
+            "error": "price_history_empty",
+        }
+
+    history_df = history_df.rename(columns={"日期": "date", "收盘": "close"}).copy()
     history_df["date"] = history_df["date"].astype(str)
-    rows: list[dict[str, Any]] = []
-    for row in history_df[["date", "close"]].to_dict(orient="records"):
-        rows.append({"date": str(row.get("date") or ""), "close": row.get("close"), "event_desc": ""})
-    return rows[-90:]
+    rows = [
+        {"date": str(row.get("date") or "")[:10], "close": row.get("close"), "event_desc": ""}
+        for row in history_df[["date", "close"]].to_dict(orient="records")
+    ]
+    return {
+        "rows": rows[-90:],
+        "asof": str(rows[-1].get("date") or "")[:10] if rows else "",
+        "data_origin": "live",
+        "network_evidence": extract_network_evidence(call_logs),
+        "akshare_calls": call_logs,
+        "error": None,
+    }
 
 
-def _extract_date_text(text: str) -> str:
-    raw = str(text or "")
-    match = re.search(r"(\d{4}-\d{1,2}-\d{1,2})", raw)
-    if match:
-        y, m, d = match.group(1).split("-")
-        return f"{y}-{m.zfill(2)}-{d.zfill(2)}"
-    return ""
+async def _emit_timeline_phase(
+    event_handler: Callable[[dict[str, Any]], Any | Awaitable[Any]] | None,
+    *,
+    phase: str,
+    status: str,
+    latency_ms: int,
+    error: str | None = None,
+) -> None:
+    if event_handler is None:
+        return
+    result = event_handler(
+        {
+            "type": "timeline_phase",
+            "phase": phase,
+            "status": status,
+            "latency_ms": latency_ms,
+            "error": error,
+        }
+    )
+    if inspect.isawaitable(result):
+        await result
 
 
-def _normalize_events(events: Any) -> list[dict[str, Any]]:
-    normalized: list[dict[str, Any]] = []
-    for event in list(events or [])[:10]:
-        if not isinstance(event, dict):
-            continue
-        title = str(event.get("title") or "").strip()
-        if not title:
-            continue
-        date_text = _extract_date_text(str(event.get("date") or ""))
-        normalized.append(
-            {
-                "date": date_text,
-                "title": title,
-                "source": str(event.get("source") or "web_search"),
-                "url": event.get("url"),
-            }
+async def _load_price_branch(
+    symbol: str,
+    *,
+    event_handler: Callable[[dict[str, Any]], Any | Awaitable[Any]] | None = None,
+) -> dict[str, Any]:
+    started = time.perf_counter()
+    try:
+        payload = await asyncio.to_thread(_load_price_rows, symbol)
+    except Exception as exc:
+        latency_ms = max(int((time.perf_counter() - started) * 1000), 0)
+        error_text = f"price_fetch_failed: {exc}"
+        await _emit_timeline_phase(
+            event_handler,
+            phase="price_series",
+            status="error",
+            latency_ms=latency_ms,
+            error=error_text,
         )
-    return normalized
+        return {
+            "payload": {
+                "rows": [],
+                "asof": "",
+                "data_origin": "partial",
+                "network_evidence": [],
+                "akshare_calls": [],
+                "error": error_text,
+            },
+            "status": "error",
+            "latency_ms": latency_ms,
+            "error": error_text,
+        }
 
-
-def _merge_events(price_rows: list[dict[str, Any]], events: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    if not price_rows or not events:
-        return price_rows
-    event_map: dict[str, list[str]] = {}
-    for item in events[:8]:
-        title = str(item.get("title") or "").strip()
-        date_text = _extract_date_text(str(item.get("date") or ""))
-        if not title or not date_text:
-            continue
-        event_map.setdefault(date_text, []).append(title)
-
-    merged: list[dict[str, Any]] = []
-    for row in price_rows:
-        date_text = str(row.get("date") or "")
-        normalized = _extract_date_text(date_text) or date_text[:10]
-        descriptions = event_map.get(normalized, [])
-        merged.append(
-            {
-                "date": date_text[:10],
-                "close": row.get("close"),
-                "event_desc": "；".join(descriptions[:2]),
-            }
-        )
-    return merged
+    latency_ms = max(int((time.perf_counter() - started) * 1000), 0)
+    payload_error = str(payload.get("error") or "").strip() or None
+    status = "valid" if list(payload.get("rows") or []) else "error"
+    await _emit_timeline_phase(
+        event_handler,
+        phase="price_series",
+        status=status,
+        latency_ms=latency_ms,
+        error=payload_error,
+    )
+    await _emit_timeline_phase(
+        event_handler,
+        phase="events_json",
+        status="skipped",
+        latency_ms=0,
+        error="disabled_for_price_only",
+    )
+    return {
+        "payload": payload,
+        "status": status,
+        "latency_ms": latency_ms,
+        "error": payload_error,
+    }
 
 
 async def get_timeline(
     symbol: str,
     company_name: str,
     *,
-    config: KimiConfig,
-    formula_client: Any,
+    config: Any = None,
+    formula_client: Any = None,
     event_handler: Callable[[dict[str, Any]], Any | Awaitable[Any]] | None = None,
 ) -> dict[str, Any]:
-    source_name = company_name or symbol
-    try:
-        price_rows = await asyncio.to_thread(_load_price_rows, symbol)
-    except Exception as exc:
+    _ = (config, formula_client)
+    price_branch = await _load_price_branch(symbol, event_handler=event_handler)
+
+    price_payload = dict(price_branch.get("payload") or {})
+    price_rows = [dict(item) for item in list(price_payload.get("rows") or []) if isinstance(item, dict)]
+    data_origin = str(price_payload.get("data_origin") or "partial")
+    network_evidence = [dict(item) for item in list(price_payload.get("network_evidence") or []) if isinstance(item, dict)]
+    akshare_calls = [dict(item) for item in list(price_payload.get("akshare_calls") or []) if isinstance(item, dict)]
+    price_error = str(price_payload.get("error") or "").strip()
+    asof = str(price_payload.get("asof") or "")
+    sources: list[dict[str, Any]] = [
+        {"source": "AkShare", "kind": "akshare", "title": f"{symbol} 近三个月K线", "published_at": asof, "url": None}
+    ]
+    trace_payload = {
+        "tool_call_required": False,
+        "tool_call_observed": False,
+        "retry_count": 0,
+        "observed_tools": [],
+        "turns": [],
+        "tool_events": [],
+        "degrade_reason": None,
+        "phase_latency_ms": {
+            "price_series": int(price_branch.get("latency_ms") or 0),
+            "events_json": 0,
+        },
+        "phase_status": {
+            "price_series": str(price_branch.get("status") or "unknown"),
+            "events_json": "skipped",
+        },
+        "phase_error": {
+            "price_series": price_branch.get("error"),
+            "events_json": "disabled_for_price_only",
+        },
+    }
+
+    if not price_rows:
+        error_text = price_error or str(price_branch.get("error") or "price_fetch_failed")
+        error_category = classify_error(error_text)
+        unrecovered_reason_code = "AKSHARE_NETWORK_UNRECOVERED" if network_evidence or error_category in {"network", "rate_limit"} else "UNKNOWN_UNRECOVERED"
         return make_skill_result(
             status="error",
-            data={"symbol": symbol, "company_name": company_name, "series": [], "events": []},
-            sources=[],
-            error=f"price_fetch_failed: {exc}",
-            error_category=classify_error(str(exc)),
+            data={
+                "symbol": symbol,
+                "company_name": company_name,
+                "series": [],
+                "events": [],
+                "summary": "价格折线图抓取失败，timeline 无法生成。",
+                "data_origin": data_origin,
+                "network_evidence": network_evidence,
+                "akshare_calls": akshare_calls,
+                "trace": trace_payload,
+                "recovered": False,
+                "unrecovered_reason_code": unrecovered_reason_code,
+            },
+            sources=sources,
+            error=error_text,
+            error_category=error_category,
             data_ready=False,
             is_critical=True,
         )
 
-    sources: list[dict[str, Any]] = [
-        {"source": "AkShare", "kind": "akshare", "title": f"{symbol} 近三个月K线", "published_at": "", "url": None}
-    ]
-    events: list[dict[str, Any]] = []
-    merge_notes = ""
-    summary = "已将近三个月价格序列与公开事件做日期叠加。"
-    try:
-        search_result = await formula_client.call_tool(
-            "moonshot/web-search:latest",
-            {
-                "name": "web_search",
-                "arguments": json.dumps(
-                    {"query": f"{source_name} 近三个月 重大事件 公告"},
-                    ensure_ascii=False,
-                ),
-            },
-        )
-        raw_search_content = str(search_result.get("content") or "")
-        payload: dict[str, Any] | None = None
-        async for event in stream_json_object(
-            config=config,
-            system_prompt=TIMELINE_SYSTEM_PROMPT,
-            user_prompt=(
-                f"标的：{source_name}({symbol})。"
-                "基于以下检索结果抽取时间线事件，保证 events 的 date 字段尽量是 YYYY-MM-DD：\n"
-                f"{raw_search_content}"
-            ),
-            event_scope="timeline",
-        ):
-            if event_handler is not None:
-                maybe_result = event_handler(event)
-                if inspect.isawaitable(maybe_result):
-                    await maybe_result
-            if event.get("type") == "structured_json_done":
-                maybe_payload = event.get("json")
-                if isinstance(maybe_payload, dict):
-                    payload = maybe_payload
-        if payload is None:
-            raise RuntimeError("timeline_json_missing")
-        events = _normalize_events(payload.get("events"))
-        summary = str(payload.get("summary") or summary).strip() or summary
-        merge_notes = str(payload.get("merge_notes") or "").strip()
-    except Exception as exc:
-        return make_skill_result(
-            status="degraded",
-            data={
-                "symbol": symbol,
-                "company_name": company_name,
-                "series": price_rows,
-                "events": [],
-                "summary": "未能完成事件抽取，先返回价格序列。",
-                "merge_notes": "",
-            },
-            sources=sources,
-            error=str(exc),
-            error_category=classify_error(str(exc)),
-            data_ready=bool(price_rows),
-            is_critical=True,
-        )
-
-    for item in events[:5]:
-        sources.append(
-            {
-                "source": item.get("source") or "web_search",
-                "kind": "web_search",
-                "title": item.get("title") or "",
-                "published_at": item.get("date") or "",
-                "url": item.get("url"),
-            }
-        )
-
-    merged_rows = _merge_events(price_rows, events)
-    status = "valid" if merged_rows else "degraded"
     return make_skill_result(
-        status=status,
+        status="valid",
         data={
             "symbol": symbol,
             "company_name": company_name,
-            "series": merged_rows,
-            "events": events[:8],
-            "summary": summary,
-            "merge_notes": merge_notes,
+            "series": price_rows,
+            "events": [],
+            "summary": "已抓取近三个月价格折线图；事件支路当前停用。",
+            "data_origin": data_origin,
+            "network_evidence": network_evidence,
+            "akshare_calls": akshare_calls,
+            "trace": trace_payload,
+            "recovered": True,
+            "unrecovered_reason_code": None,
         },
         sources=sources,
-        error=None if merged_rows else "timeline_empty",
-        error_category="empty" if not merged_rows else None,
-        data_ready=bool(merged_rows),
+        error=None,
+        error_category=None,
+        data_ready=True,
         is_critical=True,
     )

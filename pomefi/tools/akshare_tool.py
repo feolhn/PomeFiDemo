@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from dataclasses import dataclass, field
 import inspect
 from math import sqrt
 import sys
 from pathlib import Path
+import threading
+import time
 from typing import Any
 
 import akshare as ak
@@ -45,6 +48,35 @@ PROFIT_YOY_CANDIDATES = [
 AKSHARE_TIMEOUT_SECONDS = 8.0
 PRICE_HISTORY_LOOKBACK_DAYS = 420
 _PRICE_HISTORY_CACHE: dict[tuple[str, str, str], pd.DataFrame] = {}
+_PRICE_HISTORY_LOCK = threading.Lock()
+PRICE_HISTORY_MAX_RETRIES = 2
+PRICE_HISTORY_RETRY_BACKOFF_SECONDS = 0.2
+NETWORK_ERROR_TOKENS = (
+    "proxyerror",
+    "httpsconnectionpool",
+    "remote end closed connection",
+    "unable to connect to proxy",
+    "connection aborted",
+    "connection reset",
+    "timed out",
+    "timeout",
+)
+PRICE_METRICS = {"price_last", "ret_1d", "ret_5d", "ret_20d", "vol_20d", "max_drawdown_1y"}
+PE_METRICS = {"pe_ttm", "pe_quantile_5y"}
+PB_METRICS = {"pb", "pb_quantile_5y"}
+FINANCIAL_METRICS = {"revenue_yoy", "profit_yoy"}
+
+
+@dataclass
+class _PriceInflightState:
+    event: threading.Event = field(default_factory=threading.Event)
+    frame: pd.DataFrame | None = None
+    error: Exception | None = None
+    source_status: str = ""
+    retry_count: int = 0
+
+
+_PRICE_HISTORY_INFLIGHT: dict[tuple[str, str, str], _PriceInflightState] = {}
 
 
 def _xq_symbol(symbol: str) -> str:
@@ -60,6 +92,222 @@ def _call_ak(func: Any, **kwargs: Any) -> Any:
     if "timeout" in signature.parameters and "timeout" not in kwargs:
         kwargs["timeout"] = AKSHARE_TIMEOUT_SECONDS
     return func(**kwargs)
+
+
+def _call_ak_with_diag(
+    *,
+    func: Any,
+    interface: str,
+    symbol_code: str,
+    call_logs: list[dict[str, Any]],
+    attempt: int = 1,
+    retry_count: int = 0,
+    dedup_hit: bool = False,
+    **kwargs: Any,
+) -> Any:
+    started = time.perf_counter()
+    try:
+        result = _call_ak(func, **kwargs)
+        call_logs.append(
+            {
+                "interface": interface,
+                "symbol": symbol_code,
+                "latency_ms": max(int((time.perf_counter() - started) * 1000), 0),
+                "status": "ok",
+                "error": "",
+                "attempt": attempt,
+                "retry_count": retry_count,
+                "dedup_hit": dedup_hit,
+            }
+        )
+        return result
+    except Exception as exc:
+        call_logs.append(
+            {
+                "interface": interface,
+                "symbol": symbol_code,
+                "latency_ms": max(int((time.perf_counter() - started) * 1000), 0),
+                "status": "error",
+                "error": str(exc),
+                "attempt": attempt,
+                "retry_count": retry_count,
+                "dedup_hit": dedup_hit,
+            }
+        )
+        raise
+
+
+def _is_network_error_text(error_text: str) -> bool:
+    text = str(error_text or "").lower()
+    return any(token in text for token in NETWORK_ERROR_TOKENS)
+
+
+def infer_price_data_origin(call_logs: list[dict[str, Any]]) -> str:
+    statuses = [
+        str(item.get("status") or "")
+        for item in call_logs
+        if str(item.get("interface") or "") == "stock_zh_a_hist"
+    ]
+    if "ok" in statuses:
+        return "live"
+    if "cache_fallback" in statuses:
+        return "cache_fallback"
+    if "cache_hit" in statuses:
+        return "live"
+    return "partial"
+
+
+def extract_network_evidence(call_logs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    evidence: list[dict[str, Any]] = []
+    for item in call_logs:
+        if not isinstance(item, dict):
+            continue
+        status = str(item.get("status") or "")
+        error_text = str(item.get("error") or "").strip()
+        if status == "cache_fallback":
+            evidence.append(
+                {
+                    "interface": str(item.get("interface") or ""),
+                    "status": status,
+                    "latency_ms": int(item.get("latency_ms") or 0),
+                    "error": error_text,
+                    "retry_count": int(item.get("retry_count") or 0),
+                    "dedup_hit": bool(item.get("dedup_hit")),
+                }
+            )
+            continue
+        if not error_text or not _is_network_error_text(error_text):
+            continue
+        evidence.append(
+                {
+                    "interface": str(item.get("interface") or ""),
+                    "status": status or "error",
+                    "latency_ms": int(item.get("latency_ms") or 0),
+                    "error": error_text,
+                    "retry_count": int(item.get("retry_count") or 0),
+                    "dedup_hit": bool(item.get("dedup_hit")),
+                }
+            )
+    return evidence
+
+
+def _to_float(value: Any) -> float | None:
+    if value is None:
+        return None
+    text = str(value).strip().replace(",", "").replace("%", "")
+    if not text:
+        return None
+    try:
+        return float(text)
+    except Exception:
+        return None
+
+
+def _to_rate(value: Any) -> float | None:
+    raw = _to_float(value)
+    if raw is None:
+        return None
+    return raw / 100.0 if abs(raw) > 1.0 else raw
+
+
+def _table_to_item_value_map(df: pd.DataFrame) -> dict[str, Any]:
+    if df.empty:
+        return {}
+    columns = [str(col) for col in list(df.columns)]
+    pair_candidates = [
+        ("item", "value"),
+        ("项目", "值"),
+        ("项目", "value"),
+        ("item", "值"),
+        ("指标", "数值"),
+        ("key", "value"),
+    ]
+    for key_col, value_col in pair_candidates:
+        if key_col in columns and value_col in columns:
+            out: dict[str, Any] = {}
+            for row in df[[key_col, value_col]].to_dict(orient="records"):
+                key = str(row.get(key_col) or "").strip()
+                if key:
+                    out[key] = row.get(value_col)
+            if out:
+                return out
+
+    if len(columns) >= 2:
+        key_col, value_col = columns[0], columns[1]
+        out: dict[str, Any] = {}
+        for row in df[[key_col, value_col]].to_dict(orient="records"):
+            key = str(row.get(key_col) or "").strip()
+            if key:
+                out[key] = row.get(value_col)
+        return out
+    return {}
+
+
+def _normalize_spot_snapshot(spot_df: pd.DataFrame) -> dict[str, Any]:
+    if spot_df.empty:
+        return {}
+    spot_map: dict[str, Any] = {}
+    if {"item", "value"}.issubset(set(spot_df.columns)):
+        for row in spot_df[["item", "value"]].to_dict(orient="records"):
+            item = str(row.get("item") or "").strip()
+            if item:
+                spot_map[item] = row.get("value")
+        if spot_map:
+            return spot_map
+
+    if "data" in spot_df.columns:
+        for row in spot_df.to_dict(orient="records"):
+            data = row.get("data")
+            if isinstance(data, list):
+                for item in data:
+                    if isinstance(item, dict):
+                        key = str(item.get("item") or "").strip()
+                        if key:
+                            spot_map[key] = item.get("value")
+            elif isinstance(data, dict):
+                if isinstance(data.get("quote"), dict):
+                    for key, value in data["quote"].items():
+                        if value is not None:
+                            spot_map[str(key)] = value
+                if "item" in data and "value" in data:
+                    key = str(data.get("item") or "").strip()
+                    if key:
+                        spot_map[key] = data.get("value")
+                for key, value in data.items():
+                    if key != "quote" and value is not None:
+                        spot_map[str(key)] = value
+        if spot_map:
+            return spot_map
+
+    if len(spot_df.index) > 0:
+        row = dict(spot_df.iloc[0].to_dict())
+        for key, value in row.items():
+            if value is not None:
+                spot_map[str(key)] = value
+    return spot_map
+
+
+def _spot_price_last(spot_map: dict[str, Any]) -> float | None:
+    for key in ("现价", "最新价", "最新", "close", "current", "last", "last_close"):
+        value = _to_float(spot_map.get(key))
+        if value is not None:
+            return value
+    return None
+
+
+def _spot_ret_1d(spot_map: dict[str, Any], price_last: float | None) -> float | None:
+    for key in ("涨跌幅", "涨幅", "change_percent", "pct_chg"):
+        rate = _to_rate(spot_map.get(key))
+        if rate is not None:
+            return rate
+    prev_close = None
+    for key in ("昨收", "昨收价", "昨收盘", "prev_close", "pre_close"):
+        prev_close = _to_float(spot_map.get(key))
+        if prev_close is not None:
+            break
+    if prev_close is not None and prev_close != 0 and price_last is not None:
+        return float(price_last / prev_close - 1.0)
+    return None
 
 
 def _quantile_from_series(series: pd.Series) -> float | None:
@@ -83,14 +331,22 @@ def _rate_value(value: float | None) -> float | None:
     return float(value) / 100.0
 
 
-def _safe_stock_profile(symbol: str, notes: list[str]) -> dict[str, Any]:
+def _safe_stock_profile(symbol: str, notes: list[str], call_logs: list[dict[str, Any]]) -> dict[str, Any]:
     profile: dict[str, Any] = {
         "company_name": "",
         "industry": "",
         "listed_at": None,
+        "latest_price": None,
+        "ps_ttm": None,
     }
     try:
-        info_df = _call_ak(ak.stock_individual_info_em, symbol=symbol)
+        info_df = _call_ak_with_diag(
+            func=ak.stock_individual_info_em,
+            interface="stock_individual_info_em",
+            symbol_code=symbol,
+            call_logs=call_logs,
+            symbol=symbol,
+        )
     except Exception as exc:
         notes.append(f"stock_individual_info_em failed: {exc}")
         return profile
@@ -99,9 +355,22 @@ def _safe_stock_profile(symbol: str, notes: list[str]) -> dict[str, Any]:
         notes.append("stock_individual_info_em returned empty dataframe")
         return profile
 
-    info_map = dict(zip(info_df["item"], info_df["value"]))
+    info_map = _table_to_item_value_map(info_df)
+    if not info_map:
+        notes.append(f"stock_individual_info_em schema_unexpected: columns={list(info_df.columns)}")
+        return profile
     profile["company_name"] = str(info_map.get("股票简称", "") or "")
     profile["industry"] = str(info_map.get("行业", "") or "")
+    for key in ("最新", "最新价", "现价", "收盘"):
+        maybe = _to_float(info_map.get(key))
+        if maybe is not None:
+            profile["latest_price"] = maybe
+            break
+    for key in ("市销率", "市销率(TTM)", "PS", "PS(TTM)"):
+        maybe = _to_float(info_map.get(key))
+        if maybe is not None:
+            profile["ps_ttm"] = maybe
+            break
     listed_at = info_map.get("上市时间")
     if listed_at:
         listed_at_text = str(listed_at)
@@ -112,28 +381,201 @@ def _safe_stock_profile(symbol: str, notes: list[str]) -> dict[str, Any]:
     return profile
 
 
-def get_cached_price_history(symbol: str, *, lookback_days: int = PRICE_HISTORY_LOOKBACK_DAYS) -> pd.DataFrame:
+def _fetch_price_history_live(
+    *,
+    symbol: str,
+    start_date: str,
+    end_date: str,
+    call_logs: list[dict[str, Any]] | None,
+) -> tuple[pd.DataFrame, int]:
+    last_error: Exception | None = None
+    total_attempts = PRICE_HISTORY_MAX_RETRIES + 1
+    for attempt in range(1, total_attempts + 1):
+        try:
+            if call_logs is None:
+                history_df = _call_ak(
+                    ak.stock_zh_a_hist,
+                    symbol=symbol,
+                    period="daily",
+                    start_date=start_date,
+                    end_date=end_date,
+                    adjust="qfq",
+                )
+            else:
+                history_df = _call_ak_with_diag(
+                    func=ak.stock_zh_a_hist,
+                    interface="stock_zh_a_hist",
+                    symbol_code=symbol,
+                    call_logs=call_logs,
+                    symbol=symbol,
+                    period="daily",
+                    start_date=start_date,
+                    end_date=end_date,
+                    adjust="qfq",
+                    attempt=attempt,
+                    retry_count=attempt - 1,
+                    dedup_hit=False,
+                )
+            return history_df, attempt - 1
+        except Exception as exc:
+            last_error = exc
+            if attempt >= total_attempts or not _is_network_error_text(str(exc)):
+                raise
+            time.sleep(PRICE_HISTORY_RETRY_BACKOFF_SECONDS * attempt)
+    assert last_error is not None
+    raise last_error
+
+
+def _append_price_call_log(
+    call_logs: list[dict[str, Any]] | None,
+    *,
+    symbol: str,
+    status: str,
+    error: str,
+    retry_count: int,
+    dedup_hit: bool,
+    fallback_key: str | None = None,
+) -> None:
+    if call_logs is None:
+        return
+    row: dict[str, Any] = {
+        "interface": "stock_zh_a_hist",
+        "symbol": symbol,
+        "latency_ms": 0,
+        "status": status,
+        "error": error,
+        "retry_count": retry_count,
+        "dedup_hit": dedup_hit,
+    }
+    if fallback_key:
+        row["fallback_key"] = fallback_key
+    call_logs.append(row)
+
+
+def get_cached_price_history(
+    symbol: str,
+    *,
+    lookback_days: int = PRICE_HISTORY_LOOKBACK_DAYS,
+    call_logs: list[dict[str, Any]] | None = None,
+) -> pd.DataFrame:
     end_date = datetime.now().strftime("%Y%m%d")
     start_date = (datetime.now() - timedelta(days=lookback_days)).strftime("%Y%m%d")
     cache_key = (symbol, start_date, end_date)
-    cached = _PRICE_HISTORY_CACHE.get(cache_key)
-    if cached is not None:
-        return cached.copy()
-    history_df = _call_ak(
-        ak.stock_zh_a_hist,
+    with _PRICE_HISTORY_LOCK:
+        cached = _PRICE_HISTORY_CACHE.get(cache_key)
+        if cached is not None:
+            _append_price_call_log(
+                call_logs,
+                symbol=symbol,
+                status="cache_hit",
+                error="",
+                retry_count=0,
+                dedup_hit=False,
+            )
+            return cached.copy()
+        inflight = _PRICE_HISTORY_INFLIGHT.get(cache_key)
+        if inflight is None:
+            inflight = _PriceInflightState()
+            _PRICE_HISTORY_INFLIGHT[cache_key] = inflight
+            is_owner = True
+        else:
+            is_owner = False
+
+    if not is_owner:
+        inflight.event.wait(timeout=AKSHARE_TIMEOUT_SECONDS * 4)
+        if inflight.frame is not None:
+            _append_price_call_log(
+                call_logs,
+                symbol=symbol,
+                status=inflight.source_status or "ok",
+                error="",
+                retry_count=inflight.retry_count,
+                dedup_hit=True,
+            )
+            return inflight.frame.copy()
+        if inflight.error is not None:
+            _append_price_call_log(
+                call_logs,
+                symbol=symbol,
+                status="error",
+                error=str(inflight.error),
+                retry_count=inflight.retry_count,
+                dedup_hit=True,
+            )
+            raise inflight.error
+        raise RuntimeError("stock_zh_a_hist singleflight waiter timeout")
+
+    try:
+        history_df, retry_count = _fetch_price_history_live(
+            symbol=symbol,
+            start_date=start_date,
+            end_date=end_date,
+            call_logs=call_logs,
+        )
+        with _PRICE_HISTORY_LOCK:
+            _PRICE_HISTORY_CACHE[cache_key] = history_df.copy()
+            inflight.frame = history_df.copy()
+            inflight.retry_count = retry_count
+            inflight.source_status = "ok"
+        return history_df
+    except Exception as exc:
+        with _PRICE_HISTORY_LOCK:
+            fallback_candidates = [
+                (key, frame)
+                for key, frame in _PRICE_HISTORY_CACHE.items()
+                if isinstance(key, tuple) and len(key) == 3 and key[0] == symbol
+            ]
+            if fallback_candidates:
+                fallback_key, fallback_df = sorted(fallback_candidates, key=lambda item: item[0][2], reverse=True)[0]
+                retry_count = max(
+                    [int(item.get("retry_count") or 0) for item in (call_logs or []) if item.get("interface") == "stock_zh_a_hist"],
+                    default=0,
+                )
+                _append_price_call_log(
+                    call_logs,
+                    symbol=symbol,
+                    status="cache_fallback",
+                    error=str(exc),
+                    retry_count=retry_count,
+                    dedup_hit=False,
+                    fallback_key=f"{fallback_key[1]}:{fallback_key[2]}",
+                )
+                inflight.frame = fallback_df.copy()
+                inflight.retry_count = retry_count
+                inflight.source_status = "cache_fallback"
+                return fallback_df.copy()
+            inflight.error = exc
+            inflight.retry_count = max(
+                [int(item.get("retry_count") or 0) for item in (call_logs or []) if item.get("interface") == "stock_zh_a_hist"],
+                default=0,
+            )
+            raise
+    finally:
+        with _PRICE_HISTORY_LOCK:
+            inflight.event.set()
+            _PRICE_HISTORY_INFLIGHT.pop(cache_key, None)
+
+
+def get_live_price_history(
+    symbol: str,
+    *,
+    lookback_days: int = PRICE_HISTORY_LOOKBACK_DAYS,
+    call_logs: list[dict[str, Any]] | None = None,
+) -> pd.DataFrame:
+    end_date = datetime.now().strftime("%Y%m%d")
+    start_date = (datetime.now() - timedelta(days=lookback_days)).strftime("%Y%m%d")
+    history_df, _retry_count = _fetch_price_history_live(
         symbol=symbol,
-        period="daily",
         start_date=start_date,
         end_date=end_date,
-        adjust="qfq",
+        call_logs=call_logs,
     )
-    _PRICE_HISTORY_CACHE[cache_key] = history_df.copy()
     return history_df
 
 
-def _safe_price_history(symbol: str, notes: list[str]) -> pd.DataFrame:
+def _safe_price_history(symbol: str, notes: list[str], call_logs: list[dict[str, Any]]) -> pd.DataFrame:
     try:
-        history_df = get_cached_price_history(symbol)
+        history_df = get_cached_price_history(symbol, call_logs=call_logs)
     except Exception as exc:
         notes.append(f"stock_zh_a_hist failed: {exc}")
         return pd.DataFrame()
@@ -161,9 +603,17 @@ def _safe_price_history(symbol: str, notes: list[str]) -> pd.DataFrame:
     return history_df
 
 
-def _safe_valuation_series(symbol: str, notes: list[str], indicator: str) -> pd.DataFrame:
+def _safe_valuation_series(symbol: str, notes: list[str], indicator: str, call_logs: list[dict[str, Any]]) -> pd.DataFrame:
     try:
-        valuation_df = _call_ak(ak.stock_zh_valuation_baidu, symbol=symbol, indicator=indicator, period="近五年")
+        valuation_df = _call_ak_with_diag(
+            func=ak.stock_zh_valuation_baidu,
+            interface="stock_zh_valuation_baidu",
+            symbol_code=symbol,
+            call_logs=call_logs,
+            symbol=symbol,
+            indicator=indicator,
+            period="近五年",
+        )
     except Exception as exc:
         notes.append(f"stock_zh_valuation_baidu({indicator}) failed: {exc}")
         return pd.DataFrame()
@@ -179,9 +629,15 @@ def _safe_valuation_series(symbol: str, notes: list[str], indicator: str) -> pd.
     return valuation_df
 
 
-def _safe_spot_snapshot(symbol: str, notes: list[str]) -> pd.DataFrame:
+def _safe_spot_snapshot(symbol: str, notes: list[str], call_logs: list[dict[str, Any]]) -> pd.DataFrame:
     try:
-        spot_df = _call_ak(ak.stock_individual_spot_xq, symbol=_xq_symbol(symbol))
+        spot_df = _call_ak_with_diag(
+            func=ak.stock_individual_spot_xq,
+            interface="stock_individual_spot_xq",
+            symbol_code=symbol,
+            call_logs=call_logs,
+            symbol=_xq_symbol(symbol),
+        )
     except Exception as exc:
         notes.append(f"stock_individual_spot_xq failed: {exc}")
         return pd.DataFrame()
@@ -191,10 +647,17 @@ def _safe_spot_snapshot(symbol: str, notes: list[str]) -> pd.DataFrame:
     return spot_df
 
 
-def _safe_financial_indicators(symbol: str, notes: list[str]) -> pd.DataFrame:
+def _safe_financial_indicators(symbol: str, notes: list[str], call_logs: list[dict[str, Any]]) -> pd.DataFrame:
     start_year = str(max(datetime.now().year - 5, 2018))
     try:
-        financial_df = ak.stock_financial_analysis_indicator(symbol=symbol, start_year=start_year)
+        financial_df = _call_ak_with_diag(
+            func=ak.stock_financial_analysis_indicator,
+            interface="stock_financial_analysis_indicator",
+            symbol_code=symbol,
+            call_logs=call_logs,
+            symbol=symbol,
+            start_year=start_year,
+        )
     except Exception as exc:
         notes.append(f"stock_financial_analysis_indicator failed: {exc}")
         return pd.DataFrame()
@@ -246,19 +709,33 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         raise RuntimeError(f"Unsupported metrics requested: {invalid_metrics}")
 
     notes: list[str] = ["rate-like metrics are normalized to decimal fractions"]
-    profile = _safe_stock_profile(symbol, notes)
-    price_df = _safe_price_history(symbol, notes)
-    pe_df = _safe_valuation_series(symbol, notes, "市盈率(TTM)")
-    pb_df = _safe_valuation_series(symbol, notes, "市净率")
-    spot_df = _safe_spot_snapshot(symbol, notes)
-    financial_df = _safe_financial_indicators(symbol, notes)
-
+    call_logs: list[dict[str, Any]] = []
     metrics_out: dict[str, Any] = {metric: None for metric in metrics}
+
+    needs_price = any(metric in PRICE_METRICS for metric in metrics)
+    needs_pe = any(metric in PE_METRICS for metric in metrics)
+    needs_pb = any(metric in PB_METRICS for metric in metrics)
+    needs_financial = any(metric in FINANCIAL_METRICS for metric in metrics)
+    needs_ps = "ps_ttm" in metrics_out
+
+    profile = {
+        "company_name": "",
+        "industry": "",
+        "listed_at": None,
+        "latest_price": None,
+        "ps_ttm": None,
+    }
+
+    price_df = _safe_price_history(symbol, notes, call_logs) if needs_price else pd.DataFrame()
+    pe_df = _safe_valuation_series(symbol, notes, "市盈率(TTM)", call_logs) if needs_pe else pd.DataFrame()
+    pb_df = _safe_valuation_series(symbol, notes, "市净率", call_logs) if needs_pb else pd.DataFrame()
+    financial_df = _safe_financial_indicators(symbol, notes, call_logs) if needs_financial else pd.DataFrame()
+    spot_df = pd.DataFrame()
+    spot_map: dict[str, Any] = {}
 
     if not price_df.empty:
         close_series = price_df["close"]
         returns = close_series.pct_change()
-        metrics_out["price_last"] = metrics_out.get("price_last", None)
         if "price_last" in metrics_out:
             metrics_out["price_last"] = _latest_float(close_series)
         if "ret_1d" in metrics_out and len(close_series) >= 2:
@@ -284,14 +761,35 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
     if "pb_quantile_5y" in metrics_out:
         metrics_out["pb_quantile_5y"] = _quantile_from_series(pb_df["value"]) if not pb_df.empty else None
 
-    if "ps_ttm" in metrics_out and not spot_df.empty:
-        spot_map = dict(zip(spot_df["item"], spot_df["value"]))
+    need_spot_snapshot = (
+        needs_ps
+        or ("price_last" in metrics_out and metrics_out["price_last"] is None)
+        or ("ret_1d" in metrics_out and metrics_out["ret_1d"] is None)
+    )
+    if need_spot_snapshot:
+        spot_df = _safe_spot_snapshot(symbol, notes, call_logs)
+        spot_map = _normalize_spot_snapshot(spot_df)
+
+    need_profile_snapshot = needs_ps
+    if need_profile_snapshot:
+        profile = _safe_stock_profile(symbol, notes, call_logs)
+
+    if "ps_ttm" in metrics_out and need_profile_snapshot:
+        metrics_out["ps_ttm"] = _to_float(profile.get("ps_ttm"))
+    if "ps_ttm" in metrics_out and metrics_out["ps_ttm"] is None:
         ps_value = pd.to_numeric(pd.Series([spot_map.get("市销率")]), errors="coerce").dropna()
         metrics_out["ps_ttm"] = float(ps_value.iloc[0]) if not ps_value.empty else None
         if metrics_out["ps_ttm"] is None:
             # None + notes 是设计行为。
             # 这里保留可追溯缺口，而不是伪造指标值。
             notes.append("ps_ttm is unavailable from stock_individual_spot_xq")
+
+    if "price_last" in metrics_out and metrics_out["price_last"] is None and need_profile_snapshot:
+        metrics_out["price_last"] = _to_float(profile.get("latest_price"))
+    if "price_last" in metrics_out and metrics_out["price_last"] is None:
+        metrics_out["price_last"] = _spot_price_last(spot_map)
+    if "ret_1d" in metrics_out and metrics_out["ret_1d"] is None:
+        metrics_out["ret_1d"] = _spot_ret_1d(spot_map, metrics_out.get("price_last"))
 
     if "revenue_yoy" in metrics_out:
         metrics_out["revenue_yoy"] = _extract_named_rate(financial_df, REVENUE_YOY_CANDIDATES)
@@ -324,6 +822,9 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         latest_row = preview_rows.tail(1).to_dict(orient="records")
         financial_rows = normalize_financial_rows(latest_row)
 
+    data_origin = infer_price_data_origin(call_logs)
+    network_evidence = extract_network_evidence(call_logs)
+
     asof = None
     if not price_df.empty:
         latest_date = price_df["date"].dropna().iloc[-1]
@@ -345,5 +846,8 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         metrics=metrics_out,
         notes=notes,
         raw_bundle=raw_bundle,
+        akshare_calls=call_logs,
+        data_origin=data_origin,
+        network_evidence=network_evidence,
     )
     return to_local_tool_result(hook_payload)

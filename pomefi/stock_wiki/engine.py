@@ -34,11 +34,14 @@ def _placeholder_result(skill: str, message: str, *, pending: bool = False) -> d
         data = {"summary": message, "items": []}
     return {
         "skill": skill,
-        "status": "degraded",
+        "status": "error",
         "latency_ms": 0,
         "data": data,
         "sources": [],
         "error": "router_blocked",
+        "error_category": "routing",
+        "data_ready": False,
+        "is_critical": skill in {"summary", "timeline"},
     }
 
 
@@ -66,20 +69,89 @@ def _blocked_payload(
         company_name="",
         skill_results=results,
     )
+    card["quality_status"] = "error"
     card["metadata"]["degrade_reason"] = reason
+    card["metadata"]["execution_status"] = "failed"
+    card["metadata"]["failure_reason_code"] = "ROUTING_UNRESOLVED"
+    card["metadata"]["failure_reason_message"] = (
+        "当前问题不在支持范围内，请输入A股单标的问题。"
+        if reason == "unsupported_scope"
+        else "未解析到A股代码，请输入6位代码或准确公司名。"
+    )
+    card["metadata"]["failure_stage"] = "routing"
+    card["metadata"]["failure_evidence"] = {"route": route, "reason": reason}
     return {"card": card, "trace": {"route": route, "skill_results": results, "events": []}, "local_context": {}}
 
 
 def _collect_tool_events(skill_results: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
-    relationship = dict(skill_results.get("relationship") or {})
-    relationship_trace = dict((relationship.get("data") or {}).get("trace") or {})
-    for item in list(relationship_trace.get("tool_events") or []):
-        if isinstance(item, dict):
-            events.append(dict(item))
+    for skill_name in ("relationship", "timeline", "watch_calendar"):
+        result = dict(skill_results.get(skill_name) or {})
+        skill_trace = dict((result.get("data") or {}).get("trace") or {})
+        for item in list(skill_trace.get("tool_events") or []):
+            if isinstance(item, dict):
+                events.append(dict(item))
 
     for skill_name in ("summary", "timeline", "watch_calendar"):
         result = dict(skill_results.get(skill_name) or {})
+        data = dict(result.get("data") or {})
+        data_origin = str(data.get("data_origin") or "").strip()
+        if data_origin:
+            events.append(
+                {
+                    "tool_name": "akshare_data_origin",
+                    "tool_call_id": f"{skill_name}_akshare_origin",
+                    "source": "local",
+                    "formula_uri": None,
+                    "arguments_text": "{}",
+                    "arguments_dict": {"skill": skill_name},
+                    "jsonable_ok": None,
+                    "tool_content_preview": f"{skill_name} data_origin={data_origin}",
+                }
+            )
+        for index, evidence in enumerate(list(data.get("network_evidence") or [])):
+            if not isinstance(evidence, dict):
+                continue
+            interface = str(evidence.get("interface") or "akshare")
+            status = str(evidence.get("status") or "error")
+            error_text = str(evidence.get("error") or "").strip()
+            preview = f"{skill_name} {interface} {status}".strip()
+            if error_text:
+                preview = f"{preview}: {error_text}"[:200]
+            events.append(
+                {
+                    "tool_name": interface,
+                    "tool_call_id": f"{skill_name}_network_{index}",
+                    "source": "local",
+                    "formula_uri": None,
+                    "arguments_text": "{}",
+                    "arguments_dict": {"skill": skill_name},
+                    "jsonable_ok": None,
+                    "tool_content_preview": preview,
+                }
+            )
+        for index, call in enumerate(list(data.get("akshare_calls") or [])):
+            if not isinstance(call, dict):
+                continue
+            interface = str(call.get("interface") or "akshare")
+            error_text = str(call.get("error") or "").strip()
+            status = str(call.get("status") or "")
+            preview = f"{interface} {status}".strip()
+            if error_text:
+                preview = f"{preview}: {error_text}"[:200]
+            events.append(
+                {
+                    "tool_name": interface,
+                    "tool_call_id": f"{skill_name}_akshare_{index}",
+                    "source": "local",
+                    "formula_uri": None,
+                    "arguments_text": "{}",
+                    "arguments_dict": {"symbol": call.get("symbol")},
+                    "jsonable_ok": None,
+                    "tool_content_preview": preview,
+                }
+            )
+
         error = str(result.get("error") or "").strip()
         if not error:
             continue
@@ -148,6 +220,8 @@ async def run_stock_wiki_analysis_stream(
         }
 
         skill_results: dict[str, dict[str, Any]] | None = None
+        short_circuit = False
+        cancelled_skills: list[str] = []
         async for event in run_parallel_skills_stream(
             symbol=symbol,
             company_name=company_name,
@@ -155,10 +229,16 @@ async def run_stock_wiki_analysis_stream(
         ):
             orchestrator_events.append(event)
             yield event
+            if event.get("type") == "orchestrator_short_circuit":
+                short_circuit = True
+                cancelled_skills = [str(item) for item in list(event.get("cancelled_skills") or [])]
             if event.get("type") == "orchestrator_done":
                 maybe_results = event.get("skill_results")
                 if isinstance(maybe_results, dict):
                     skill_results = maybe_results
+                short_circuit = bool(event.get("short_circuit") or short_circuit)
+                if not cancelled_skills:
+                    cancelled_skills = [str(item) for item in list(event.get("cancelled_skills") or [])]
             if event.get("type") == "orchestrator_error":
                 raise RuntimeError(str(event.get("error") or "orchestrator_error"))
 
@@ -170,6 +250,8 @@ async def run_stock_wiki_analysis_stream(
             symbol=symbol,
             company_name=company_name,
             skill_results=skill_results,
+            short_circuit=short_circuit,
+            cancelled_skills=cancelled_skills,
         )
         payload = {
             "card": card,
