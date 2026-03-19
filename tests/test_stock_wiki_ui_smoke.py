@@ -6,6 +6,7 @@ import pytest
 
 pytest.importorskip("streamlit")
 from streamlit.testing.v1 import AppTest
+from pomefi.ui.render import _timeline_figure
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -79,26 +80,28 @@ def test_stock_wiki_masks_failed_card_and_hides_none_metrics(tmp_path: Path) -> 
                 "timeline": {"summary": "价格序列失败", "events": []},
                 "watch_calendar": {"summary": "暂无节点", "items": []},
                 "relationship": {"summary": "上下游集中", "pending": False, "nodes": [{"id": "宁德时代"}], "edges": []},
-                "skills": {},
+                "skills": {
+                    "summary": {"skill": "summary", "status": "error", "latency_ms": 10, "data": {"summary": "核心行情暂不可达", "metrics": {"price_last": None, "pe_ttm": 25.82}, "metrics_missing": ["price_last", "ret_1d"]}, "sources": [], "error": "price_fetch_failed", "data_ready": False, "is_critical": True},
+                    "entity_info": {"skill": "entity_info", "status": "valid", "latency_ms": 10, "data": {"summary": "动力电池龙头", "company_name": "宁德时代", "symbol": "300750"}, "sources": [], "error": None, "data_ready": True, "is_critical": False},
+                    "timeline": {"skill": "timeline", "status": "valid", "latency_ms": 10, "data": {"summary": "价格序列失败", "events": []}, "sources": [], "error": None, "data_ready": True, "is_critical": True},
+                    "watch_calendar": {"skill": "watch_calendar", "status": "valid", "latency_ms": 10, "data": {"summary": "暂无节点", "items": []}, "sources": [], "error": None, "data_ready": True, "is_critical": False},
+                    "relationship": {"skill": "relationship", "status": "valid", "latency_ms": 10, "data": {"summary": "上下游集中", "pending": False, "nodes": [{"id": "宁德时代"}], "edges": []}, "sources": [], "error": None, "data_ready": True, "is_critical": False},
+                },
             },
             "metadata": {
                 "trace_id": "trace_ui_mask",
                 "symbol": "300750",
-                "strict_fail": True,
+                "page_status": "partial",
                 "critical_failures": ["summary"],
                 "failure_mask": {"summary": "price_fetch_failed"},
                 "relationship_pending": False,
                 "partial_release": False,
-                "degrade_reason": "AKSHARE_NETWORK_UNRECOVERED",
-                "execution_status": "failed",
-                "failure_reason_code": "AKSHARE_NETWORK_UNRECOVERED",
-                "failure_reason_message": "核心行情链路未恢复",
-                "failure_stage": "summary",
-                "failure_evidence": {"skill": "summary", "error": "price_fetch_failed"},
-                "short_circuit": True,
-                "cancelled_skills": ["entity_info", "watch_calendar", "relationship"],
+                "degrade_reason": None,
+                "completed_skills": ["entity_info", "timeline", "watch_calendar", "relationship"],
+                "failed_skills": ["summary"],
+                "pending_skills": [],
             },
-            "quality_status": "error",
+            "quality_status": "degraded",
             "sources": [],
         },
         "trace": {"route": {}, "skill_results": {}},
@@ -110,8 +113,27 @@ def test_stock_wiki_masks_failed_card_and_hides_none_metrics(tmp_path: Path) -> 
     at.text_area[0].set_value("宁德时代怎么看")
     at.button[0].click().run()
     markdown_values = [item.value or "" for item in at.markdown]
-    assert any("Execution Failed" in value for value in markdown_values)
-    assert any("AKSHARE_NETWORK_UNRECOVERED" in value for value in markdown_values)
-    assert any("short_circuit" in value for value in markdown_values)
-    assert any("cancelled_skills" in value for value in markdown_values)
+    assert any("Stock Summary" in value for value in markdown_values)
+    assert any("price_fetch_failed" in value for value in markdown_values)
     assert not any("price_last: None" in value for value in markdown_values)
+
+
+def test_timeline_figure_contains_event_markers_and_annotations() -> None:
+    figure = _timeline_figure(
+        series=[
+            {"date": "2026-03-01", "close": 100.0},
+            {"date": "2026-03-05", "close": 108.0},
+            {"date": "2026-03-08", "close": 106.0},
+            {"date": "2026-03-10", "close": 103.0},
+            {"date": "2026-03-12", "close": 109.0},
+        ],
+        events=[
+            {"date": "2026-03-05", "title": "发布年报并上调指引"},
+            {"date": "2026-03-08", "title": "公布新品进展"},
+            {"date": "2026-03-10", "title": "签订大单"},
+            {"date": "2026-03-12", "title": "股东大会通知"},
+        ],
+    )
+    assert len(figure.data) == 2
+    assert list(figure.data[1].x) == ["2026-03-05", "2026-03-08", "2026-03-10", "2026-03-12"]
+    assert len(figure.layout.annotations) == 0

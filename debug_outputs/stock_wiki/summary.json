@@ -1,0 +1,92 @@
+{
+  "skill": "summary",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "300750",
+      "company_name": "宁德时代",
+      "asof": "2026-03-18",
+      "metrics": {
+        "price_last": 402.02,
+        "ret_1d": -0.007358024691358045,
+        "ret_5d": 0.013155241935483897,
+        "ret_20d": 0.10151519302956391,
+        "pe_ttm": 25.41,
+        "pb": 5.44,
+        "vol_20d": 0.38944435395050353,
+        "max_drawdown_1y": -0.20781219934577655
+      },
+      "metrics_missing": [],
+      "notes": [
+        "rate-like metrics are normalized to decimal fractions"
+      ],
+      "akshare_calls": [
+        {
+          "interface": "stock_zh_a_hist",
+          "symbol": "300750",
+          "latency_ms": 51,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_zh_valuation_baidu",
+          "symbol": "300750",
+          "latency_ms": 101,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_zh_valuation_baidu",
+          "symbol": "300750",
+          "latency_ms": 93,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        }
+      ],
+      "data_origin": "live",
+      "network_evidence": [],
+      "recovered": true,
+      "unrecovered_reason_code": null,
+      "summary": "已输出核心行情与估值指标。"
+    },
+    "sources": [
+      {
+        "source": "AkShare",
+        "kind": "akshare",
+        "published_at": "2026-03-18",
+        "title": "300750 实时行情与估值",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": true
+  },
+  "trace": {
+    "events": []
+  },
+  "generated_at": "2026-03-18T16:54:34.794280+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  }
+}

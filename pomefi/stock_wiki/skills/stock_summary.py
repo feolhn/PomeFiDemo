@@ -46,7 +46,7 @@ async def get_stock_summary(symbol: str, company_name: str) -> dict[str, Any]:
         history_statuses = {
             str(item.get("status") or "")
             for item in akshare_calls
-            if str(item.get("interface") or "") == "stock_zh_a_hist"
+            if str(item.get("interface") or "") in {"stock_zh_a_hist", "stock_zh_a_hist_tx"}
         }
         history_available = bool(history_statuses & {"ok", "cache_hit", "cache_fallback"})
         recovered = core_ready

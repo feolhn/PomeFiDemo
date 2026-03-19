@@ -1,0 +1,2948 @@
+{
+  "skill": "watch_calendar",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "300750",
+      "company_name": "宁德时代",
+      "today": "2026-03-19",
+      "items": [
+        {
+          "date": "2026年初",
+          "event": "匈牙利工厂启动生产",
+          "source": "董秘2026年1月28日确认",
+          "url": "",
+          "certainty": "high"
+        },
+        {
+          "date": "2026年3月10日",
+          "event": "股东大会审议分红及H股增发授权",
+          "source": "公告",
+          "url": "",
+          "certainty": "high"
+        },
+        {
+          "date": "2027年",
+          "event": "全固态电池小批量生产",
+          "source": "董秘2026年1月回复",
+          "url": "",
+          "certainty": "medium"
+        }
+      ],
+      "summary": "2026年初匈牙利工厂投产为近期核心催化剂，2026年3月股东大会分红及H股增发授权方案待落地，2027年全固态电池量产为中期技术里程碑",
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "date",
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "date"
+            ],
+            "reasoning_present": false,
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search",
+              "web_search"
+            ],
+            "reasoning_present": false,
+            "content_preview": "今天是2026年3月19日。\n\n**行业判断**：宁德时代(300750)属于**科技/新能源车**行业，核心赛道为**动力电池**。\n\n现在开始按行业事件定义进行搜索："
+          },
+          {
+            "index": 2,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "reasoning_present": false,
+            "content_preview": "**证据摘要：**\n\n**行业重大事件（科技/新能源车-动力电池）：**\n1. **匈牙利工厂投产**：计划于2026年初启动生产（2026年1月28日董秘确认），这是海外产能扩张的重要里程碑\n2. **全固态电池**：有望在2027年实现小批量生产（2026年1月董秘回复），属于技术突破类事件\n3. **西班牙合资工厂及印尼产业链项目**：按计划推进中\n4. **德国工厂**：2025年已实现盈..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "date",
+            "tool_call_id": "date:0",
+            "source": "formula",
+            "formula_uri": "moonshot/date:latest",
+            "arguments_text": "{\"operation\":\"time\"}",
+            "arguments_dict": {
+              "operation": "time"
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "2026-03-19 15:42:33",
+            "tool_content_preview": "2026-03-19 15:42:33"
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\":\"宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表\",\"classes\":[\"all\"]}",
+            "arguments_dict": {
+              "query": "宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表",
+              "classes": [
+                "all"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----6tTr8HQTc2/oy5h2YUZgmJgtmBT8Ly8FvtU84z3HIheZID7800DNWHhemwZIjP9HAiOhdH9PoR/ILJwA0h+06Aka9FxWSIDQEMBPb+9IHfTop4gG7jT+E1EGBDw1T5gXTV6Q8R5hNXdQEFMMWRoefgdJNAmYI17gjOo4t4yOG2aW4N2He982r5Cj2py6UiMkHnC3j2brHKz2EXAp3VqxBzJNT6jIE6jT/WSxaRB24q55YDxDdl6v7K9gc/lDfCvTxocFi7qL2kgbdVbcJ8bO3/dCW8fHrkvBEwxBL/4isKGe4OQBBjYTn0gbW0wcqgSL6A7RO9OgfUCfQPAXRiW5yJOqPULur3gVB+a7a9u+5RQB4FgIu0WSO4r5ggmPbxPOT50BYJrtQIC9A1mKOnlCr3s9niCexT7VnoYQnPh8n25jQC0PyJEqAXY+3Ue0AwRhstMCnO2oEq7u9e2rzG7HOmNTmpYfblNn7BeRucSMtHUUAmUDPZgHj2v+sYVxZo0HojuXq77SMyhQTt5sayXg+JE+wsvOgKvq+iGwZ8UTDtDcq+K9pPDKnmxakyGvaiXVn9c7OOF+fqAVJtw3EQ01+d7jnVTB7mbSHXuszB9BKwZ9+Qffv/A6QVH/QQ2JY5HA1PavnAteybGDWu1DkQajYdSKRt/nXL0zxgbzj9HCVfZlDcr9ugJf+2RJiUQGvkZH3EC1KIK31s79ymZywDK/245vo6e58J7TYk25YwLunhioHfjRaeVqnpZ0KjFY3qtlyosfVaPIQZJIyDFjF38yYNeTIUhnPzDwjY+rbo8Fp8DhGaTQcBJKqbAsh/tF0ebjzTuXeU36JArpIh7AUiXUKECZyqCgh3rJTL255Dv3pWZ2yANlJJ/c08fkKoBcHwo4+N6vOJNdwN9X2PdVUwDxWvjntrlU95P8xGTHebwaBBfKv7pINGKjk4BdU60+HNWu/uoGmjITOkZAsXjf9n/rmF61MzVQ4ZasbSRL12aFn7vxh0PUnCCc1f8FKhYwQayqxFBZoS/OqpEb0WiJW346G20wfcxiAX6yqMe8tYzPnvZReJW281Qj78A1LrfPusDHCVlUrKKezBD1YV71iiN/5jqE8/tWWGgMk3YedkjBn53Dl/ofwKUlh8H66MqigZ5jQCRdSo2aqN1ZHPgHcrLUhy4el08nLpKv68si8Y42nVVD1yHku5coMA6zM8ywQBpE+prBrc2QxdfKAi9q1gvxIpb5X6pqRBAg1Zb2q/IU98Ox7qlyHXchQmjbptBMLxiw8kOsOVS2NnrSR81bBcJPYWVnvQiRadAZd1Si6+nbu+hc9amo9GnxiTgDTVZwi+j0x3FArYVcIDO9gQYC8CClQwH7mt4W0m2QaJG+V620CGvMZBOUoRjHSsNJjtTRQJ8AYe89OZ43kvh9FF2hW2NEfJ2rSDvSCKKKtWWN2cEmBM71UKE1MBwHHUOsc8dQS9g3Fi7f1NwlLRFY7yv2KqgBsY9NkRY05jyw2tKD+KZiK8TuTA77YEUtCKhZgdaNbfULvyM7RKu5ojd73QUpc2WvZYrg9z6/1O6Ij52xVIrYw7+va07TKTm0DvDdDgm8Whs7ApGaXNJVom/vG6epuFii7FhQ5UMTrViGIIFNW3P7CgpVfMM+9umHLybFXGHoGFibu8Y5oA58pnTSAlReCx1zjP3kHIybcv7uNZVw8EOMUPtmP+fpZzvUwGjY5Z0jojIkK/Lg+aUfhXp0ofqfJiU0ZVTWrIJ1tnYQcXmkZd+gUN6jY7XZzA8tQdj85m4MnmX+nTu+pyK6FYrWQ+IWfxVWy46hhDDldTKYAaz8FIZh/gKlGnJ3PCSSeQI0a+v/esfQ4K6+yoh4llb6TkZVRQDEn4NsmqGpcldxUhHgVoLr3l+XLUK8JdeYHTMv8ZAoPUQXI2c34ac95btHyR87dFaPnd+slaCEP4VcNyo/eR51HZksD2Iw/sVkBaGRGU+BPRXVaV/Kc9gWE6dmTPSH1vJjreSqIGxn48fQG8DCJVgQebaa1puo+44FQizVB8vKS/hnDhGGD303obDn9oYbQVeBHqHOdhoTl6xxgi5AoThf0QacNSjIT0tAkpQS8uEtfIXkv1TmcRpu9pTE3lzvzeFjIfsnJ3ySxw1aw81vzl8GZPR/RSYru7sKrDSWXfkfcNYBVFhr9/EUDuDfWmiEwacsJVNjgtmxgcxRiJQxjMOtKe5K51P62+YI4f27tt5bxwQXOl9BohqPH9sPqNAcujr++lEgEO94CIDLuCft/1/a4uHOx3Ty0/El4vP/PtGi7mBsrv75MFiXo9gMhS4uyQGSCQA7kCizH2YIy9MhKkHbEedVDxUSmT9i7KTYXSXH0Es/GkpSsN7NjEc91hqbXJc3NCadnbIg92+eidkv/cgEFyc+kg4cqx2dbl7GAktXqt1Y04jISScKeURVlybY/xEeLYXG0Zz4oV9EhU8ZDhiJR6auQB7W3AUJqFz93Op36RW4ztmmP5TA6EVu64os9If69II0NHCLJ7FwwOarCQOt/0ooIoeMKhrCUTgGt73b8Kc76KZjRC79G5JuznDctc+mCIJ75r55KpeGeqKift6V3IPKvscyXKXTSP5C2ECktz/PIsJR+ndGloui0Lfz3xV2VT/eON9fSQ2P+EI5PuLtCRvZ9aU3cKfAdMMDfjPvApumzPAFibQ4HcX+Z/IE3mEMR+ltArJxQc3gOLZrKActyhfp1NdhPwMtLPxIB9BAVA3igHBTHhUzlpsDdVnUscGMwXE1hsdcmcHdarVH0LuzANa6B5RqGkaFb5PWO/xpQmb9LRq4+YCMyh0EPOfvoNLpALyo+JD4hcLuBUeL8iHMtDqzZEf6Lf8sHlsHDCA0a6TMo0tOqkS1SNPowanlZml0Hy8RfxX/q3jnStzaGkQCQtgHOWz93ufyeh2aKMdV+wQP/VqGg4h+RcS1ywv8MDBncdYuvXlajy0vjAW4rE4ki2B2NOJvL8qdDCYsuvlWqNUalG4dMqBwxO3f2VSSS/Qm1GMC+Qp6Anrt5CfofJPth5k0W7DmEwyLCD8CbW3jYyPm5D25z2iOel7RDBRWldQU0EON6kFAWFzryQtKVNbj6RCUVIQyzdybH/hWNsIEOGY65b0J2Ebohh2OwVbkTnYTzWDSxxDp1vJ7eD+eZSoplGPrnLkWZVRx+NJcwORVOArg1socr1pd/CqMRkbZcpCZvx27QPCUo8/dPoGsyh9ny0cRRfQa/P6t86ggVPJxHBml03XjECX1EEUgGwRDoHrLmGYFP6phBdQQ9pD3JFXSu2pajVOGvQIAQCULlqO2+OOZrD43OhtNKGNazcyucs52EoP+oICxV8lTxEZ4LEGOPNsCDNULU+DbinYc/M/m/ZMlM8eXeC5vSbsvneU5xMJeAPrq/LKSwsmsFhnP4vfiH594SKorBncSVtXllLyiBKOLuJUT86ryE8aTrBaNGEXd6XWSzHI7qSRJSsDj3iu6AcnSjxzbE+WX6xyrizawxuq0gBEf4GC6x1KmQmBO7BhGBv94SrYaLTjfWha12TP7BiDdqWklN6hzqQk1tuaZeQtJkiwQVzkvrJ3VMwZ16x5a6pZAaOVIFr7vd93l9moGcmog5UP9P2Y9EEhqKIwoewO+PxEJFh4k/QNY8wpjLwcvcz+c57zkp4Qjul1dZywLOqdp7FYRt+DVwdYIB/PwMdIwVZKpV3Y0UH5VYXAy/QjWY3jT749jD0j5WTH4InJyQ57+yAvRpeNmjqSce6LN3NvnVxG7m9kZVhZqtgRM5HNUg9lhbvmSiWJ06VFytSNTS0Z9uBO9KkUK744HIb7PdO2ZF1AAWZ+eYxR/eU4xsr0gEPXsvRcDYJ3X2G5VJ5rVPMg2JaGODFXOzDRNfj/SVLu98w1ReL8QyKwyQy8kBklnf/YjXUAqCPf0C/2FDwe5jFD3GdtTB71qkGREeUMI/Q9AqnSHCdSxL6r/XOwkVFioYLV4hxuwxdpHic8Rh/XlCCe1VcPF7rfM65AkSIu2U36FgppGELshsbzh4lEL8uECFqiN0wx2V3/VK4QodyPRclHFBXd6BTXexr0E9i1ZKlUztSbYZRmltSMKhZ9kcjOD0kfKOgUk18jj7dlJ15B4ynEaZi4Z1j5Q3XDR7G+rIY4Xdrx99/y+ykSeqGkFs7IhG69ZGLdjJ89B4AJREtlWYW2Ur2lpLtnQdShqBa0DMkRCDApxHXQ5w9lhngjHYl3q6vsyvbwUYxoqmy5MJJ/dgWHrDmnQm5B7Ex0YEgHXyGiXdP5xAVPxCxfAg8xXNOnlEWAV7J5Ou+i37IvUo7Ay1OyH0r1wor3c8lAsXKWINRBLJNAwoVjMVoNdCwkhk0FAqyvLQgVYVJSz2BLe1EOKynWdmY+3QFEEtWsm53bXnEuGZmy25jTX+3iyAgWdVBFJy0aXbihb+/j2Bw19kDGAWqnoTgOJOFk5/c5LTh4rt2IWIFCjZzk5iPh7pHTriubd5TRRVc4Ao+ZRhHC5AV0uAPfc/T0DEvW5wYA/PEs8H+4exob1SxxZIO5t8HBiOQm9IP5lZlQqzrwy8NTA6OqfXS6mw7Cxesn5GEiWBLqnQT8jcQCBvCHi66H35NNbTufVGm6Ee++A0xm4KhbpLI60v2QbQqbBXr784TUwBRE7PDByimCNVLNNdgP43jQJ41FyFjh2GTX5qhaAyycipKvCcLObeggJar105RyGateNB22gqAj7rsxaQDHTicPhq3MUS8ewg5Top6Aembhl0nhuupG5XfTB93Y27a1TIoAqRHcNFQPPdCCMb08l5oSZxj19xagQbt3IYbup6tfM1OVecCcY0kEMQcGHTeIvXrNIHCGK2VTO2Qjk/2sCiMNZkhpu3krtY0h7v5ix2j/DPCWjRdARfjDmDretwdUFYxIHmFTytHiislCn/Bh+3Z+0+n+CW4vnKquqm8ZS3x4So4Ehg788tIKziy1HUWymSJh81tX5rN7a4MaYpODUvxqfGW4jcmEZFz/GsUgQER9hNU0fTC9KhRefJ2QYKRApoCA4foTUYQ4/bSiW4MEvoiiGfNVDQloQN1/v7moCcAsptS0JP2NgaC99uyApXmats7Id9SFq9IetmOrqiXjW1eL5LUvNxGuxSVhoQ4CrXQcoalh/TDzqqoWrCMfi7wGMmlxHsKLSXEBhIO5QxSUjuh5Gnfhz/cIHv4npay6ja5wnctcj7uE0p3ichix44kdtW8zp7kkDkJv3FZ4Ob08tEyYCh8JmB4IZeBsZS90AaYzfZlbep5tT5pVLidfsV9T6rPbJFk9mDrAD1ykVbmYEUA9b1EPEAVjUKG3s4ZYxfIiDbOq8KJA6eTBin7xX9cEEvdAG4dxOFuoLJ5rkcJJUK20ehMRFhUVBEXMjhexDIIt9HHBqNDVFQvHbMuAZfaiU9Dx2ocIrlk8cLxvZkdH8nxIJhyGgfFpenkkmRty9u/j75suiP8jH1AEEQBrAA+dyGikw8pp3wfYh7qD+lZy3voQrjRbPIq4mmH21ITWRacl+wVwkxN0cRW9niyCjp4sXxZtO0oswlfXG3K8oIRe9UYK4pii9mHxxdZs34R/vJRgEZsoyNqazzNno3IC5Xlr6XfgoV24fLGCq7W26TGo9aXfBcoeGFVtS22weJw9qFJCa94CPFudd5TrUcLp6TV1TWbD3BCExQ5F6qZo12WuDc1OV57ECfLBSMqiU4YUqo+yZsbvbJnSrm8MbRN3J8piKXPVi30v10iamStqseWzULv1vs3SpWAvLl9n9MjlrV5sVJJjEBdRws4oLyAwe30bdpGGMUDT1s9fmUFKZU8PKCYFcONfcHUJM7AIiwd1pWl/sSKbEBiTd1jt47icM0TYHG37NxxF7ajcX8apSBz5XMR2QQQpWPGzw9p5SKJuFqhZr2w/CmkuxELH5E1NdhJn4Sbp8Sw/S6GgQmzeD8peRYhRfedNfqFXAWv/NheD70ttqKOpU4PQB4QtDoC6cX8UtfRwOWTX0bKApFXGK9iDAU34oElcA4z6S/0fVJfqU4EhYUlz0XHTW+0bgOudSaFzQBDwyD8HIwgLNgPL6Kry6SuKuqqK2JLucERTtReH+B62pmo+5i70ODzALX4lYDMwk5oqS1yd9ww0OkEnh7hI6LDMF7tjfm9vWAQJFVlJHjLwy00ZdPI/Tez2oJAJYLedNd5sAIRS8FbZb+GauKiElEZWKShvHCC5NF+OjfqDLpvTBOAETPrf2gPmu5cuknvUlmO93V86Q2Pr43kBTcSbeeJcE3mgedoGP5d27mmZwm52M4UbZyY1bk1gy1S8GgQgwPyHXVZvTKfGvLXZJ/RdSF3N9HbYIZwaC0EEVRDoqbUVyw1oJkxu2yEJ9MBGDk4tkI6vbX15Ua2FTSc8/iyOe9zyQb8b92LRcxpVeOZzclJg1GrER4JH4llXRld+jS3uLJiayPL+VqyGxfccqE4dPHsFlmVCqp7Onh1ioCf254jPHQBgR6wcsN2JLfIBDffLlp3uIBdikDvOaHJvbxKI4yzxpiCUzUzxZya1+p0qd2DpVMFAWh+1LexmojrHiQeDfkYT8OUsZrA8haXuwpJwa2Xu6sBL1AnWZhsFwrbgR/mM/VWNjGd5xjksX4YPYnyX2KlvLmrA9bqqmmgBmm7AlODTdLmE3yjyrKFzCpD/A3+NmlAmptMsUGWZAIFyKgBWJ7Us2IzqO6+NUbpogcRz6eJVR8qDrCiA+BXn27j7dFCaTzBi2ieS2uFgDktrWqxQqPYgXFm9yWotFBz/wNp+9NgKNQA1L+1U4zdsduBuMsutQcIUgONyTP8/aoJv46S/WPQQ8aqk6Aab3uG3cWLQLXU+CnQB1GNRJo3q+xFssR/Yk+r4spSNhvp2uh2krkTYgIbM+LO+FQxOoKTJC4NnMVDrGMLRli+ackdHoxjdf0UH1dRYnaPjIxQuea6UhKNX2uxGpRI0+ib2sQn5g5I3ZR0Zt5tkR+24Mdwz4XI/DuJwuedEh0vKwDVOWBI6SuXbkk7/G1NfdWIC6iM2mjg3BLxAVYBHS5ct0jVDM4p/bmsaP72akg4VbTj4lRqN0i8DocKFsfWKcVTSPXP78/2LenBHCIx664GCfq6ACzCNSSl2uDy3ETmJ5n3wwYruMzGnSqQLWfNmLIWuRr9m2D6DFfxJSPQOO+JGg2+fBgQoDI+Kgydb/t69O4vg/cn3p1iyR5LieSn/j2ON+q0eQD3quE/U2jPvx8z2CbvDxxq9UBBUPAdzIBLSf8RUzBDFAq+pOh+/6DBPn5SBFxBQTAAUFcLbs1MKSw5u5FBSeX7sJWJwelmfG/y5AB0Y1+9mrOHoMKay9NSyUrcx7Om6s1EteBuwruEwzCFPVcYw9ImX3MYJTvLY15jlsf6OiW2HSDxwX/d+nG4+Tepn2r3WARO8m5vqD4Hg5NXFUugc51g4rf5SXyKlvJOAQdiCZ73K8k6Lz+ZZHu2ffMDb3ngkQ2yIvzGOJ2CAqYrVuqLFgKcxzR4FfUB2EUN69+SgRdsZ2PVXKGJXb0V99QEZe1wFPi3k903SO8v8zamLZKPJ1Juz9yj7QCR5lwk21wqVR+wB6ru2Zj6419rRx4t9SCdY9Bo7P/MwgoYVrU8yKjSXeNr4+/6OpBZX47xAK4OoNMabl+3khe/mYt1ynGDGqqqhDojq38Ci9sbariEoZ4pQq020dTHuiyLuiv6y7tgclCSdd1YEqIGMHA2pNmruO9p3W86O8OkHhXwv0hZMZbZLOt2uyrfevDnmHHp/1umR+N7aZM9RtW8/yEjjQx1ey4yH3eB6DuHGOszUS9eVzWfW2D3/oxt5OOtLjJuP9vFiYpsefLQdLWi8ogdr5zu98tHL7LrRtYfOb4+skc5aYOhxgGyTZuFHFVWxGYgL0X209L0/6SxlWez8bC0cQVsA31+wBX+Y/2+zePSLCtqNxDIE/J1Ab89vWhQHWBifrGhsoPQ/IwppQLxgStx0vgrkAj0IAzI7hjhxdDsXnveW/xi53qjbVa0T3m6rcZKv4Mz1cpe0LJrGORTuf1mcgVxvQzxwcjbVq/GW1QACJIT5d/MEutOvq9IScmQ0j----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----6tTr8HQTc2/oy5h2YUZgmJgtmBT8Ly8FvtU84z3HIheZID7800DNWHhemwZIjP9HAiOhdH9PoR/ILJwA0h+06Aka9FxWSIDQEMBPb+9IHfTop4gG7jT+E1EGBDw1T5gXTV6Q8R5hNXdQEFMMWRoefgdJNAmYI17gjOo4t4yO..."
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:2",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\":\"宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表\",\"classes\":[\"finance\"]}",
+            "arguments_dict": {
+              "query": "宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表",
+              "classes": [
+                "finance"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----gIuxvFvEdYBXH13gXI5wzRBqRc5npJWnuUr1xi6PK9SCgBtfiQC36NldoaP4K7IXvC/+vaDhiPWFfjh4o0He+ZLeHI27LpnTN4GM48EljaZUK50JK6bG7zABWKqAM8LIE5tl8mfpqF8s8vVdDZAkVRnJbQ8sA4B3NRkFlVMwEtNyVBaLFb+jgPwL/SJVEFXV1xM89XzJfYhIPBphDyOUV9T8XZY3kKkp/aSRPEhXHbFrq8N4TvYU5XJSqMjwpPBM4fXh3YHqR3T9ogfgqdM2ZuMCZtEG9YGYtAH+vNMBBzPPcKI8LVLZAkjdM7sVO3GFhSAPHCGHeIWuJe9UDk9h7j42KJfN/JnAIIMQ7ZWxkV4CD+lVfBV9t7fTJ1R/CYMjkQrG8IEpx2ijvx4juVVfiS9BOpWLgkX/mq7GdSdV88hMdd/Mei4c0uDmRx/JEfwbMe9WhEk+ysBjyMCPZbPhyMQxhf3mpj/vqKIxqC/41HwpoIlrTsa/Wahb5GNZH/W+pA7RXPvJyOzeGeZgWzgPFz4vJwzIDhJl3Dlshh9aIJvCkr+bXXlpc11tImhgl7AFvL0caXbE4KiI64/4CQQUFdmuBy1w4t8wXObNGC9p0h7DdhjXAWzucqCx7Bfxj0P9W3OII81UypDjSgMLRSOR3n6ujxK579tCTcRUi5V9v5gH5X+ymjZVp8yGTmgnaX9HMU2dTPl3HqL/bQsTb7MHEt9kYHUatigtjkFsy+wQE8Kce4njujh+x1GdMcHLQ8OMZJ7l2SgmI62dPR9wi9V4E/iIehly271ApPx6QJgluADy6zh/qFB0liwqIioCuLubsXMDXunhDCy4viO1cG5rPpK3OxLN8nFQS0oMUjr6AJ5j85eKqYJ6Kj6JGuv/WUjnP5R6VK4nlJyN648Zfa0mrZqZahB/R5fBV1xDKz3P0IaCiWNREO3cIKF0AEOB4Cj2VTtS2OhXhdGTCD8oIiflNwoc7XyvpVrRNxTz8CFoeK7e5LnL60HRvZYwaY2rgBCReYb65BBIoh1Dxe7Fvs0Xs8HjD384nxgc3UAoBO/3A+jZLrPVsM/osYDPH8QNVIY/mmsK8Ujb4q6xeCaNYaq/hcOeNtrY0jtxOAE1d3tlvhkT2AG8sWI3MfU57qSV5CXYbZ3vs1FKG2oiX9uy1H6YEjNZ61oISvT5c9Ig3TKo9aOW30dqDDrvx4KkZ6JawY7Qm/Ep8mJ8hU7FozSX5RCq6z1gfScEFVMU4HEMX89mbhjyN9wtbb0oeZxlnu27tlmiWZ8S8Jt38BJiMA1DRdJiBCYhi0WWIT+Lkn0ICS+4H+NdBX75gcf9ylmGpUmb+A/ewZdVirQV2CPqhLhEXjVX8qXAzqup746a5QM5XiSouxKpLaOKVQPbCM8icAZrSSn1m9rtNVD+YkWzV3pxm5+SyiNnsuMwN4C343a+zPQ6kNwQC88DtOR5OyL6wDGRUh8id39F2dKDj+kQNPBRvxK7BAJBAGISFPZncC6HVYBU/16nY7cJD4f3j1lyddefBZ0/YsfIeGxHU8Kgj75NAPe6eFqrtPHCEwd6li2tfs4PPePN4Wa0DqJjlbIY2i20Nt0trYGmpXRu01hBIH8SWe/nrOMgGDV7KwW9WGN17APKcErnRFy/9vFFDXgvG8h99l2Vr0Q5Sorv3Szyw916QaDkyCHezlp3XVR5PppLa8KWF1lu89kSvrF4u4OstYpqy+LMtFMLlkgKVrXY4pztX3nF6S9IHW50ryB0e5Towp+VulfSl/mAzDYmOyuuaJTWaceKMaiqq5/9o5735l2/5SmPzIZt+7COz8N7z838wrOg5LiRJjVQ+aUeggr3CSo6wlT+0sDM1Qc95YXFF0vlv1aZkkwQWhK2ElqKdflMdWOJIRgRcs7H1wYPPq3jyHHmAXUYH32qChXb5F9G0QQBgur9usM4PzuzU6FteCzehrmvnSN3VOicvihI3obXRquXJFwqig5PesrtUSNO5NUQQ8Lsr0JL821JGZ9EoqdDBlvpHW3U+guSNyTzKhn0WZFUgcsi+W7sf+dlqqFoccj+8WLJ6+6jir/8UIkybEeB1bruv7zsmYpbiF15xoWAnZ/e14BctWgqV/mBbtnBxNithagupwo22rHepZucJ6hOLD85sMar+chxD+mxg2HWYqeZidYwu0LA3l79W1zjSDAe4ohZE8w++b3UaeGGnBySrJUYneu+YAA0fFHaUgqddJEyNy8jHONF1/Kjx69oDTDT2EiX8cEAfvhsuuC6VkkTOJj+JxNJB6PmPNe1ge8bEWaWZ05bdQR0SXZLCBAPJw0kgq/x+TYWqCH+EZqDLagrfxtcMek6DSlgwOYdn/SXea8Vr2ODy1vW47D+w8zww7As33cRWQOVsr0uKCWGiKKYFvxNxmkGz1KXWyqC6sD9+6kb1ZBcanCOdx1E4e83Mo9F6gzO0fBP/sUzqdtozcZGXKjsTC6zPXAHLQkq1Vc4zabtkGSxtoVYisswmMr4fbLSEVy62PfMVmct5kNB9QOJ52CEYw/KFWVPScvOr0iu8izlE45jMK9MA9XTpRe+6P9EU7qvyn6gVwB0XHrAXuYg8JvZevICBg5UDgp9vJ/aAC2ExEI8sOurOUB1kXNNM6roXCYvr3MoGDPd/6dfW1j3JOhvmIybDfj8d1PU8z0fIsJ10xqz3prVdOY0qoRqRrXSfDFIErV8odC7kdFhYvNTEzuOnCxOvqe0GRWgoxbthrE0Cu//Ed+hc2Ns/YhchF1LDlzf07hIjakGDRGjx4Ve8mzrb4uqf8koiirBSbxL5SGTbwgJDY1XuWWOkbJ6SiJkSNXOCzUl+m3BuQCemEn7gBGMrLfDhkBPO4d8pqQkDXjOk5y9nQeYCFmw9T47QGlSMd98gAd6YfI7wDKNGXkcod/VzLk5B3YgJf0HJ79YIud9zLzSg4w41fNJSmPhziLoLfPP4FThUYuRGbpxrVtASYlmeZPATzyXpHR/5H3kxgIPeTNgRHVLjWpNsZZsaXXWKlKeW1cFFvLbhue5Yg8Ntfr7cbFYztlnJebe6hWg55eR/gUu1uSroY7fn+VsUbHYz5IBsOMT5/Xjx8KM39RDA7UY/ZFfbkDeBG4PfZMc+g1F7slhhauFMluPReNtXN2KzsfJTKY1XCq9R97M8ozUz+eDTQnlHyALU/+/JrbaAmo28renKN2sykKTpQ0DgKb+CAAB3LdhcEEFwa4QsALUR3sCx+6s5A6njUlwfa0t9K4bFiY+Zk2gWORoJlg5INhKGiNjzVp1Fa+uoG0R4eykwYrAFy6/Mzc0pGUqEUOLixszzXyyKbOTEmbqz3ESeHLSRiZ3lT0YNARnWq9Az3SsiLH2dbt261TLQfi2tgCfpI1j6DtVRL+953mgPQXk4LzJHmC9kmu1qapWRy4HWucorg6kTF6bUyWvqZctnKPpQ4SAXdPpgZwN/9H9WNOsqxn4lp5cAse8mBYHECnyHbzgQeXzecofdenjGgl5WxDnG1QlzlIL6yUwAsGBecKUXngGhUo1fpbqztkJvxYCi+OtFAciIpoQzAWOatSFi/hTS10rqvihHWPHp4zPDb03OdSvJcqURY4WYnRRtNu13XH+13Zf4gmvjH8ZkRjXBqXzVNpu9bqgnc2/5vx7dIq7Hz3lXy+XbJICR8C82gSrO64hiqjc+CIulmguuLfTxx5Kv2hYnnh3FKltTOdXnY7Z3TJ3GNRQLQD5qRIM8POr8q6iJ686UEexjbLARrpcae2BDji1YZzuUcWo2lZZ8sL3hG4zqhwfjQwLdZ3yjeq7g2SKPVqn43m0YZdt9nItdsWuQ1Ef2bpPvAxtYA/sB40wQGSyhPXoP+C6q0lgwvvxbJnEr0M+pqM0myyaebU4F7VkU1oIcZ3sHtoROJfB3n94nJ7FyEpkcnq1R0CmElSJWGTh8k+FO0+la5MKFvwDr1+zsifQ52SheHR+w6WBp1wqlYR5/0Jb1QKqI02P+JBJ4sQHKuAbXxMjC/uD8ab03DqUPoFgUH1dB5ajHEOwxQAYFix23FbR3pwVwVas3MDVszQrxQSSkOPlz6lyU4eTOy9LUOJAYCK9Ckj/Ibnc+XCMvHcKqEr9AyE8wk8Uj97oPk/tPsG5kFJ5jq0E65gGxoSV2kUJZwAZKu0G654P8qNNYKJM8aS1B6SbATewwTw/fYTvYc1Cxfjck2zRjRKnvS4qQnBYdC6fgL6A1g61WmbRWf0Wn6oTNM1NuPIvTcm656ZR0bkZB2ry9rlyBZXFDATZMUIb5X+IL4ikQwFmFnAV3PafHuOoC9lQoumwbQlt6Mp4pHkeVVW9gV85bsZOfCWRr0GkMWNqzYaTuFuGF2PcSYAbywTsdgBxVESYorYBsRrfWxD3ghRRXNPE9XnF9VkjjlpbZmYrOW9+NsIjYCzKHzrv0uPqecrF5NK8lBrqg1gp73VVCldBURl5vIjP7zsXqwqFuFZedmsv7r/uxntnvD87vsQPqejHKK0MT5QRSpltc1hRbx533tfQpzvttVF5uDhI31Q2lGPE2mGCOiKdpd/VnAHF+FDWv/urqr11TfAf+huRXkP3PBmG8CwUFKBdO4pwMeFDMZtqQiaTo2zKokbY+L0xCfo8YG/rhvyYZhMYPdnYVz1pBVLNMruvblxEyOAEUWpJhONhwUKQKn0kBz8QHGd7QuYRcnjLnKHobN8jaE8eQsHzIaiLoRthMUKDCu+UOR+T+9TZjuepu6uy/I2/pfcbu7m2yYkqnFRJ2c8iixufPN95BqOWe9k6II55ILMp7iKNTToKb1CjP2b1acnTAw2QzvMQm25yvJIvKcX2gqbV3ms2HlwqEBXUmeXS1hFMs3KtjuUpWwOvtHZ3XuOxVItl0HXT6Cfx8YBjPbtkG4mbUcdoLq8+gLOVWEninZAIcRqU9adR0hsRQv+erTbIqZEEGCzQ/uHNjJi/uTG4ow932nVHhinP6GztVssy/dXImeXkwV8k5cB51isuYKIrfMGzgwyplizx1fGe1nEvwwMv8ocnQu1crQ6s61zBuCUnsKWmD+0nnBvNI6t/fE4D0skfgruXtcSJ3nskmk0m1sr5DzRRXetpKrz/kiWBG/gD/7cn88Sut7Iz3aSudkAAiSE+XfzBLrTr6vSEnJkNIw==----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----gIuxvFvEdYBXH13gXI5wzRBqRc5npJWnuUr1xi6PK9SCgBtfiQC36NldoaP4K7IXvC/+vaDhiPWFfjh4o0He+ZLeHI27LpnTN4GM48EljaZUK50JK6bG7zABWKqAM8LIE5tl8mfpqF8s8vVdDZAkVRnJbQ8sA4B3NRkFlVMw..."
+          }
+        ],
+        "degrade_reason": null
+      }
+    },
+    "sources": [
+      {
+        "source": "date",
+        "kind": "date",
+        "title": "当前日期",
+        "published_at": "2026-03-19",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": false
+  },
+  "trace": {
+    "events": [
+      {
+        "type": "session_start",
+        "prompt": "标的：宁德时代(300750)。不要直接回答。必须先调用 date 获取今天日期。然后先判断这家公司最核心的1-2个行业/赛道，再按行业事件定义调用 web_search。你最多可调用 3 次 web_search：第1次搜行业重大事件，第2次搜通用资本市场事件，第3次仅在证据不足时补关键缺口。query 必须同时覆盖时间意图词（未来、即将、计划、预计、将于、时间表）与股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
+        "model": "kimi-k2.5",
+        "tool_count": 2
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "date",
+        "tool_call_id": "date:0",
+        "source": "formula",
+        "arguments_text": "{\"operation\":\"time\"}",
+        "arguments": {
+          "operation": "time"
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "date",
+        "tool_call_id": "date:0",
+        "source": "formula",
+        "formula_uri": "moonshot/date:latest",
+        "content_preview": "2026-03-19 15:42:33",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "今天是"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "19"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "判断"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "宁德时代"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "("
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "300"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "750"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": ")"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "属于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "科技"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新能源车"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "核心"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "赛道"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "现在开始"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "按"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "定义"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "进行"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "搜索"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "："
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "arguments_text": "{\"query\":\"宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表\",\"classes\":[\"all\"]}",
+        "arguments": {
+          "query": "宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表",
+          "classes": [
+            "all"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----6tTr8HQTc2/oy5h2YUZgmJgtmBT8Ly8FvtU84z3HIheZID7800DNWHhemwZIjP9HAiOhdH9PoR/ILJwA0h+06Aka9FxWSIDQEMBPb+9IHfTop4gG7jT+E1EGBDw1T5gXTV6Q8R5hNXdQEFMMWRoefgdJNAmYI17gjOo4t4yO...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:2",
+        "source": "formula",
+        "arguments_text": "{\"query\":\"宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表\",\"classes\":[\"finance\"]}",
+        "arguments": {
+          "query": "宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表",
+          "classes": [
+            "finance"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:2",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----gIuxvFvEdYBXH13gXI5wzRBqRc5npJWnuUr1xi6PK9SCgBtfiQC36NldoaP4K7IXvC/+vaDhiPWFfjh4o0He+ZLeHI27LpnTN4GM48EljaZUK50JK6bG7zABWKqAM8LIE5tl8mfpqF8s8vVdDZAkVRnJbQ8sA4B3NRkFlVMw...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "证据"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "摘要"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "重大"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "科技"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "新能源车"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "）："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "匈牙利"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "投产"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "计划于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年初"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "启动"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "28"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "董"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "秘"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "确认"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "），"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "这是"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "产能"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "扩张"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "的重要"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "里程碑"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "2"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "全"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "固态"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "有望在"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年实现"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "小"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "批量"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "董"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "秘"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "回复"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "），"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "属于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "技术"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "突破"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "类"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "西班牙"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "合资"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "印尼"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "产业链"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "项目"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "按计划"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "推进"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "中"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "德国"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已实现"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "盈利"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "通用"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "资本市场"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年度"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股东大会"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "日期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "审议"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "内容包括"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年度"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "利润分配"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "预案"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "中期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "分红"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "方案"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "增发"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "H"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股份"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "一般"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "性"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "2"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年度报告"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "员工"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "持股"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "计划"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股东大会"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "审议"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "中"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "回购"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "进展"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "发布"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "回购"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "进展"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "确认"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "的未来"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "90"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "天内"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "重大"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "匈牙利"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年初"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "投产"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "明确"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "时间表"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "）\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "股东大会"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "相关"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "决议"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "后续"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "执行"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "分红"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "增发"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "）\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "更远"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "但"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "明确"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "的重要"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "全"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "固态"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "小"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "批量"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 2,
+        "delta": "**"
+      },
+      {
+        "type": "session_done",
+        "trace": {
+          "prompt": "标的：宁德时代(300750)。不要直接回答。必须先调用 date 获取今天日期。然后先判断这家公司最核心的1-2个行业/赛道，再按行业事件定义调用 web_search。你最多可调用 3 次 web_search：第1次搜行业重大事件，第2次搜通用资本市场事件，第3次仅在证据不足时补关键缺口。query 必须同时覆盖时间意图词（未来、即将、计划、预计、将于、时间表）与股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
+          "turns": [
+            {
+              "index": 0,
+              "has_tool_calls": true,
+              "tool_names": [
+                "date"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            },
+            {
+              "index": 1,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search",
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": "今天是2026年3月19日。\n\n**行业判断**：宁德时代(300750)属于**科技/新能源车**行业，核心赛道为**动力电池**。\n\n现在开始按行业事件定义进行搜索："
+            },
+            {
+              "index": 2,
+              "has_tool_calls": false,
+              "tool_names": [],
+              "reasoning_present": false,
+              "content_preview": "**证据摘要：**\n\n**行业重大事件（科技/新能源车-动力电池）：**\n1. **匈牙利工厂投产**：计划于2026年初启动生产（2026年1月28日董秘确认），这是海外产能扩张的重要里程碑\n2. **全固态电池**：有望在2027年实现小批量生产（2026年1月董秘回复），属于技术突破类事件\n3. **西班牙合资工厂及印尼产业链项目**：按计划推进中\n4. **德国工厂**：2025年已实现盈..."
+            }
+          ],
+          "tool_events": [
+            {
+              "tool_name": "date",
+              "tool_call_id": "date:0",
+              "source": "formula",
+              "formula_uri": "moonshot/date:latest",
+              "arguments_text": "{\"operation\":\"time\"}",
+              "arguments_dict": {
+                "operation": "time"
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "2026-03-19 15:42:33",
+              "tool_content_preview": "2026-03-19 15:42:33"
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\":\"宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表\",\"classes\":[\"all\"]}",
+              "arguments_dict": {
+                "query": "宁德时代 未来 即将 2026年 新品发布 电池日 技术日 产能投产 交付数据 时间表",
+                "classes": [
+                  "all"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----6tTr8HQTc2/oy5h2YUZgmJgtmBT8Ly8FvtU84z3HIheZID7800DNWHhemwZIjP9HAiOhdH9PoR/ILJwA0h+06Aka9FxWSIDQEMBPb+9IHfTop4gG7jT+E1EGBDw1T5gXTV6Q8R5hNXdQEFMMWRoefgdJNAmYI17gjOo4t4yO..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:2",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\":\"宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表\",\"classes\":[\"finance\"]}",
+              "arguments_dict": {
+                "query": "宁德时代 300750 2026年 股东大会 财报 分红 解禁 回购 增发 指数纳入 时间表",
+                "classes": [
+                  "finance"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----gIuxvFvEdYBXH13gXI5wzRBqRc5npJWnuUr1xi6PK9SCgBtfiQC36NldoaP4K7IXvC/+vaDhiPWFfjh4o0He+ZLeHI27LpnTN4GM48EljaZUK50JK6bG7zABWKqAM8LIE5tl8mfpqF8s8vVdDZAkVRnJbQ8sA4B3NRkFlVMw..."
+            }
+          ],
+          "local_context": {},
+          "final_content": "**证据摘要：**\n\n**行业重大事件（科技/新能源车-动力电池）：**\n1. **匈牙利工厂投产**：计划于2026年初启动生产（2026年1月28日董秘确认），这是海外产能扩张的重要里程碑\n2. **全固态电池**：有望在2027年实现小批量生产（2026年1月董秘回复），属于技术突破类事件\n3. **西班牙合资工厂及印尼产业链项目**：按计划推进中\n4. **德国工厂**：2025年已实现盈利\n\n**通用资本市场事件：**\n1. **2025年度股东大会**：公告日期2026年3月10日，审议内容包括2025年度利润分配预案、2026年中期分红方案授权、增发H股股份一般性授权等\n2. **2025年度报告**：已于2026年3月10日披露\n3. **2026年A股员工持股计划**：股东大会审议中\n4. **回购进展**：2026年1月5日已发布回购进展公告\n\n**已确认的未来90天内重大事件：**\n- **匈牙利工厂2026年初投产**（已明确时间表）\n- **股东大会相关决议后续执行**（分红、增发授权等）\n\n**更远期但已明确公告的重要事件：**\n- **全固态电池2027年小批量生产**",
+          "usage": {
+            "prompt_tokens": 5175,
+            "completion_tokens": 418,
+            "total_tokens": 5593
+          },
+          "degrade_reason": null,
+          "events": []
+        }
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "{\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "today"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "03"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "19"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "summary"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年初"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "匈牙利"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "投产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "近期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "核心"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "催化剂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "股东大会"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "分红"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "H"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "股"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "增发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "方案"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "待"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "落地"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "固态"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "量产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "中期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "技术"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "里程碑"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "items"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " [\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " {\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年初"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "匈牙利"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "工厂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "启动"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "董"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "秘"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "28"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "确认"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "c"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "ertainty"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "high"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " },\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " {\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "股东大会"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "审议"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "分红"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "H"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "股"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "增发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "c"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "ertainty"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "high"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " },\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " {\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "固态"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "小"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "批量"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "董"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "秘"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "回复"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "     "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "c"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "ertainty"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "medium"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "   "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " }\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": " ]\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "}"
+      },
+      {
+        "type": "structured_json_done",
+        "scope": "watch_calendar_json",
+        "content": "{\n  \"today\": \"2026-03-19\",\n  \"summary\": \"2026年初匈牙利工厂投产为近期核心催化剂，2026年3月股东大会分红及H股增发授权方案待落地，2027年全固态电池量产为中期技术里程碑\",\n  \"items\": [\n    {\n      \"date\": \"2026年初\",\n      \"event\": \"匈牙利工厂启动生产\",\n      \"source\": \"董秘2026年1月28日确认\",\n      \"certainty\": \"high\"\n    },\n    {\n      \"date\": \"2026年3月10日\",\n      \"event\": \"股东大会审议分红及H股增发授权\",\n      \"source\": \"公告\",\n      \"certainty\": \"high\"\n    },\n    {\n      \"date\": \"2027年\",\n      \"event\": \"全固态电池小批量生产\",\n      \"source\": \"董秘2026年1月回复\",\n      \"certainty\": \"medium\"\n    }\n  ]\n}",
+        "json": {
+          "today": "2026-03-19",
+          "summary": "2026年初匈牙利工厂投产为近期核心催化剂，2026年3月股东大会分红及H股增发授权方案待落地，2027年全固态电池量产为中期技术里程碑",
+          "items": [
+            {
+              "date": "2026年初",
+              "event": "匈牙利工厂启动生产",
+              "source": "董秘2026年1月28日确认",
+              "certainty": "high"
+            },
+            {
+              "date": "2026年3月10日",
+              "event": "股东大会审议分红及H股增发授权",
+              "source": "公告",
+              "certainty": "high"
+            },
+            {
+              "date": "2027年",
+              "event": "全固态电池小批量生产",
+              "source": "董秘2026年1月回复",
+              "certainty": "medium"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-03-19T15:43:07.253525+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": null,
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {
+      "HTTP_PROXY": "http://127.0.0.1:7897",
+      "HTTPS_PROXY": "http://127.0.0.1:7897",
+      "http_proxy": "http://127.0.0.1:7897",
+      "https_proxy": "http://127.0.0.1:7897"
+    }
+  }
+}

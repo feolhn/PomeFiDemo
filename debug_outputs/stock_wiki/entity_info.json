@@ -1,0 +1,601 @@
+{
+  "skill": "entity_info",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "300750",
+      "company_name": "宁德时代",
+      "industry": "动力电池/新能源",
+      "main_business": "动力电池系统、储能电池系统、电池材料及回收",
+      "summary_100cn": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。",
+      "summary": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。"
+    },
+    "sources": [
+      {
+        "source": "kimi",
+        "kind": "llm",
+        "title": "Entity Info",
+        "published_at": "",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": false
+  },
+  "trace": {
+    "events": [
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "company"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "_name"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "宁德时代"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "ind"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "ustry"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "新能源"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "main"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "_b"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "usiness"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "系统"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "储能"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "系统"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "材料"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "回收"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "summary"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "_"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "100"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "cn"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "全球"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "市"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "占"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "率"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "第一的"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "制造商"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "核心"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "壁垒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "材料"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "体系"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "迭代"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "能力"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "CTP"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "麒麟"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "钠"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "离子"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "极限"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "制造"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "良"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "率"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "。"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "八成"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "来自"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "动力电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "深度"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "绑定"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "特斯拉"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "宝马"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "蔚来"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "主流"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "车企"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "储能"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "业务"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "增速"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "显著"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "但"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "毛利"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "偏低"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "。"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "技术"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "路线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "押"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "注"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "磷酸"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "铁"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "锂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "三元"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "并行"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "产能"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "布局"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "横跨"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "中欧"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "以"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "贴近"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "终端"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "市场"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "。\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "}"
+      },
+      {
+        "type": "structured_json_done",
+        "scope": "entity_info",
+        "content": "{\"company_name\":\"宁德时代\",\"industry\":\"动力电池/新能源\",\"main_business\":\"动力电池系统、储能电池系统、电池材料及回收\",\"summary_100cn\":\"全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。\"}",
+        "json": {
+          "company_name": "宁德时代",
+          "industry": "动力电池/新能源",
+          "main_business": "动力电池系统、储能电池系统、电池材料及回收",
+          "summary_100cn": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。"
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-03-19T15:54:55.168075+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": null,
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {
+      "HTTP_PROXY": "http://127.0.0.1:7897",
+      "HTTPS_PROXY": "http://127.0.0.1:7897",
+      "http_proxy": "http://127.0.0.1:7897",
+      "https_proxy": "http://127.0.0.1:7897"
+    }
+  }
+}

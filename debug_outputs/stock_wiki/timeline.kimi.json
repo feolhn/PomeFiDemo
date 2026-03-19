@@ -1,0 +1,99 @@
+{
+  "status": "valid",
+  "data": {
+    "symbol": "300750",
+    "company_name": "宁德时代",
+    "events": [
+      {
+        "date": "2025-12-25",
+        "event_date": "2025-12-25",
+        "title": "宁德时代与韩国Enchem签订五年电解液供应合同，规模约72.68亿元",
+        "source": "财联社/科创板日报",
+        "url": ""
+      },
+      {
+        "date": "2026-02-06",
+        "event_date": "2026-02-06",
+        "title": "宁德时代变更2025年年报披露日期至2026-03-10",
+        "source": "新浪财经",
+        "url": ""
+      },
+      {
+        "date": "2026-03-09",
+        "event_date": "2026-03-09",
+        "title": "宁德时代拟变更48亿元募集资金用途，转投厦门电池产业基地项目",
+        "source": "OFweek储能网",
+        "url": ""
+      },
+      {
+        "date": "2026-03-10",
+        "event_date": "2026-03-10",
+        "title": "宁德时代披露2025年年报：营收2831亿元，净利润490亿元，在建产能321GWh",
+        "source": "同花顺/公司公告",
+        "url": ""
+      }
+    ],
+    "summary": "宁德时代近三个月关键事件包括：与韩国Enchem签订大额电解液供应合同、变更年报披露日期、调整募集资金用途投向厦门基地、披露2025年业绩年报，以及成立子公司加码产能布局",
+    "trace": {
+      "tool_call_required": true,
+      "tool_call_observed": true,
+      "retry_count": 0,
+      "observed_tools": [
+        "web_search"
+      ],
+      "turns": [
+        {
+          "index": 0,
+          "has_tool_calls": true,
+          "tool_names": [
+            "web_search"
+          ],
+          "reasoning_present": false,
+          "content_preview": ""
+        },
+        {
+          "index": 1,
+          "has_tool_calls": false,
+          "tool_names": [],
+          "reasoning_present": false,
+          "content_preview": "2025-12-25 | 宁德时代与韩国Enchem签订五年电解液供应合同，规模约72.68亿元 | 财联社/科创板日报\n2026-02-06 | 宁德时代变更2025年年报披露日期至2026-03-10 | 新浪财经\n2026-03-09 | 宁德时代拟变更48亿元募集资金用途，转投厦门电池产业基地项目 | OFweek储能网\n2026-03-10 | 宁德时代披露2025年年报：营收2831亿..."
+        }
+      ],
+      "tool_events": [
+        {
+          "tool_name": "web_search",
+          "tool_call_id": "web_search:0",
+          "source": "formula",
+          "formula_uri": "moonshot/web-search:latest",
+          "arguments_text": "{\"query\": \"宁德时代 300750 2025年12月 2026年1月 2026年2月 财报 订单 产能 产品发布 监管 事故 合作 传闻\", \"classes\": [\"finance\",\"all\"]}",
+          "arguments_dict": {
+            "query": "宁德时代 300750 2025年12月 2026年1月 2026年2月 财报 订单 产能 产品发布 监管 事故 合作 传闻",
+            "classes": [
+              "finance",
+              "all"
+            ]
+          },
+          "jsonable_ok": null,
+          "local_context_keys": [],
+          "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+          "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----OWoRAIR3Kjh+JX9VT+zmFyGk7Si8fZ5sFiM6lQ879bLhhPc4B2gwqwv6sMlkzePVAfnceCx4pgCIz0x3SCDIa4Y/LsQH29v4Tp3EBI+uBaQvpGdH4+SdR9R1fgopKflend38fhBvzsMoMC3NWgwwWM7I3LcGXL4HXaMtqHPS..."
+        }
+      ],
+      "degrade_reason": null,
+      "final_content": "2025-12-25 | 宁德时代与韩国Enchem签订五年电解液供应合同，规模约72.68亿元 | 财联社/科创板日报\n2026-02-06 | 宁德时代变更2025年年报披露日期至2026-03-10 | 新浪财经\n2026-03-09 | 宁德时代拟变更48亿元募集资金用途，转投厦门电池产业基地项目 | OFweek储能网\n2026-03-10 | 宁德时代披露2025年年报：营收2831亿元，净利润490亿元，在建产能321GWh | 同花顺/公司公告\n2026-03-11 | 宁德时代成立两家子公司加码电池产能，注资合计40亿元 | OFweek储能网"
+    }
+  },
+  "sources": [
+    {
+      "source": "web_search",
+      "kind": "web_search",
+      "title": "Web Search Evidence",
+      "published_at": "",
+      "url": null
+    }
+  ],
+  "error": null,
+  "error_category": null,
+  "data_ready": true,
+  "is_critical": true
+}

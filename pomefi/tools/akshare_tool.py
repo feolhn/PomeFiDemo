@@ -87,6 +87,14 @@ def _xq_symbol(symbol: str) -> str:
     return f"SZ{symbol}"
 
 
+def _tx_symbol(symbol: str) -> str:
+    if symbol.startswith(("6", "9")):
+        return f"sh{symbol}"
+    if symbol.startswith(("4", "8")):
+        return f"bj{symbol}"
+    return f"sz{symbol}"
+
+
 def _call_ak(func: Any, **kwargs: Any) -> Any:
     signature = inspect.signature(func)
     if "timeout" in signature.parameters and "timeout" not in kwargs:
@@ -146,7 +154,7 @@ def infer_price_data_origin(call_logs: list[dict[str, Any]]) -> str:
     statuses = [
         str(item.get("status") or "")
         for item in call_logs
-        if str(item.get("interface") or "") == "stock_zh_a_hist"
+        if str(item.get("interface") or "") in {"stock_zh_a_hist", "stock_zh_a_hist_tx"}
     ]
     if "ok" in statuses:
         return "live"
@@ -390,38 +398,51 @@ def _fetch_price_history_live(
 ) -> tuple[pd.DataFrame, int]:
     last_error: Exception | None = None
     total_attempts = PRICE_HISTORY_MAX_RETRIES + 1
-    for attempt in range(1, total_attempts + 1):
-        try:
-            if call_logs is None:
-                history_df = _call_ak(
-                    ak.stock_zh_a_hist,
-                    symbol=symbol,
-                    period="daily",
-                    start_date=start_date,
-                    end_date=end_date,
-                    adjust="qfq",
-                )
-            else:
-                history_df = _call_ak_with_diag(
-                    func=ak.stock_zh_a_hist,
-                    interface="stock_zh_a_hist",
-                    symbol_code=symbol,
-                    call_logs=call_logs,
-                    symbol=symbol,
-                    period="daily",
-                    start_date=start_date,
-                    end_date=end_date,
-                    adjust="qfq",
-                    attempt=attempt,
-                    retry_count=attempt - 1,
-                    dedup_hit=False,
-                )
-            return history_df, attempt - 1
-        except Exception as exc:
-            last_error = exc
-            if attempt >= total_attempts or not _is_network_error_text(str(exc)):
-                raise
-            time.sleep(PRICE_HISTORY_RETRY_BACKOFF_SECONDS * attempt)
+    fetchers = (
+        (
+            "stock_zh_a_hist",
+            ak.stock_zh_a_hist,
+            {
+                "symbol": symbol,
+                "period": "daily",
+                "start_date": start_date,
+                "end_date": end_date,
+                "adjust": "qfq",
+            },
+        ),
+        (
+            "stock_zh_a_hist_tx",
+            ak.stock_zh_a_hist_tx,
+            {
+                "symbol": _tx_symbol(symbol),
+                "start_date": start_date,
+                "end_date": end_date,
+                "adjust": "qfq",
+            },
+        ),
+    )
+    for interface, func, kwargs in fetchers:
+        for attempt in range(1, total_attempts + 1):
+            try:
+                if call_logs is None:
+                    history_df = _call_ak(func, **kwargs)
+                else:
+                    history_df = _call_ak_with_diag(
+                        func=func,
+                        interface=interface,
+                        symbol_code=symbol,
+                        call_logs=call_logs,
+                        attempt=attempt,
+                        retry_count=attempt - 1,
+                        dedup_hit=False,
+                        **kwargs,
+                    )
+                return history_df, attempt - 1
+            except Exception as exc:
+                last_error = exc
+                if attempt >= total_attempts or not _is_network_error_text(str(exc)):
+                    break
+                time.sleep(PRICE_HISTORY_RETRY_BACKOFF_SECONDS * attempt)
     assert last_error is not None
     raise last_error
 

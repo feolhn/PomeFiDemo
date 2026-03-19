@@ -7,9 +7,7 @@ import time
 from collections.abc import AsyncIterator, Awaitable, Callable
 from typing import Any
 
-from pomefi.streaming.events import EVENT_SKILL_DONE, EVENT_SKILL_START, make_event
-
-from .aggregator import resolve_execution_outcome
+from pomefi.streaming.events import EVENT_SKILL_DONE, EVENT_SKILL_RESULT_READY, EVENT_SKILL_START, make_event
 
 SkillRunner = Callable[[str, str], Awaitable[dict[str, Any]]]
 
@@ -69,57 +67,6 @@ def _skill_result(
         "data_ready": data_ready,
         "is_critical": bool(is_critical) if is_critical is not None else False,
     }
-
-
-def _is_failed_result(result: dict[str, Any]) -> bool:
-    status = str(result.get("status") or "")
-    data_ready = result.get("data_ready")
-    if data_ready is None:
-        data_ready = status == "valid"
-    return status == "error" or data_ready is False
-
-
-def _seed_result_map_for_outcome(result_map: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    seeded = dict(result_map)
-    for skill in CRITICAL_SKILLS:
-        if skill in seeded:
-            continue
-        seeded[skill] = _skill_result(
-            skill=skill,
-            status="valid",
-            data={},
-            sources=[],
-            error=None,
-            latency_ms=0,
-            error_category=None,
-            data_ready=True,
-            is_critical=True,
-        )
-    return seeded
-
-
-def _cancelled_skill_result(skill: str, *, is_critical: bool) -> dict[str, Any]:
-    if skill == "relationship":
-        data = {"summary": "关键链路失败，提前结束该卡片。", "pending": False, "nodes": [], "edges": []}
-    elif skill == "timeline":
-        data = {"summary": "关键链路失败，提前结束该卡片。", "series": [], "events": []}
-    elif skill == "watch_calendar":
-        data = {"summary": "关键链路失败，提前结束该卡片。", "items": []}
-    else:
-        data = {"summary": "关键链路失败，提前结束该卡片。"}
-    data["recovered"] = False
-    data["unrecovered_reason_code"] = "UNKNOWN_UNRECOVERED"
-    return _skill_result(
-        skill=skill,
-        status="error",
-        data=data,
-        sources=[],
-        error="cancelled_due_to_critical_failure",
-        latency_ms=0,
-        error_category="cancelled",
-        data_ready=False,
-        is_critical=is_critical,
-    )
 
 
 async def _invoke_runner(
@@ -349,10 +296,6 @@ async def run_parallel_skills_stream(
         collector_to_skill = {task: skill for skill, task in collectors.items()}
         pending_collectors: set[asyncio.Task[dict[str, Any]]] = set(collectors.values())
         result_map: dict[str, dict[str, Any]] = {}
-        short_circuit = False
-        short_reason_code = ""
-        failed_skills: list[str] = []
-        cancelled_skills: list[str] = []
 
         try:
             while pending_collectors:
@@ -379,54 +322,7 @@ async def run_parallel_skills_stream(
                             data_ready=False,
                             is_critical=skill in CRITICAL_SKILLS,
                         )
-
-                    if skill not in CRITICAL_SKILLS or not _is_failed_result(result_map[skill]):
-                        continue
-
-                    seeded = _seed_result_map_for_outcome(result_map)
-                    outcome = resolve_execution_outcome(seeded)
-                    if outcome.get("execution_status") != "failed":
-                        continue
-
-                    short_circuit = True
-                    short_reason_code = str(outcome.get("failure_reason_code") or "UNKNOWN_UNRECOVERED")
-                    failed_skills = [
-                        name
-                        for name in ("summary", "timeline")
-                        if name in result_map and _is_failed_result(result_map[name])
-                    ]
-                    for cancel_skill, collector in collectors.items():
-                        if cancel_skill in CRITICAL_SKILLS or cancel_skill in result_map:
-                            continue
-                        if not collector.done():
-                            collector.cancel()
-                        skill_task = tasks[cancel_skill]
-                        if not skill_task.done():
-                            skill_task.cancel()
-                        cancelled_skills.append(cancel_skill)
-                        result_map[cancel_skill] = _cancelled_skill_result(cancel_skill, is_critical=False)
-                        await emit(
-                            make_event(
-                                EVENT_SKILL_DONE,
-                                skill=cancel_skill,
-                                status="error",
-                                latency_ms=0,
-                                error="cancelled_due_to_critical_failure",
-                            )
-                        )
-                    await emit(
-                        make_event(
-                            "orchestrator_short_circuit",
-                            reason_code=short_reason_code,
-                            failed_skills=failed_skills,
-                            cancelled_skills=cancelled_skills,
-                        )
-                    )
-                    pending_collectors = {
-                        collector
-                        for collector in pending_collectors
-                        if collector_to_skill.get(collector) in CRITICAL_SKILLS
-                    }
+                    await emit(make_event(EVENT_SKILL_RESULT_READY, skill=skill, result=dict(result_map[skill])))
 
             for skill in ALL_SKILL_NAMES:
                 if skill in result_map:
@@ -435,17 +331,25 @@ async def run_parallel_skills_stream(
                 if collector.done() and not collector.cancelled():
                     with contextlib.suppress(Exception):
                         result_map[skill] = collector.result()
+                        await emit(make_event(EVENT_SKILL_RESULT_READY, skill=skill, result=dict(result_map[skill])))
                         continue
-                result_map[skill] = _cancelled_skill_result(skill, is_critical=skill in CRITICAL_SKILLS)
+                result_map[skill] = _skill_result(
+                    skill=skill,
+                    status="error",
+                    data={"summary": "技能执行异常。", "recovered": False, "unrecovered_reason_code": "UNKNOWN_UNRECOVERED"},
+                    sources=[],
+                    error="skill_result_missing",
+                    latency_ms=0,
+                    error_category="unknown",
+                    data_ready=False,
+                    is_critical=skill in CRITICAL_SKILLS,
+                )
+                await emit(make_event(EVENT_SKILL_RESULT_READY, skill=skill, result=dict(result_map[skill])))
 
             await emit(
                 make_event(
                     "orchestrator_done",
                     skill_results=result_map,
-                    short_circuit=short_circuit,
-                    cancelled_skills=cancelled_skills,
-                    reason_code=short_reason_code or None,
-                    failed_skills=failed_skills,
                 )
             )
         except Exception as exc:

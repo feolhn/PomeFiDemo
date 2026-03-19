@@ -7,6 +7,7 @@ import time
 from typing import Any
 
 from pomefi.agent.loop import KimiAgentLoop
+from pomefi.budgets import BudgetLimits, BudgetTracker
 from pomefi.stock_wiki.structured import stream_json_object
 
 def classify_error(error: str | None) -> str:
@@ -211,6 +212,8 @@ async def run_tool_grounded_json_skill(
     required_tools: set[str],
     event_handler: Any = None,
     require_first_turn_tool_calls: bool = True,
+    disable_tool_thinking: bool = False,
+    tool_budget_limits: BudgetLimits | None = None,
     json_max_completion_tokens: int = 4096,
 ) -> dict[str, Any]:
     started = time.perf_counter()
@@ -227,12 +230,15 @@ async def run_tool_grounded_json_skill(
     for attempt, prompt in enumerate(prompts, start=1):
         trace = None
         agent = KimiAgentLoop(config=config, formula_client=formula_client)
+        budget_tracker = BudgetTracker(tool_budget_limits) if tool_budget_limits is not None else None
         try:
             async for event in agent.run_conversation_trace_stream(
                 user_prompt=prompt,
                 system_prompt=tool_system_prompt,
                 local_tools=[],
                 local_tool_handlers={},
+                disable_thinking=disable_tool_thinking,
+                budget_tracker=budget_tracker,
             ):
                 await _emit_event(event_handler, event)
                 event_type = str(event.get("type") or "")

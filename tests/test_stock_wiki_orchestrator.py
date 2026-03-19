@@ -65,8 +65,9 @@ def test_relationship_soft_timeout_partial_release() -> None:
         company_name="宁德时代",
         skill_results=results,
     )
-    assert payload["metadata"]["execution_status"] == "success"
-    assert payload["quality_status"] == "valid"
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert payload["quality_status"] == "degraded"
     assert payload["metadata"]["partial_release"] is True
     assert payload["metadata"]["relationship_pending"] is True
 
@@ -108,7 +109,8 @@ def test_relationship_finishes_within_timeout_no_placeholder() -> None:
         company_name="宁德时代",
         skill_results=results,
     )
-    assert payload["metadata"]["execution_status"] == "success"
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "complete"
     assert payload["quality_status"] == "valid"
     assert payload["metadata"]["partial_release"] is False
     assert payload["metadata"]["relationship_pending"] is False
@@ -151,10 +153,10 @@ def test_timeline_timeout_does_not_block_all() -> None:
         company_name="宁德时代",
         skill_results=results,
     )
-    assert payload["metadata"]["execution_status"] == "failed"
-    assert payload["metadata"]["failure_reason_code"] == "TIMELINE_TIMEOUT_UNRECOVERED"
-    assert payload["metadata"]["failure_stage"] == "timeline"
-    assert payload["quality_status"] == "error"
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert "timeline" in payload["metadata"]["failed_skills"]
+    assert payload["quality_status"] == "degraded"
 
 
 def test_timeline_timeout_preserves_phase_trace() -> None:
@@ -334,10 +336,10 @@ def test_aggregate_summary_failure_is_noncritical_when_timeline_valid() -> None:
     assert payload["metadata"]["strict_fail"] is False
     assert payload["metadata"]["failure_mask"] == {}
     assert payload["metadata"]["critical_failures"] == []
-    assert payload["metadata"]["execution_status"] == "success"
-    assert payload["metadata"]["failure_reason_code"] is None
-    assert payload["metadata"]["failure_stage"] is None
-    assert payload["quality_status"] == "valid"
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert set(payload["metadata"]["failed_skills"]) == {"summary", "relationship"}
+    assert payload["quality_status"] == "degraded"
 
 
 def test_calendar_empty_not_strict_fail_when_noncritical() -> None:
@@ -406,8 +408,9 @@ def test_calendar_empty_not_strict_fail_when_noncritical() -> None:
     )
     assert payload["metadata"]["strict_fail"] is False
     assert "watch_calendar" not in payload["metadata"]["failure_mask"]
-    assert payload["metadata"]["execution_status"] == "success"
-    assert payload["quality_status"] == "valid"
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert payload["quality_status"] == "degraded"
 
 
 def test_summary_failure_does_not_short_circuit_when_timeline_is_only_critical() -> None:
@@ -471,21 +474,18 @@ def test_summary_failure_does_not_short_circuit_when_timeline_is_only_critical()
     assert skill_results["entity_info"]["status"] == "valid"
     assert skill_results["watch_calendar"]["status"] == "valid"
     assert skill_results["relationship"]["status"] == "valid"
-    assert done_event.get("short_circuit") is False
-    assert done_event.get("cancelled_skills") == []
+    assert done_event.get("short_circuit") is None
+    assert done_event.get("cancelled_skills") is None
 
     payload = aggregate_stock_wiki_payload(
         question="宁德时代怎么看",
         symbol="300750",
         company_name="宁德时代",
         skill_results=skill_results,
-        short_circuit=bool(done_event.get("short_circuit")),
-        cancelled_skills=list(done_event.get("cancelled_skills") or []),
     )
-    assert payload["metadata"]["execution_status"] == "success"
-    assert payload["metadata"]["failure_reason_code"] is None
-    assert payload["metadata"]["short_circuit"] is False
-    assert payload["metadata"]["cancelled_skills"] == []
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert "summary" in payload["metadata"]["failed_skills"]
 
 
 def test_runner_with_kwargs_receives_event_handler_for_timeline_phase() -> None:
@@ -530,7 +530,7 @@ def test_runner_with_kwargs_receives_event_handler_for_timeline_phase() -> None:
     assert trace["phase_status"] == {"price_series": "valid"}
 
 
-def test_short_circuit_when_timeline_fails_cancels_noncritical() -> None:
+def test_timeline_failure_does_not_cancel_noncritical_skills() -> None:
     async def _summary_fast(_symbol: str, _company_name: str) -> dict[str, Any]:
         await asyncio.sleep(0.05)
         return {
@@ -561,7 +561,7 @@ def test_short_circuit_when_timeline_fails_cancels_noncritical() -> None:
         }
 
     async def _slow_noncritical(_symbol: str, _company_name: str) -> dict[str, Any]:
-        await asyncio.sleep(20.0)
+        await asyncio.sleep(0.2)
         return {"status": "valid", "data": {"summary": "slow ok"}, "sources": [], "error": None, "data_ready": True}
 
     runners = {
@@ -585,29 +585,25 @@ def test_short_circuit_when_timeline_fails_cancels_noncritical() -> None:
         return done_event, events, elapsed
 
     done_event, events, elapsed = asyncio.run(_collect())
-    assert elapsed < 2.5
-    assert any(event.get("type") == "orchestrator_short_circuit" for event in events)
+    assert elapsed < 1.5
+    assert not any(event.get("type") == "orchestrator_short_circuit" for event in events)
     skill_results = dict(done_event.get("skill_results") or {})
     assert skill_results["timeline"]["status"] == "error"
-    assert skill_results["entity_info"]["error"] == "cancelled_due_to_critical_failure"
-    assert skill_results["watch_calendar"]["error"] == "cancelled_due_to_critical_failure"
-    assert skill_results["relationship"]["error"] == "cancelled_due_to_critical_failure"
-    assert done_event.get("short_circuit") is True
-    cancelled = set(done_event.get("cancelled_skills") or [])
-    assert {"entity_info", "watch_calendar", "relationship"}.issubset(cancelled)
+    assert skill_results["entity_info"]["status"] == "valid"
+    assert skill_results["watch_calendar"]["status"] == "valid"
+    assert skill_results["relationship"]["status"] == "valid"
+    assert done_event.get("short_circuit") is None
+    assert done_event.get("cancelled_skills") is None
 
     payload = aggregate_stock_wiki_payload(
         question="宁德时代怎么看",
         symbol="300750",
         company_name="宁德时代",
         skill_results=skill_results,
-        short_circuit=bool(done_event.get("short_circuit")),
-        cancelled_skills=list(done_event.get("cancelled_skills") or []),
     )
-    assert payload["metadata"]["execution_status"] == "failed"
-    assert payload["metadata"]["failure_reason_code"] == "TIMELINE_TIMEOUT_UNRECOVERED"
-    assert payload["metadata"]["short_circuit"] is True
-    assert set(payload["metadata"]["cancelled_skills"]) >= {"entity_info", "watch_calendar", "relationship"}
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert "timeline" in payload["metadata"]["failed_skills"]
 
 
 def test_execution_success_when_noncritical_skill_errors() -> None:
@@ -675,6 +671,6 @@ def test_execution_success_when_noncritical_skill_errors() -> None:
         company_name="宁德时代",
         skill_results=skill_results,
     )
-    assert payload["metadata"]["execution_status"] == "success"
-    assert payload["quality_status"] == "valid"
-    assert payload["metadata"]["failure_reason_code"] is None
+    assert payload["metadata"]["execution_status"] is None
+    assert payload["metadata"]["page_status"] == "partial"
+    assert payload["quality_status"] == "degraded"

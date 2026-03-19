@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any, Awaitable, Callable
 
+from pomefi.budgets import BudgetLimits
 from pomefi.config import KimiConfig
 from pomefi.tools.formula import FormulaToolClient
 
@@ -11,6 +12,8 @@ from .common import classify_error, make_skill_result, run_tool_grounded_json_sk
 RELATIONSHIP_TOOL_SYSTEM_PROMPT = """
 你是产业链研究助手。必须通过 tool_call 获取信息，不要凭空编造。
 必须先调用 web_search，再输出证据摘要。
+最多只允许 2 次 web_search。
+不要为了补细节继续追加第 3 次或第 4 次搜索。
 """.strip()
 
 RELATIONSHIP_JSON_SYSTEM_PROMPT = """
@@ -41,6 +44,72 @@ def _parse_final_json(content: str) -> dict[str, Any]:
     return loaded
 
 
+def _normalize_graph(
+    *,
+    company_name: str,
+    nodes: list[dict[str, Any]],
+    edges: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    allowed_roles = {"supplier", "customer", "competitor", "theme"}
+    allowed_relations = {"supplies", "competes", "related"}
+    theme_id = str(company_name or "").strip()
+    node_map: dict[str, dict[str, Any]] = {}
+
+    for item in nodes:
+        node_id = str(item.get("id") or "").strip()
+        if not node_id:
+            continue
+        role = str(item.get("role") or "theme").strip().lower()
+        if role not in allowed_roles:
+            role = "theme"
+        if theme_id and node_id == theme_id:
+            role = "theme"
+        node_map[node_id] = {"id": node_id, "role": role}
+
+    if theme_id and theme_id not in node_map:
+        node_map[theme_id] = {"id": theme_id, "role": "theme"}
+
+    normalized_edges: list[dict[str, Any]] = []
+    seen_edges: set[tuple[str, str, str]] = set()
+    for item in edges:
+        source_id = str(item.get("from") or "").strip()
+        target_id = str(item.get("to") or "").strip()
+        relation = str(item.get("relation") or "").strip().lower()
+        if not source_id or not target_id or relation not in allowed_relations:
+            continue
+
+        if source_id not in node_map:
+            inferred_role = "theme"
+            if theme_id and target_id == theme_id and relation == "supplies":
+                inferred_role = "supplier"
+            elif theme_id and target_id == theme_id and relation == "competes":
+                inferred_role = "competitor"
+            node_map[source_id] = {"id": source_id, "role": inferred_role}
+
+        if target_id not in node_map:
+            inferred_role = "theme"
+            if theme_id and source_id == theme_id and relation == "supplies":
+                inferred_role = "customer"
+            elif theme_id and source_id == theme_id and relation == "competes":
+                inferred_role = "competitor"
+            node_map[target_id] = {"id": target_id, "role": inferred_role}
+
+        edge_key = (source_id, target_id, relation)
+        if edge_key in seen_edges:
+            continue
+        seen_edges.add(edge_key)
+        normalized_edges.append({"from": source_id, "to": target_id, "relation": relation})
+
+    normalized_nodes = list(node_map.values())[:30]
+    allowed_node_ids = {item["id"] for item in normalized_nodes}
+    normalized_edges = [
+        item
+        for item in normalized_edges
+        if item["from"] in allowed_node_ids and item["to"] in allowed_node_ids
+    ][:40]
+    return normalized_nodes, normalized_edges
+
+
 async def get_relationship(
     symbol: str,
     company_name: str,
@@ -59,12 +128,13 @@ async def get_relationship(
         tool_user_prompts=[
             (
                 f"标的：{target_name}({symbol})。"
-                "不要直接回答。必须先调用 web_search 检索主要供应商、客户、竞争对手和产业主题，"
-                "再输出证据摘要。"
+                "不要直接回答。必须先调用 web_search 检索主要供应商、客户、竞争对手和产业主题。"
+                "最多只允许 2 次 web_search，优先把信息并到 1-2 次查询里。"
+                "拿到搜索结果后立刻输出证据摘要。"
             ),
             (
                 f"标的：{target_name}({symbol})。"
-                "不要直接回答。必须调用 web_search 至少一次后再输出摘要；"
+                "不要直接回答。必须调用 web_search 至少一次，且最多两次后再输出摘要；"
                 "若未调用工具，本轮视为失败。"
             ),
         ],
@@ -78,6 +148,13 @@ async def get_relationship(
         event_scope="relationship",
         required_tools={"web_search"},
         event_handler=event_handler,
+        disable_tool_thinking=True,
+        tool_budget_limits=BudgetLimits(
+            max_search_calls=2,
+            max_tool_iterations=2,
+            max_total_turns=3,
+        ),
+        json_max_completion_tokens=2048,
     )
 
     trace = dict(probe.get("tool_trace") or {})
@@ -113,8 +190,11 @@ async def get_relationship(
         )
 
     parsed = _parse_final_json(json.dumps(probe.get("content_json") or {}, ensure_ascii=False))
-    nodes = [dict(item) for item in list(parsed.get("nodes") or []) if isinstance(item, dict)][:20]
-    edges = [dict(item) for item in list(parsed.get("edges") or []) if isinstance(item, dict)][:30]
+    nodes, edges = _normalize_graph(
+        company_name=target_name,
+        nodes=[dict(item) for item in list(parsed.get("nodes") or []) if isinstance(item, dict)],
+        edges=[dict(item) for item in list(parsed.get("edges") or []) if isinstance(item, dict)],
+    )
     summary = str(parsed.get("summary") or "").strip()
     if not summary:
         summary = f"{target_name} 的产业关系仍在补全，建议结合最新公告继续验证。"

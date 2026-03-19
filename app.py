@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Callable
+import json
+import os
 from pathlib import Path
 import sys
 from typing import Any
@@ -15,15 +17,19 @@ if PROJECT_ROOT_TEXT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT_TEXT)
 
 from pomefi.config import resolve_kimi_config
-from pomefi.stock_wiki import run_stock_wiki_analysis, run_stock_wiki_analysis_stream
+from pomefi.stock_wiki import aggregate_stock_wiki_payload, run_stock_wiki_analysis, run_stock_wiki_analysis_stream
 from pomefi.stock_wiki.router import resolve_symbol_from_table
-from pomefi.streaming.events import EVENT_LLM_CONTENT_DELTA, EVENT_LLM_REASONING_DELTA, EVENT_SESSION_DONE
+from pomefi.streaming.events import EVENT_LLM_CONTENT_DELTA, EVENT_LLM_REASONING_DELTA, EVENT_SESSION_DONE, EVENT_SKILL_RESULT_READY
 from pomefi.ui import (
     create_live_panel_slots,
     inject_page_styles,
+    render_cards_export_button,
     render_header,
+    render_progressive_cards,
     render_question_hint,
     render_result_card,
+    render_status,
+    render_debug,
     update_live_panel,
 )
 
@@ -52,13 +58,82 @@ def resolve_symbol(question: str) -> tuple[str | None, str | None]:
     return resolve_symbol_from_table(question, _load_stock_table())
 
 
-def _validate_app_config() -> tuple[bool, str]:
+def _validate_app_config(*, use_local_fixture: bool = False) -> tuple[bool, str]:
+    if _local_fixture_mode_enabled(use_local_fixture=use_local_fixture):
+        return True, ""
     config = resolve_kimi_config()
     if not config.api_key:
         return False, "缺少 KIMI_API_KEY。"
     if config.model == "kimi-k2.5" and config.temperature != 1.0:
         return False, "KIMI_MODEL=kimi-k2.5 时，KIMI_TEMPERATURE 必须为 1.0。"
     return True, ""
+
+
+def _default_local_fixture_dir() -> Path | None:
+    path = PROJECT_ROOT / "debug_outputs" / "stock_wiki"
+    required = ("summary", "entity_info", "timeline", "watch_calendar", "relationship")
+    if path.exists() and all((path / f"{skill}.json").exists() for skill in required):
+        return path
+    return None
+
+
+def _configured_local_fixture_dir() -> Path | None:
+    raw = str(os.getenv("POMEFI_LOCAL_FIXTURE_DIR") or "").strip()
+    if not raw:
+        return None
+    path = Path(raw)
+    return path if path.exists() else None
+
+
+def _active_local_fixture_dir(*, use_local_fixture: bool = False) -> Path | None:
+    configured = _configured_local_fixture_dir()
+    if configured is not None:
+        return configured
+    if use_local_fixture:
+        return _default_local_fixture_dir()
+    return None
+
+
+def _local_fixture_mode_enabled(*, use_local_fixture: bool = False) -> bool:
+    return _active_local_fixture_dir(use_local_fixture=use_local_fixture) is not None
+
+
+def _load_local_fixture_payload(question: str, fixture_dir: Path) -> dict[str, Any]:
+    if fixture_dir is None:
+        raise RuntimeError("local_fixture_dir_missing")
+    skill_results: dict[str, dict[str, Any]] = {}
+    symbol = ""
+    company_name = ""
+    for skill in ("summary", "entity_info", "timeline", "watch_calendar", "relationship"):
+        path = fixture_dir / f"{skill}.json"
+        if not path.exists():
+            raise RuntimeError(f"missing fixture: {path}")
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        result = payload.get("result")
+        if not isinstance(result, dict):
+            raise RuntimeError(f"invalid result payload: {path}")
+        skill_results[skill] = dict(result)
+        if not symbol:
+            symbol = str(((result.get("data") or {}).get("symbol")) or payload.get("symbol") or "").strip()
+        if not company_name:
+            company_name = str(((result.get("data") or {}).get("company_name")) or payload.get("company_name") or "").strip()
+
+    card = aggregate_stock_wiki_payload(
+        question=question,
+        symbol=symbol,
+        company_name=company_name,
+        skill_results=skill_results,
+    )
+    return {
+        "card": card,
+        "trace": {
+            "route": {"symbol": symbol, "company_name": company_name, "mode": "local_fixture"},
+            "skill_results": skill_results,
+            "events": [],
+            "tool_events": [],
+        },
+        "local_context": {},
+    }
 
 
 def _error_payload(question: str, model: str, reason: str, message: str) -> dict[str, Any]:
@@ -131,7 +206,21 @@ def run_analysis(question: str) -> dict[str, Any]:
 def run_analysis_stream(
     question: str,
     on_event: Callable[[dict[str, Any]], None] | None = None,
+    *,
+    use_local_fixture: bool = False,
 ) -> dict[str, Any]:
+    fixture_dir = _active_local_fixture_dir(use_local_fixture=use_local_fixture)
+    if fixture_dir is not None:
+        payload = _load_local_fixture_payload(question, fixture_dir)
+        if on_event is not None:
+            route = dict((payload.get("trace") or {}).get("route") or {})
+            route["fixture_dir"] = str(fixture_dir)
+            on_event({"type": "route_resolved", "route": route})
+            for skill, result in dict((payload.get("trace") or {}).get("skill_results") or {}).items():
+                on_event({"type": "skill_result_ready", "skill": skill, "result": dict(result)})
+            on_event({"type": EVENT_SESSION_DONE, "payload": payload})
+        return payload
+
     async def _runner() -> dict[str, Any]:
         payload: dict[str, Any] | None = None
         async for event in _run_analysis_stream(question):
@@ -162,6 +251,59 @@ def _new_live_state() -> dict[str, Any]:
         },
         "events": [],
     }
+
+
+def _new_live_card_store() -> dict[str, Any]:
+    return {
+        "route": {},
+        "cards": {
+            "summary": {"state": "pending", "result": None},
+            "entity_info": {"state": "pending", "result": None},
+            "timeline": {"state": "pending", "result": None},
+            "watch_calendar": {"state": "pending", "result": None},
+            "relationship": {"state": "pending", "result": None},
+        },
+        "events": [],
+        "session_done": False,
+    }
+
+
+def _card_store_from_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    card = dict(payload.get("card") or {})
+    data = dict(card.get("data") or {})
+    metadata = dict(card.get("metadata") or {})
+    skills = dict(data.get("skills") or {})
+    store = _new_live_card_store()
+    store["route"] = {
+        "symbol": metadata.get("symbol"),
+        "company_name": metadata.get("company_name"),
+        "question": data.get("question"),
+    }
+    for skill in list(store["cards"].keys()):
+        result = skills.get(skill)
+        if not isinstance(result, dict):
+            section = data.get(skill)
+            if isinstance(section, dict):
+                result = {
+                    "skill": skill,
+                    "status": "valid",
+                    "latency_ms": 0,
+                    "data": dict(section),
+                    "sources": [],
+                    "error": None,
+                    "error_category": None,
+                    "data_ready": True,
+                    "is_critical": skill in {"summary", "timeline"},
+                }
+        if not isinstance(result, dict):
+            continue
+        status = str(result.get("status") or "pending")
+        store["cards"][skill] = {
+            "state": "valid" if status == "valid" else "error",
+            "result": dict(result),
+        }
+    store["session_done"] = True
+    return store
 
 
 def _flatten_skill_event(raw_event: dict[str, Any]) -> dict[str, Any]:
@@ -208,6 +350,14 @@ def _apply_live_event(state: dict[str, Any], event: dict[str, Any]) -> None:
     if event_type == "formula_tools_loaded":
         tools = event.get("tools") or {}
         state["tool_lines"].append(f"formula tools loaded: {list(dict(tools).keys())}")
+        return
+
+    if event_type == EVENT_SKILL_RESULT_READY:
+        skill = str(event.get("skill") or "")
+        result = event.get("result")
+        if skill and isinstance(result, dict):
+            status = str(result.get("status") or "error")
+            state["skill_states"][skill] = "valid" if status == "valid" else "error"
         return
 
     if event_type != "skill_event":
@@ -263,15 +413,33 @@ def main() -> None:
     render_header()
     render_question_hint()
 
-    config_ok, config_error = _validate_app_config()
-    if not config_ok:
-        st.error(config_error)
-        return
-
     if "analysis_payload" not in st.session_state:
         st.session_state.analysis_payload = None
     if "live_events" not in st.session_state:
         st.session_state.live_events = []
+    if "live_card_store" not in st.session_state:
+        st.session_state.live_card_store = None
+    if "use_local_fixture_mode" not in st.session_state:
+        st.session_state.use_local_fixture_mode = _default_local_fixture_dir() is not None
+
+    fixture_default_dir = _default_local_fixture_dir()
+    configured_fixture_dir = _configured_local_fixture_dir()
+    st.session_state.use_local_fixture_mode = st.toggle(
+        "使用本地 Fixture 调试",
+        value=bool(st.session_state.use_local_fixture_mode),
+        help="开启后优先读取 debug_outputs/stock_wiki 或 POMEFI_LOCAL_FIXTURE_DIR，不触发 live skill 执行。",
+    )
+    active_fixture_dir = _active_local_fixture_dir(use_local_fixture=bool(st.session_state.use_local_fixture_mode))
+    if active_fixture_dir is not None:
+        fixture_source = "env" if configured_fixture_dir is not None else "default"
+        st.caption(f"Fixture mode: {fixture_source} -> {active_fixture_dir}")
+    elif st.session_state.use_local_fixture_mode and fixture_default_dir is None:
+        st.warning("已开启本地 Fixture 调试，但未找到完整的 debug_outputs/stock_wiki JSON 文件。")
+
+    config_ok, config_error = _validate_app_config(use_local_fixture=bool(st.session_state.use_local_fixture_mode))
+    if not config_ok:
+        st.error(config_error)
+        return
 
     with st.form("question_form", clear_on_submit=False):
         question = st.text_area(
@@ -283,13 +451,19 @@ def main() -> None:
         )
         submitted = st.form_submit_button("生成股票百科", use_container_width=True)
 
+    cards_slot = st.empty()
+    submitted_rendered = False
+
     if submitted:
         cleaned_question = question.strip()
         st.session_state.last_question = cleaned_question
         if not cleaned_question:
             st.warning("先输入一个问题。")
         else:
+            use_local_fixture = bool(st.session_state.use_local_fixture_mode)
             live_state = _new_live_state()
+            live_card_store = _new_live_card_store()
+            st.session_state.live_card_store = live_card_store
             slots = create_live_panel_slots()
             update_live_panel(
                 slots,
@@ -299,23 +473,65 @@ def main() -> None:
                 skill_states=live_state["skill_states"],
             )
 
-            def _on_event(event: dict[str, Any]) -> None:
-                _apply_live_event(live_state, event)
-                update_live_panel(
-                    slots,
-                    thinking_text=live_state["thinking"],
-                    final_output_text=live_state["final_output"],
-                    tool_lines=live_state["tool_lines"],
-                    skill_states=live_state["skill_states"],
+            def _render_cards() -> None:
+                cards_slot.empty()
+                with cards_slot.container():
+                    render_progressive_cards(
+                        live_card_store,
+                        metadata=dict(((st.session_state.analysis_payload or {}).get("card") or {}).get("metadata") or {}),
                 )
 
-            try:
-                payload = run_analysis_stream(cleaned_question, on_event=_on_event)
-                if not live_state["final_output"]:
-                    relationship_summary = str(
-                        ((payload.get("card") or {}).get("data") or {}).get("relationship", {}).get("summary") or ""
-                    ).strip()
-                    live_state["final_output"] = relationship_summary
+            _render_cards()
+
+            if use_local_fixture:
+                try:
+                    payload = run_analysis_stream(
+                        cleaned_question,
+                        on_event=None,
+                        use_local_fixture=True,
+                    )
+                    st.session_state.analysis_payload = payload
+                    st.session_state.live_events = []
+                    st.session_state.live_card_store = _card_store_from_payload(payload)
+                    cards_slot.empty()
+                    with cards_slot.container():
+                        render_progressive_cards(
+                            st.session_state.live_card_store,
+                            metadata=dict(((payload.get("card") or {}).get("metadata") or {})),
+                        )
+                    submitted_rendered = True
+                except Exception as exc:
+                    config = resolve_kimi_config()
+                    st.session_state.analysis_payload = _error_payload(
+                        cleaned_question,
+                        config.model,
+                        "app_runtime_error",
+                        f"前台运行失败：{_preview_text(exc)}",
+                    )
+                    st.session_state.live_card_store = _card_store_from_payload(st.session_state.analysis_payload)
+                    submitted_rendered = True
+            else:
+                def _on_event(event: dict[str, Any]) -> None:
+                    _apply_live_event(live_state, event)
+                    live_card_store["events"].append(event)
+                    event_type = str(event.get("type") or "")
+                    if event_type == "route_resolved":
+                        live_card_store["route"] = dict(event.get("route") or {})
+                    elif event_type == "skill_start":
+                        skill = str(event.get("skill") or "")
+                        if skill in live_card_store["cards"]:
+                            live_card_store["cards"][skill]["state"] = "running"
+                    elif event_type == EVENT_SKILL_RESULT_READY:
+                        skill = str(event.get("skill") or "")
+                        result = event.get("result")
+                        if skill in live_card_store["cards"] and isinstance(result, dict):
+                            status = str(result.get("status") or "error")
+                            live_card_store["cards"][skill] = {
+                                "state": "valid" if status == "valid" else "error",
+                                "result": dict(result),
+                            }
+                    elif event_type == EVENT_SESSION_DONE:
+                        live_card_store["session_done"] = True
                     update_live_panel(
                         slots,
                         thinking_text=live_state["thinking"],
@@ -323,32 +539,88 @@ def main() -> None:
                         tool_lines=live_state["tool_lines"],
                         skill_states=live_state["skill_states"],
                     )
-                st.session_state.analysis_payload = payload
-                st.session_state.live_events = live_state["events"]
-            except Exception as exc:
-                config = resolve_kimi_config()
-                st.session_state.analysis_payload = _error_payload(
-                    cleaned_question,
-                    config.model,
-                    "app_runtime_error",
-                    f"前台运行失败：{_preview_text(exc)}",
-                )
+                    _render_cards()
+
+                try:
+                    payload = run_analysis_stream(
+                        cleaned_question,
+                        on_event=_on_event,
+                        use_local_fixture=False,
+                    )
+                    if not live_state["final_output"]:
+                        relationship_summary = str(
+                            ((payload.get("card") or {}).get("data") or {}).get("relationship", {}).get("summary") or ""
+                        ).strip()
+                        live_state["final_output"] = relationship_summary
+                        update_live_panel(
+                            slots,
+                            thinking_text=live_state["thinking"],
+                            final_output_text=live_state["final_output"],
+                            tool_lines=live_state["tool_lines"],
+                            skill_states=live_state["skill_states"],
+                        )
+                    st.session_state.analysis_payload = payload
+                    st.session_state.live_events = live_state["events"]
+                    st.session_state.live_card_store = _card_store_from_payload(payload)
+                    cards_slot.empty()
+                    with cards_slot.container():
+                        render_progressive_cards(
+                            st.session_state.live_card_store,
+                            metadata=dict(((payload.get("card") or {}).get("metadata") or {})),
+                        )
+                    submitted_rendered = True
+                except Exception as exc:
+                    config = resolve_kimi_config()
+                    st.session_state.analysis_payload = _error_payload(
+                        cleaned_question,
+                        config.model,
+                        "app_runtime_error",
+                        f"前台运行失败：{_preview_text(exc)}",
+                    )
+                    st.session_state.live_card_store = _card_store_from_payload(st.session_state.analysis_payload)
+                    submitted_rendered = True
 
     payload = st.session_state.analysis_payload
-    if not payload:
+    card_store = st.session_state.live_card_store
+    if not payload and not card_store:
         st.markdown(
             '<div class="pf-empty">输入一个股票问题后，会并行生成 Summary / Entity / Timeline / Calendar / Relationship 五张卡片。</div>',
             unsafe_allow_html=True,
         )
         return
 
-    trace = dict(payload.get("trace") or {})
-    trace["stream_events"] = list(st.session_state.get("live_events") or [])
-    render_result_card(
-        result=payload["card"],
-        trace=trace,
-        local_context=payload.get("local_context") or {},
-    )
+    export_store = card_store
+    if export_store is None and payload:
+        export_store = _card_store_from_payload(payload)
+    if export_store is not None:
+        card_states = [str((item or {}).get("state") or "pending") for item in dict(export_store.get("cards") or {}).values()]
+        pending_states = [state for state in card_states if state in {"pending", "running"}]
+        render_cards_export_button(
+            disabled=bool(pending_states),
+            hint="等待卡片完成后再导出" if pending_states else "",
+        )
+
+    if payload:
+        trace = dict(payload.get("trace") or {})
+        trace["stream_events"] = list(st.session_state.get("live_events") or [])
+        if submitted_rendered:
+            render_status(payload["card"])
+            render_debug(
+                trace,
+                payload["card"],
+                local_context=payload.get("local_context") or {},
+            )
+            return
+        render_result_card(
+            result=payload["card"],
+            trace=trace,
+            local_context=payload.get("local_context") or {},
+        )
+        return
+
+    cards_slot.empty()
+    with cards_slot.container():
+        render_progressive_cards(card_store, metadata={})
 
 
 if __name__ == "__main__":

@@ -174,6 +174,28 @@ def inject_page_styles() -> None:
           font-size: 0.72rem;
         }
 
+        .pf-row-actions {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          flex-shrink: 0;
+        }
+
+        .pf-link-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.8rem;
+          height: 1.8rem;
+          border-radius: 999px;
+          border: 1px solid #d9dce1;
+          background: #fff;
+          color: #4b5563;
+          text-decoration: none;
+          font-size: 0.82rem;
+          line-height: 1;
+        }
+
         .pf-kv-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -221,6 +243,120 @@ def render_header() -> None:
 
 def render_question_hint() -> None:
     st.caption("示例：`宁德时代怎么看？`  `300750 最近三个月关键事件`  `比亚迪的竞争对手有哪些？`")
+
+
+def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> None:
+    html_renderer = getattr(getattr(getattr(st, "components", None), "v1", None), "html", None)
+    if html_renderer is None:
+        return
+    button_style = (
+        "border:1px solid #d9dce1;"
+        "background:#ffffff;"
+        "color:#1f2328;"
+        "border-radius:999px;"
+        "padding:0.38rem 0.8rem;"
+        "font-size:0.82rem;"
+        "cursor:pointer;"
+    )
+    if disabled:
+        button_style += "opacity:0.55;cursor:not-allowed;"
+    html = """
+        <div style="display:flex;justify-content:flex-end;margin:0.2rem 0 0.55rem 0;">
+          <button id="pf-export-cards-btn" style="
+            __BUTTON_STYLE__
+          " __DISABLED_ATTR__>导出五张卡片 PNG</button>
+          <span id="pf-export-cards-status" style="margin-left:0.55rem;font-size:0.78rem;color:#6b7280;"></span>
+        </div>
+        <script>
+        const doc = window.parent.document;
+        const button = document.getElementById("pf-export-cards-btn");
+        const status = document.getElementById("pf-export-cards-status");
+        status.textContent = __HINT_JSON__;
+
+        async function ensureHtml2Canvas() {
+          if (window.parent.html2canvas) return window.parent.html2canvas;
+          await new Promise((resolve, reject) => {
+            const script = doc.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+            script.onload = resolve;
+            script.onerror = reject;
+            doc.head.appendChild(script);
+          });
+          return window.parent.html2canvas;
+        }
+
+        async function exportCards() {
+          if (button.disabled) return;
+          try {
+            status.textContent = "导出中...";
+            const start = doc.getElementById("pf-export-start");
+            const end = doc.getElementById("pf-export-end");
+            if (!start || !end) {
+              status.textContent = "未找到卡片区域";
+              return;
+            }
+            const startContainer = start.closest('[data-testid="stElementContainer"]');
+            const endContainer = end.closest('[data-testid="stElementContainer"]');
+            if (!startContainer || !endContainer || !startContainer.parentElement) {
+              status.textContent = "卡片区域结构异常";
+              return;
+            }
+            const cloneRoot = doc.createElement("div");
+            const blockContainer = doc.querySelector(".block-container");
+            cloneRoot.style.position = "fixed";
+            cloneRoot.style.left = "-20000px";
+            cloneRoot.style.top = "0";
+            cloneRoot.style.zIndex = "-1";
+            cloneRoot.style.width = `${Math.min((blockContainer && blockContainer.clientWidth) || 760, 900)}px`;
+            cloneRoot.style.background = "#f3f4f6";
+            cloneRoot.style.padding = "16px";
+            cloneRoot.style.boxSizing = "border-box";
+            let cursor = startContainer.nextElementSibling;
+            let copied = 0;
+            while (cursor && cursor !== endContainer) {
+              const style = window.parent.getComputedStyle(cursor);
+              const visible = style.display !== "none" && style.visibility !== "hidden" && cursor.getClientRects().length > 0;
+              if (visible) {
+                cloneRoot.appendChild(cursor.cloneNode(true));
+                copied += 1;
+              }
+              cursor = cursor.nextElementSibling;
+            }
+            if (!copied) {
+              status.textContent = "卡片区域为空";
+              return;
+            }
+            doc.body.appendChild(cloneRoot);
+            const html2canvas = await ensureHtml2Canvas();
+            const canvas = await html2canvas(cloneRoot, {
+              useCORS: true,
+              backgroundColor: "#f3f4f6",
+              scale: 2,
+            });
+            cloneRoot.remove();
+            const link = doc.createElement("a");
+            const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+            link.download = `pomefi-cards-${timestamp}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            status.textContent = "已下载";
+            setTimeout(() => { status.textContent = ""; }, 1600);
+          } catch (error) {
+            status.textContent = "导出失败";
+            console.error(error);
+          }
+        }
+
+        button.addEventListener("click", exportCards);
+        </script>
+        """
+    html = html.replace("__BUTTON_STYLE__", button_style)
+    html = html.replace("__DISABLED_ATTR__", "disabled" if disabled else "")
+    html = html.replace("__HINT_JSON__", json.dumps(hint or ""))
+    html_renderer(
+        html,
+        height=56,
+    )
 
 
 def create_live_panel_slots() -> dict[str, Any]:
@@ -294,13 +430,16 @@ def _status_class(status: str) -> str:
 def render_status(result: dict[str, Any]) -> None:
     metadata = dict(result.get("metadata") or {})
     execution_status = str(metadata.get("execution_status") or "").strip().lower()
+    page_status = str(metadata.get("page_status") or "").strip().lower()
     status = str(result.get("quality_status") or "error")
     if execution_status == "success":
         status = "valid"
     elif execution_status == "failed":
         status = "error"
+    elif page_status == "partial":
+        status = "degraded"
     degrade_reason = str(metadata.get("failure_reason_code") or metadata.get("degrade_reason") or "").strip()
-    text = execution_status if execution_status else status
+    text = execution_status if execution_status else (page_status or status)
     if degrade_reason:
         text = f"{text} · {degrade_reason}"
     st.markdown(
@@ -320,6 +459,361 @@ def render_status(result: dict[str, Any]) -> None:
     if execution_status != "failed" and bool(metadata.get("relationship_pending")):
         st.markdown('<div class="pf-status pf-status-degraded">relationship · pending</div>', unsafe_allow_html=True)
         st.caption("Relationship 正在深度分析中，已先展示其他卡片。")
+
+
+SKILL_ORDER = ("summary", "entity_info", "timeline", "watch_calendar", "relationship")
+
+
+def _card_state_entry(card_store: dict[str, Any], skill: str) -> dict[str, Any]:
+    cards = dict(card_store.get("cards") or {})
+    entry = dict(cards.get(skill) or {})
+    state = str(entry.get("state") or "pending")
+    result = entry.get("result")
+    if not isinstance(result, dict):
+        result = None
+    return {"state": state, "result": result}
+
+
+def _render_state_shell(*, title: str, badge: str, summary: str, bullets: list[str] | None = None, footer: str = "Source: - · Updated: -") -> None:
+    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in list(bullets or []))
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{escape(title)}</div>
+            <div class="pf-card-badge">{escape(badge)}</div>
+          </div>
+          <div>{escape(summary)}</div>
+          <ul class="pf-list">{bullet_html}</ul>
+          <div class="pf-foot">{escape(footer)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def _render_skill_error(title: str, entry: dict[str, Any], footer: str) -> None:
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    error = str(result.get("error") or "card_failed")
+    summary = str(data.get("summary") or "当前卡片执行失败。")
+    _render_state_shell(
+        title=title,
+        badge="Error",
+        summary=summary,
+        bullets=[f"error: {error}"],
+        footer=footer,
+    )
+
+
+def _render_skill_pending(title: str, badge: str, footer: str, state: str) -> None:
+    summary = "卡片正在生成中..." if state == "running" else "等待卡片启动..."
+    _render_state_shell(title=title, badge=badge, summary=summary, bullets=[], footer=footer)
+
+
+def render_summary_card(entry: dict[str, Any]) -> None:
+    state = str(entry.get("state") or "pending")
+    if state in {"pending", "running"}:
+        _render_skill_pending("Stock Summary", "Active", "Source: AkShare · Updated: -", state)
+        return
+
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    metrics = dict(data.get("metrics") or {})
+    if state != "valid" and not metrics:
+        _render_skill_error("Stock Summary", entry, "Source: AkShare · Updated: -")
+        return
+    price_last = metrics.get("price_last")
+    kv_rows = []
+    for key in ("mkt_cap", "pe_ttm", "vol_20d", "pb", "ret_1d", "ret_5d"):
+        if key in metrics and metrics.get(key) is not None:
+            kv_rows.append((key, _format_metric_value(metrics.get(key))))
+    if not kv_rows:
+        kv_rows = [(key, _format_metric_value(val)) for key, val in list(metrics.items())[:6] if val is not None]
+    bullets = [f"{key}: {_format_metric_value(value)}" for key, value in list(metrics.items())[:4] if value is not None]
+    for item in list(data.get("metrics_missing") or [])[:3]:
+        bullets.append(f"{item}: 不可用")
+    if state != "valid":
+        bullets.append(f"status: {str(result.get('error') or 'partial_data')}")
+    kv_html = "".join(
+        f"<div><div class='pf-kv-label'>{escape(label)}</div><div class='pf-kv-value'>{escape(value)}</div></div>"
+        for label, value in kv_rows[:6]
+    )
+    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in bullets[:6])
+    price_text = "--" if price_last is None else f"${float(price_last):.2f}"
+    badge = "Active" if state == "valid" else "Partial"
+    summary_text = str(data.get("summary") or "已输出核心行情与估值指标。")
+    if state != "valid" and metrics:
+        summary_text = "实时价格链路失败，先展示当前已拿到的估值指标。"
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">Stock Summary</div>
+            <div class="pf-card-badge">{escape(badge)}</div>
+          </div>
+          <div class="pf-big-num">{escape(price_text)}</div>
+          <div class="pf-kv-grid">{kv_html}</div>
+          <div>{escape(summary_text)}</div>
+          <ul class="pf-list">{bullet_html}</ul>
+          <div class="pf-foot">{escape(_source_footer(result, "AkShare"))}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) -> None:
+    state = str(entry.get("state") or "pending")
+    if state in {"pending", "running"}:
+        _render_skill_pending(f"Entity: Who is {company}?", "Tech & Auto", "Source: kimi · Updated: -", state)
+        return
+    if state != "valid":
+        _render_skill_error(f"Entity: Who is {company}?", entry, "Source: kimi · Updated: -")
+        return
+
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    bullets = [
+        f"公司: {data.get('company_name') or company}",
+        f"代码: {data.get('symbol') or symbol or '-'}",
+    ]
+    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in bullets)
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">Entity: Who is {escape(company)}?</div>
+            <div class="pf-card-badge">Tech & Auto</div>
+          </div>
+          <div>{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
+          <ul class="pf-list">{bullet_html}</ul>
+          <div class="pf-foot">{escape(_source_footer(result, "kimi"))}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_timeline_card(entry: dict[str, Any]) -> None:
+    state = str(entry.get("state") or "pending")
+    title = "Event Timeline: Price vs Key Dates"
+    if state in {"pending", "running"}:
+        _render_skill_pending(title, "Price & Event", "Source: MarketWatch · Updated: -", state)
+        return
+    if state != "valid":
+        _render_skill_error(title, entry, "Source: MarketWatch · Updated: -")
+        return
+
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    events = [dict(item) for item in list(data.get("events") or []) if isinstance(item, dict)]
+    series = [dict(item) for item in list(data.get("series") or []) if isinstance(item, dict)]
+    event_html = _timeline_event_html(events)
+    summary_text = _compact_text(str(data.get("summary") or "近三个月价格与事件时间线。"), limit=120)
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{title}</div>
+            <div class="pf-card-badge">Price & Event</div>
+          </div>
+          <div class="pf-card-sub">{escape(summary_text)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+    if series:
+        chart_key = f"timeline-card-{state}-{len(series)}-{len(events)}"
+        st.plotly_chart(
+            _timeline_figure(series, events),
+            use_container_width=True,
+            config={"displayModeBar": False},
+            key=chart_key,
+        )
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card" style="margin-top:-0.35rem;">
+          <div>{event_html}</div>
+          <div class="pf-foot">{escape(_source_footer(result, "MarketWatch"))}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def _watch_calendar_actions_html(url: Any) -> str:
+    url_text = str(url or "").strip()
+    link_html = ""
+    if url_text:
+        safe_url = escape(url_text, quote=True)
+        link_html = (
+            f"<a class='pf-link-icon' href='{safe_url}' target='_blank' rel='noopener noreferrer' "
+            "title='Open source link'>🔗</a>"
+        )
+    return f"<div class='pf-row-actions'>{link_html}<div class='pf-reminder'>Set Reminder</div></div>"
+
+
+def render_watch_calendar_card(entry: dict[str, Any]) -> None:
+    state = str(entry.get("state") or "pending")
+    title = "Variables: Watch Calendar"
+    if state in {"pending", "running"}:
+        _render_skill_pending(title, "Upcoming", "Source: IR · Updated: -", state)
+        return
+    if state != "valid":
+        _render_skill_error(title, entry, "Source: IR · Updated: -")
+        return
+
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    rows = [dict(item) for item in list(data.get("items") or []) if isinstance(item, dict)][:4]
+    row_html = ""
+    for item in rows:
+        row_html += (
+            "<div style='display:flex;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;'>"
+            f"<div><strong>{escape(str(item.get('date') or '-'))}</strong> {escape(str(item.get('event') or ''))}</div>"
+            f"{_watch_calendar_actions_html(item.get('url'))}</div>"
+        )
+    if not row_html:
+        row_html = "<div style='margin-bottom:0.25rem;'>• 当前没有可展示的日历节点。</div>"
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{title}</div>
+            <div class="pf-card-badge">Upcoming</div>
+          </div>
+          <div>{escape(str(data.get("summary") or "近期关键事件日历。"))}</div>
+          <div style="margin-top:0.45rem;">{row_html}</div>
+          <div class="pf-foot">{escape(_source_footer(result, "IR"))}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_relationship_card(entry: dict[str, Any]) -> None:
+    state = str(entry.get("state") or "pending")
+    title = "Relationship: Connections & Influences"
+    if state in {"pending", "running"}:
+        _render_skill_pending(title, "Map", "Source: Crunchbase · Updated: -", state)
+        return
+    if state != "valid":
+        _render_skill_error(title, entry, "Source: Crunchbase · Updated: -")
+        return
+
+    result = dict(entry.get("result") or {})
+    data = dict(result.get("data") or {})
+    nodes = [dict(item) for item in list(data.get("nodes") or []) if isinstance(item, dict)]
+    edges = [dict(item) for item in list(data.get("edges") or []) if isinstance(item, dict)]
+    summary_text = _compact_text(str(data.get("summary") or "关系图谱结果暂缺。"), limit=96)
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{title}</div>
+            <div class="pf-card-badge">Map</div>
+          </div>
+          <div class="pf-card-sub">{escape(summary_text)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+    if nodes:
+        chart_key = f"relationship-card-{state}-{len(nodes)}-{len(edges)}"
+        st.plotly_chart(
+            _relationship_figure(nodes, edges),
+            use_container_width=True,
+            config={"displayModeBar": False},
+            key=chart_key,
+        )
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card" style="margin-top:-0.35rem;">
+          <div style="color:#6b7280;font-size:0.8rem;">nodes: {len(nodes)} · edges: {len(edges)}</div>
+          <div class="pf-foot">{escape(_source_footer(result, "Crunchbase"))}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def _build_card_store_from_result(result: dict[str, Any]) -> dict[str, Any]:
+    data = dict(result.get("data") or {})
+    skills = dict(data.get("skills") or {})
+    metadata = dict(result.get("metadata") or {})
+    cards: dict[str, dict[str, Any]] = {}
+    for skill in SKILL_ORDER:
+        skill_result = skills.get(skill)
+        if not isinstance(skill_result, dict):
+            section = data.get(skill)
+            if isinstance(section, dict):
+                skill_result = {
+                    "skill": skill,
+                    "status": "valid",
+                    "latency_ms": 0,
+                    "data": dict(section),
+                    "sources": [],
+                    "error": None,
+                    "error_category": None,
+                    "data_ready": True,
+                    "is_critical": skill in {"summary", "timeline"},
+                }
+        if not isinstance(skill_result, dict):
+            cards[skill] = {"state": "pending", "result": None}
+            continue
+        status = str(skill_result.get("status") or "pending")
+        cards[skill] = {
+            "state": "valid" if status == "valid" else "error",
+            "result": dict(skill_result),
+        }
+    return {
+        "route": {
+            "symbol": metadata.get("symbol"),
+            "company_name": metadata.get("company_name"),
+            "question": data.get("question"),
+        },
+        "cards": cards,
+        "session_done": True,
+    }
+
+
+def render_progressive_cards(
+    card_store: dict[str, Any],
+    *,
+    metadata: dict[str, Any] | None = None,
+    trace: dict[str, Any] | None = None,
+    local_context: dict[str, Any] | None = None,
+) -> None:
+    _ = trace, local_context
+    meta = dict(metadata or {})
+    route = dict(card_store.get("route") or {})
+    st.markdown('<div id="pf-export-start" style="height:1px;"></div>', unsafe_allow_html=True)
+    company = str(
+        route.get("company_name")
+        or meta.get("company_name")
+        or ((_card_state_entry(card_store, "entity_info").get("result") or {}).get("data") or {}).get("company_name")
+        or ((_card_state_entry(card_store, "summary").get("result") or {}).get("data") or {}).get("company_name")
+        or "标的"
+    )
+    symbol = str(route.get("symbol") or meta.get("symbol") or "")
+
+    if company and company != "标的":
+        st.markdown(f"<h2 class='pf-section-title'>{escape(company)}</h2>", unsafe_allow_html=True)
+    st.markdown('<h2 class="pf-section-title">Stock Wiki Cards</h2>', unsafe_allow_html=True)
+
+    render_summary_card(_card_state_entry(card_store, "summary"))
+    render_entity_info_card(_card_state_entry(card_store, "entity_info"), company, symbol)
+    render_timeline_card(_card_state_entry(card_store, "timeline"))
+    render_watch_calendar_card(_card_state_entry(card_store, "watch_calendar"))
+    render_relationship_card(_card_state_entry(card_store, "relationship"))
+
+    if meta:
+        st.markdown('<h2 class="pf-section-title">Sources & Time</h2>', unsafe_allow_html=True)
+        st.caption(
+            f"generated_at={meta.get('generated_at', '')} | trace_id={meta.get('trace_id', '')} | symbol={meta.get('symbol', '')}"
+        )
+    st.markdown('<div id="pf-export-end" style="height:1px;"></div>', unsafe_allow_html=True)
 
 
 def _render_failed_stock_wiki_result(result: dict[str, Any]) -> None:
@@ -426,12 +920,14 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
             x=xs,
             y=ys,
             mode="lines",
-            line={"width": 2.2, "color": "#bf8f8f"},
+            line={"width": 2.2, "color": "#4b5563"},
             name="Close",
         )
     )
-    annotations: list[dict[str, Any]] = []
-    for item in events[:3]:
+    marker_xs: list[Any] = []
+    marker_ys: list[Any] = []
+    marker_texts: list[str] = []
+    for item in events[:4]:
         if not isinstance(item, dict):
             continue
         date_text = str(item.get("date") or "")
@@ -439,28 +935,156 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
         if not date_text or not title:
             continue
         try:
-            idx = xs.index(date_text)
+            point_idx = xs.index(date_text)
         except ValueError:
             continue
-        annotations.append(
-            {
-                "x": xs[idx],
-                "y": ys[idx],
-                "text": title[:18],
-                "showarrow": True,
-                "arrowhead": 2,
-                "arrowcolor": "#9a7d7d",
-                "font": {"size": 10},
-            }
+        marker_xs.append(xs[point_idx])
+        marker_ys.append(ys[point_idx])
+        marker_texts.append(title)
+    if marker_xs:
+        figure.add_trace(
+            go.Scatter(
+                x=marker_xs,
+                y=marker_ys,
+                mode="markers",
+                marker={"size": 8, "color": "#ffffff", "line": {"width": 2, "color": "#bf8f8f"}},
+                hovertext=marker_texts,
+                hovertemplate="%{hovertext}<extra></extra>",
+                name="Events",
+            )
         )
     figure.update_layout(
         margin={"l": 8, "r": 8, "t": 8, "b": 8},
-        height=180,
+        height=220,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
-        xaxis={"showgrid": False, "zeroline": False},
-        yaxis={"showgrid": True, "gridcolor": "rgba(31,35,40,0.08)", "zeroline": False},
-        annotations=annotations,
+        xaxis={"showgrid": False, "zeroline": False, "showline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
+        yaxis={"showgrid": True, "gridcolor": "rgba(31,35,40,0.08)", "zeroline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
+        annotations=[],
+        showlegend=False,
+    )
+    return figure
+
+
+def _timeline_event_html(events: list[dict[str, Any]]) -> str:
+    rows: list[str] = []
+    for item in events[:4]:
+        date_text = str(item.get("event_date") or item.get("date") or "").strip() or "-"
+        title = _compact_text(str(item.get("title") or "").strip() or "未命名事件", limit=48)
+        rows.append(
+            "<div style='display:flex;gap:0.45rem;margin-bottom:0.42rem;align-items:flex-start;'>"
+            f"<div style='min-width:4.2rem;font-weight:700;color:#5d4f4f;'>{escape(date_text)}</div>"
+            f"<div style='color:#2e3a48;line-height:1.4;'>{escape(title)}</div>"
+            "</div>"
+        )
+    if not rows:
+        rows.append("<div style='color:#6b7280;'>当前没有可展示的事件。</div>")
+    return "".join(rows)
+
+
+def _compact_text(text: str, *, limit: int) -> str:
+    compact = " ".join(str(text or "").split())
+    if len(compact) <= limit:
+        return compact
+    return compact[:limit] + "..."
+
+
+def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, float]]:
+    grouped: dict[str, list[str]] = {}
+    for item in nodes:
+        node_id = str(item.get("id") or "").strip()
+        if not node_id:
+            continue
+        grouped.setdefault(str(item.get("role") or "other"), []).append(node_id)
+
+    positions: dict[str, tuple[float, float]] = {}
+    if grouped.get("theme"):
+        positions[grouped["theme"][0]] = (0.0, 0.0)
+
+    bands = [
+        ("supplier", -1.65),
+        ("customer", 1.65),
+        ("competitor", 0.0),
+        ("other", 0.0),
+    ]
+    for role, x_pos in bands:
+        role_nodes = grouped.get(role) or []
+        if not role_nodes:
+            continue
+        count = len(role_nodes)
+        for idx, node_id in enumerate(role_nodes):
+            if role in {"competitor", "other"}:
+                positions[node_id] = (-1.2 + idx * (2.4 / max(count - 1, 1)), -1.25 if role == "competitor" else 1.25)
+            else:
+                positions[node_id] = (x_pos, (count - 1) * 0.3 - idx * 0.6)
+    return positions
+
+
+def _relationship_color(role: str) -> str:
+    return {
+        "theme": "#c8d6b9",
+        "supplier": "#d8c0a6",
+        "customer": "#d8b0b0",
+        "competitor": "#cbbce2",
+    }.get(role, "#d9dce1")
+
+
+def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> go.Figure:
+    positions = _relationship_layout(nodes)
+    figure = go.Figure()
+    for edge in edges:
+        start = positions.get(str(edge.get("from") or ""))
+        end = positions.get(str(edge.get("to") or ""))
+        if not start or not end:
+            continue
+        figure.add_trace(
+            go.Scatter(
+                x=[start[0], end[0]],
+                y=[start[1], end[1]],
+                mode="lines",
+                line={"width": 1.4, "color": "rgba(120,128,140,0.35)"},
+                hoverinfo="skip",
+                showlegend=False,
+            )
+        )
+
+    role_order = ["supplier", "customer", "competitor", "theme", "other"]
+    for role in role_order:
+        role_nodes = [item for item in nodes if str(item.get("role") or "other") == role]
+        if not role_nodes:
+            continue
+        xs = [positions[str(item.get("id") or "")][0] for item in role_nodes if str(item.get("id") or "") in positions]
+        ys = [positions[str(item.get("id") or "")][1] for item in role_nodes if str(item.get("id") or "") in positions]
+        texts = [str(item.get("id") or "") for item in role_nodes if str(item.get("id") or "") in positions]
+        if not xs:
+            continue
+        figure.add_trace(
+            go.Scatter(
+                x=xs,
+                y=ys,
+                mode="markers+text",
+                text=texts,
+                textposition="middle center",
+                textfont={"size": 10, "color": "#423b37"},
+                marker={
+                    "size": 34 if role == "theme" else 28,
+                    "color": _relationship_color(role),
+                    "line": {"width": 1, "color": "#c7ced6"},
+                    "symbol": "circle",
+                },
+                hoverinfo="text",
+                hovertext=texts,
+                showlegend=False,
+            )
+        )
+
+    figure.update_layout(
+        margin={"l": 8, "r": 8, "t": 8, "b": 8},
+        height=260,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(255,255,255,0)",
+        xaxis={"visible": False, "range": [-2.2, 2.2]},
+        yaxis={"visible": False, "range": [-1.8, 1.8]},
         showlegend=False,
     )
     return figure
@@ -623,7 +1247,7 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
         row_html += (
             "<div style='display:flex;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;'>"
             f"<div><strong>{escape(str(item.get('date') or '-'))}</strong> {escape(str(item.get('event') or ''))}</div>"
-            "<div class='pf-reminder'>Set Reminder</div></div>"
+            f"{_watch_calendar_actions_html(item.get('url'))}</div>"
         )
     if calendar_bullets:
         row_html += "".join(f"<div style='margin-bottom:0.25rem;'>• {escape(item)}</div>" for item in calendar_bullets)
@@ -654,7 +1278,7 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
     edges = [dict(item) for item in list(relationship_data.get("edges") or []) if isinstance(item, dict)]
     chips = "".join(
         f"<span class='pf-chip'>{escape(str(item.get('id') or '-'))}</span>"
-        for item in nodes[:8]
+        for item in nodes[:6]
     )
     if not chips:
         chips = "<span class='pf-chip'>nodes: 0</span><span class='pf-chip'>edges: 0</span>"
@@ -669,7 +1293,22 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
             <div class="pf-card-title">Relationship: Connections & Influences</div>
             <div class="pf-card-badge">{escape(_card_badge(relationship_skill, "Map"))}</div>
           </div>
-          <div>{escape(rel_summary)}</div>
+          <div class="pf-card-sub">{escape(rel_summary)}</div>
+          <div class="pf-chip-row">{chips}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+    if nodes:
+        st.plotly_chart(
+            _relationship_figure(nodes, edges),
+            use_container_width=True,
+            config={"displayModeBar": False},
+            key=f"relationship-full-{len(nodes)}-{len(edges)}",
+        )
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card" style="margin-top:-0.35rem;">
           <div class="pf-chip-row">{chips}</div>
           <div class="pf-foot">{escape(_source_footer(relationship_skill, "Crunchbase"))}</div>
         </section>
@@ -754,12 +1393,13 @@ def render_charts(result: dict[str, Any], local_context: dict[str, Any] | None =
         return
 
     rendered = False
-    for chart_spec in chart_index:
+    for index, chart_spec in enumerate(chart_index):
         rows = _resolve_chart_rows(chart_spec, context)
         if not rows:
             continue
         figure = _line_chart(chart_spec, rows)
-        st.plotly_chart(figure, use_container_width=True, config={"displayModeBar": False})
+        chart_key = f"chart-index-{index}-{chart_spec.get('chart_id', 'chart')}"
+        st.plotly_chart(figure, use_container_width=True, config={"displayModeBar": False}, key=chart_key)
         rendered = True
     if not rendered:
         st.markdown('<div class="pf-empty">图表索引存在，但当前没有可渲染的数据。</div>', unsafe_allow_html=True)
@@ -830,12 +1470,12 @@ def render_result_card(
     # 这里渲染的是 Garden Card，不是自由聊天文本。
     render_status(result)
     if _is_stock_wiki_result(result):
-        metadata = dict(result.get("metadata") or {})
-        if str(metadata.get("execution_status") or "").strip().lower() == "failed":
-            _render_failed_stock_wiki_result(result)
-            render_debug(trace, result, local_context=local_context)
-            return
-        _render_stock_wiki_cards(result)
+        render_progressive_cards(
+            _build_card_store_from_result(result),
+            metadata=dict(result.get("metadata") or {}),
+            trace=trace,
+            local_context=local_context,
+        )
         render_debug(trace, result, local_context=local_context)
         return
     render_answer(result)

@@ -4,7 +4,7 @@ from collections.abc import AsyncIterator, Callable
 from typing import Any
 
 from pomefi.config import KimiConfig
-from pomefi.streaming.events import EVENT_SESSION_DONE, EVENT_SESSION_ERROR, EVENT_SESSION_START, make_event
+from pomefi.streaming.events import EVENT_SESSION_DONE, EVENT_SESSION_ERROR, EVENT_SESSION_START, EVENT_SKILL_RESULT_READY, make_event
 from pomefi.tools.formula import FormulaToolClient
 
 from .aggregator import aggregate_stock_wiki_payload
@@ -219,30 +219,27 @@ async def run_stock_wiki_analysis_stream(
             "relationship": lambda s, n, **kw: get_relationship(s, n, config=config, formula_client=formula_client, **kw),
         }
 
-        skill_results: dict[str, dict[str, Any]] | None = None
-        short_circuit = False
-        cancelled_skills: list[str] = []
+        skill_results: dict[str, dict[str, Any]] = {}
         async for event in run_parallel_skills_stream(
             symbol=symbol,
             company_name=company_name,
             runners=runners,
         ):
             orchestrator_events.append(event)
+            if event.get("type") == EVENT_SKILL_RESULT_READY:
+                maybe_result = event.get("result")
+                skill_name = str(event.get("skill") or "")
+                if skill_name and isinstance(maybe_result, dict):
+                    skill_results[skill_name] = dict(maybe_result)
             yield event
-            if event.get("type") == "orchestrator_short_circuit":
-                short_circuit = True
-                cancelled_skills = [str(item) for item in list(event.get("cancelled_skills") or [])]
             if event.get("type") == "orchestrator_done":
                 maybe_results = event.get("skill_results")
                 if isinstance(maybe_results, dict):
-                    skill_results = maybe_results
-                short_circuit = bool(event.get("short_circuit") or short_circuit)
-                if not cancelled_skills:
-                    cancelled_skills = [str(item) for item in list(event.get("cancelled_skills") or [])]
+                    skill_results.update({str(name): dict(result) for name, result in maybe_results.items() if isinstance(result, dict)})
             if event.get("type") == "orchestrator_error":
                 raise RuntimeError(str(event.get("error") or "orchestrator_error"))
 
-        if skill_results is None:
+        if not skill_results:
             raise RuntimeError("orchestrator_done_missing")
 
         card = aggregate_stock_wiki_payload(
@@ -250,8 +247,6 @@ async def run_stock_wiki_analysis_stream(
             symbol=symbol,
             company_name=company_name,
             skill_results=skill_results,
-            short_circuit=short_circuit,
-            cancelled_skills=cancelled_skills,
         )
         payload = {
             "card": card,

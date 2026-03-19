@@ -5,10 +5,12 @@
 - 本文件只放长期规则，不放阶段进度。
 - 规则变更时更新；日常任务不频繁改动。
 
-## 2. 固定执行契约（每次任务都要用）
-- Prompt 开头固定为：
-`请先读取 agent-instructions.md 和 progress.md，然后按步骤执行第 X 阶段，并更新 progress.md。`
-- 执行顺序固定：先读规则 -> 再读进度 -> 再执行 -> 最后更新 `progress.md`。
+## 2. 固定执行契约
+- Prompt 固定用语：
+`读取 agent-instructions.md 和 progress.md，执行计划，更新 progress.md。可按需调用 Subagent（GPT-5.4-mini）。`
+- **progress.md 行数检查**：读取后若超过 200 行，先按 §9 规则压缩，再继续执行。
+- 执行顺序：读规则 → 读进度 → （若超限则压缩） → 执行 → 更新 progress.md
+- AkShare 报错先查 `docs/stock.md`，Kimi 报错先查 `docs/Kimi_API_Usage_Guide_v1.md`，再排查代码。
 
 ## 3. 项目目标与 MVP 边界
 - 目标：交付可运行的 PomeFi MVP（A 股单标的分析 + Streamlit 展示）。
@@ -32,7 +34,7 @@
 - C7: 每个 `tool_call` 必须有对应 `role=tool + tool_call_id`。
 - C8: Formula body 透传模型 `function`，`arguments` 保持 JSON string。
 - C9: 流结束按完整流结束语义，不只看中间 `finish_reason`。
-- C10: `kimi-k2.5` 强制 `temperature=1.0`，`reasoning_content` 用 `getattr/hasattr`。
+- C10: `kimi-k2.5` 不要手动设置 `temperature`；thinking 开启时服务端固定为 `1.0`，thinking 关闭时固定为 `0.6`；`reasoning_content` 用 `getattr/hasattr`。
 
 ## 4.1 最终结果合同硬约束（二值）
 - B1: 对用户的最终结果只能二选一：`execution_status=success` 或 `execution_status=failed`。
@@ -97,5 +99,6 @@
 ```
 
 ## 9. 更新规则
-- 本文件仅在“规则变化”时更新。
+- 本文件仅在"规则变化"时更新。
 - 阶段状态、执行进展、阻塞信息一律写入 `progress.md`。
+- **progress.md 行数控制**：每次读取 `progress.md` 时检查总行数；若超过 **200 行**，立即执行一次压缩——将已完成（`done` / `verified`）条目折叠为单行摘要，仅保留：任务标题、完成日期、关键结论/产出物路径；未完成及阻塞条目保持原样。压缩后文件应 ≤ 100 行。
