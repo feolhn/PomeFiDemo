@@ -11,6 +11,7 @@ if PROJECT_ROOT_TEXT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT_TEXT)
 
 from scripts.debug_skill import default_output_path, write_skill_output, _run_timeline_bundle
+from scripts.target_stock import load_target_stock
 
 
 def _branch_output_path(name: str) -> Path:
@@ -18,7 +19,8 @@ def _branch_output_path(name: str) -> Path:
 
 
 def main() -> int:
-    payload = asyncio.run(_run_timeline_bundle("300750", "宁德时代"))
+    symbol, company_name = load_target_stock()
+    payload = asyncio.run(_run_timeline_bundle(symbol, company_name))
     write_skill_output(payload, default_output_path("timeline"))
     branches = dict(payload.get("branches") or {})
     if "akshare" in branches:

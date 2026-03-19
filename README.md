@@ -40,6 +40,16 @@ streamlit run app.py
 
 ## 单卡调试
 
+先在这个文件里手动指定当前目标股票：
+
+```json
+// config/target_stock.json
+{
+  "symbol": "300750",
+  "company_name": "宁德时代"
+}
+```
+
 每张卡都可以单独跑，并把结果写到 `debug_outputs/stock_wiki/`：
 
 ```bash
@@ -52,6 +62,7 @@ python scripts/debug_relationship_card.py
 
 说明：
 
+- 五个单卡脚本都会读取 `config/target_stock.json`
 - 前端默认读取合并后的 `timeline.json`
 - `timeline.akshare.json` 和 `timeline.kimi.json` 只是调试拆分文件
 

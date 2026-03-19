@@ -11,10 +11,12 @@ if PROJECT_ROOT_TEXT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT_TEXT)
 
 from scripts.debug_skill import default_output_path, write_skill_output, _run_skill
+from scripts.target_stock import load_target_stock
 
 
 def main() -> int:
-    payload = asyncio.run(_run_skill("summary", "300750", "宁德时代"))
+    symbol, company_name = load_target_stock()
+    payload = asyncio.run(_run_skill("summary", symbol, company_name))
     write_skill_output(payload, default_output_path("summary"))
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0

@@ -34,6 +34,9 @@
   - 高科技/制造/医药/消费/金融分别切不同描述重点
   - 明确禁止空话与伪细节
   - live `debug_entity_info_card.py` 已成功，`entity_info.json/status=valid`
+- 已新增单一调试标的配置文件：
+  - `config/target_stock.json`
+  - 五个单卡脚本已统一读取该文件，不再各自写死 `300750/宁德时代`
 
 ## 进行中
 - 本机前端验收：`timeline` 图内事件、`relationship` map、`watch_calendar` 精简日历。
@@ -45,6 +48,7 @@
 - `watch_calendar` 真实来源链接仍需再收敛：当前 live `web_search` 证据未提供可复用公开 URL，因此 item.url 为空。
 - `timeline` 前端事件数量不一致排查：图内标注与表格当前使用了不同裁剪规则。
 - `entity_info` 摘要字数仍可再收紧：当前 live 文案风格已改善，但仍偏长。
+- 后续如果要支持前端切换标的，需要再决定是否让 `app.py` 也读取 `target_stock.json`。
 
 ## 下一步（Next Action）
 1. 运行 `streamlit run /Users/hujiawei/Documents/PomeFiDemo/app.py`
@@ -124,6 +128,14 @@
   - sandbox 内运行会因 Codex 代理环境返回 `Connection error.`
   - 沙箱外 live 成功，`entity_info` 当前为 `status=valid`
   - 新文案已按行业叙事输出，更接近 Equity Research 风格
+
+- 命令:
+`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/target_stock.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_relationship_card.py`
+`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_target_stock.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+- 结论:
+  - 已新增 `config/target_stock.json`
+  - 五个单卡脚本统一读取该文件
+  - 最小回归通过（`5 passed`）
 
 ## 阻塞项（如有）
 - 仍需要重跑 `python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py`，确认 `summary` 是否已恢复为 `valid`
