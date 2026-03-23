@@ -907,27 +907,36 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
     event_html = _timeline_event_html(events)
     summary_text = _compact_text(str(data.get("summary") or "近三个月价格与事件时间线。"), limit=120)
     
-    # Build SVG chart
-    chart_html = ""
+    # Card header and summary
+    st.markdown(
+        f'''
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">📈 价格走势 & 关键事件</div>
+            <div class="pf-card-badge">近3个月</div>
+          </div>
+          <div class="pf-card-sub">{escape(summary_text)}</div>
+        </section>
+        ''',
+        unsafe_allow_html=True,
+    )
+    
+    # Render SVG chart separately (outside card to avoid nesting issues)
     if series:
         chart_html = _build_timeline_svg(series, events)
+        st.markdown(chart_html, unsafe_allow_html=True)
     
-    # Build HTML using string concatenation to avoid f-string issues with HTML content
-    html_parts = [
-        '<section class="pf-mobile-card">',
-        '  <div class="pf-card-head">',
-        '    <div class="pf-card-title">📈 价格走势 & 关键事件</div>',
-        '    <div class="pf-card-badge">近3个月</div>',
-        '  </div>',
-        f'  <div class="pf-card-sub">{escape(summary_text)}</div>',
-        chart_html,
-        '  <div style="font-weight:600;font-size:0.875rem;margin:0.75rem 0 0.5rem;color:var(--ink);">关键事件</div>',
-        event_html,
-        f'  <div class="pf-foot">{escape(_source_footer(result, "MarketWatch"))}</div>',
-        '</section>',
-    ]
-    
-    st.markdown("\n".join(html_parts), unsafe_allow_html=True)
+    # Card footer with events
+    st.markdown(
+        f'''
+        <section class="pf-mobile-card">
+          <div style="font-weight:600;font-size:0.875rem;margin-bottom:0.5rem;color:var(--ink);">关键事件</div>
+          {event_html}
+          <div class="pf-foot">{escape(_source_footer(result, "MarketWatch"))}</div>
+        </section>
+        ''',
+        unsafe_allow_html=True,
+    )
 
 
 def _smooth_path_data(ys: list[float], x_scale, y_scale) -> str:
