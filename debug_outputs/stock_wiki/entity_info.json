@@ -3,12 +3,21 @@
   "result": {
     "status": "valid",
     "data": {
-      "symbol": "300750",
-      "company_name": "宁德时代",
-      "industry": "动力电池/新能源",
-      "main_business": "动力电池系统、储能电池系统、电池材料及回收",
-      "summary_100cn": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。",
-      "summary": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。"
+      "symbol": "600438",
+      "company_name": "通威股份",
+      "industry": "光伏制造",
+      "main_business": "高纯晶硅、太阳能电池及组件、水产饲料",
+      "summary_100cn": "全球高纯晶硅与太阳能电池双龙头，依托四川云南低电价区位布局多晶硅产能，成本曲线位于行业最左侧；电池片环节通过大尺寸+TOPCon技术迭代维持开工率领先；饲料业务提供稳定现金流。核心壁垒为极致成本管控能力与垂直一体化工艺know-how。",
+      "summary": "全球高纯晶硅与太阳能电池双龙头，依托四川云南低电价区位布局多晶硅产能，成本曲线位于行业最左侧；电池片环节通过大尺寸+TOPCon技术迭代维持开工率领先；饲料业务提供稳定现金流。核心壁垒为极致成本管控能力与垂直一体化工艺know-how。",
+      "investment_tags": [
+        "上证50",
+        "北向重仓",
+        "高股息",
+        "光伏一体化龙头",
+        "硅料成本王者",
+        "TOPCon电池",
+        "农业+新能源双主业"
+      ]
     },
     "sources": [
       {
@@ -49,7 +58,17 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "宁德时代"
+        "delta": "通"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "威"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "股份"
       },
       {
         "type": "llm_content_delta",
@@ -74,17 +93,12 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "动力电池"
+        "delta": "光伏"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "/"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "新能源"
+        "delta": "制造"
       },
       {
         "type": "llm_content_delta",
@@ -114,32 +128,17 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "动力电池"
+        "delta": "高"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "系统"
+        "delta": "纯"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "、"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "储能"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "电池"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "系统"
+        "delta": "晶硅"
       },
       {
         "type": "llm_content_delta",
@@ -149,12 +148,7 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "电池"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "材料"
+        "delta": "太阳能电池"
       },
       {
         "type": "llm_content_delta",
@@ -164,7 +158,22 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "回收"
+        "delta": "组件"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "水产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "饲料"
       },
       {
         "type": "llm_content_delta",
@@ -204,17 +213,192 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "动力电池"
+        "delta": "高"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "市"
+        "delta": "纯"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "占"
+        "delta": "晶硅"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "太阳能电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "双"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "龙头"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "依托"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "四川"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "云南"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "低"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "电价"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "区位"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "布局"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "多"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "晶硅"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "产能"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "成本"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "曲线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "位于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "最"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "左侧"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "；"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "电池"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "片"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "环节"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "通过"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "大尺寸"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "+"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "TOP"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "Con"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "技术"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "迭代"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "维持"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "开工"
       },
       {
         "type": "llm_content_delta",
@@ -224,17 +408,42 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "第一的"
+        "delta": "领先"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "制造商"
+        "delta": "；"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "，"
+        "delta": "饲料"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "业务"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "提供"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "稳定"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "现金流"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info",
+        "delta": "。"
       },
       {
         "type": "llm_content_delta",
@@ -254,87 +463,47 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "材料"
+        "delta": "极致"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "体系"
+        "delta": "成本"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "迭代"
+        "delta": "管控"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "能力"
+        "delta": "能力与"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "（"
+        "delta": "垂直"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "CTP"
+        "delta": "一体化"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "/"
+        "delta": "工艺"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "麒麟"
+        "delta": "know"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "/"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "钠"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "离子"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "）"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "与"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "极限"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "制造"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "良"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "率"
+        "delta": "-how"
       },
       {
         "type": "llm_content_delta",
@@ -344,222 +513,172 @@
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "收入"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "八成"
+        "delta": "invest"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "来自"
+        "delta": "ment"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "动力电池"
+        "delta": "_tags"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "，"
+        "delta": "\":[\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "深度"
+        "delta": "上证"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "绑定"
+        "delta": "50"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "特斯拉"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "、"
+        "delta": "北"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "宝马"
+        "delta": "向"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "、"
+        "delta": "重仓"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "蔚来"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "等"
+        "delta": "高"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "主流"
+        "delta": "股息"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "车企"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "，"
+        "delta": "光伏"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "储能"
+        "delta": "一体化"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "业务"
+        "delta": "龙头"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "增速"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "显著"
+        "delta": "硅"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "但"
+        "delta": "料"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "毛利"
+        "delta": "成本"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "偏低"
+        "delta": "王者"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "。"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "技术"
+        "delta": "TOP"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "路线"
+        "delta": "Con"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "押"
+        "delta": "电池"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "注"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "磷酸"
+        "delta": "农业"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "铁"
+        "delta": "+"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "锂"
+        "delta": "新能源"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "与"
+        "delta": "双"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "三元"
+        "delta": "主业"
       },
       {
         "type": "llm_content_delta",
         "scope": "entity_info",
-        "delta": "并行"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "，"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "产能"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "布局"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "横跨"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "中欧"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "以"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "贴近"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "终端"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "市场"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "entity_info",
-        "delta": "。\""
+        "delta": "\"]"
       },
       {
         "type": "llm_content_delta",
@@ -569,17 +688,26 @@
       {
         "type": "structured_json_done",
         "scope": "entity_info",
-        "content": "{\"company_name\":\"宁德时代\",\"industry\":\"动力电池/新能源\",\"main_business\":\"动力电池系统、储能电池系统、电池材料及回收\",\"summary_100cn\":\"全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。\"}",
+        "content": "{\"company_name\":\"通威股份\",\"industry\":\"光伏制造\",\"main_business\":\"高纯晶硅、太阳能电池及组件、水产饲料\",\"summary_100cn\":\"全球高纯晶硅与太阳能电池双龙头，依托四川云南低电价区位布局多晶硅产能，成本曲线位于行业最左侧；电池片环节通过大尺寸+TOPCon技术迭代维持开工率领先；饲料业务提供稳定现金流。核心壁垒为极致成本管控能力与垂直一体化工艺know-how。\",\"investment_tags\":[\"上证50\",\"北向重仓\",\"高股息\",\"光伏一体化龙头\",\"硅料成本王者\",\"TOPCon电池\",\"农业+新能源双主业\"]}",
         "json": {
-          "company_name": "宁德时代",
-          "industry": "动力电池/新能源",
-          "main_business": "动力电池系统、储能电池系统、电池材料及回收",
-          "summary_100cn": "全球动力电池市占率第一的制造商，核心壁垒为材料体系迭代能力（CTP/麒麟/钠离子）与极限制造良率。收入八成来自动力电池，深度绑定特斯拉、宝马、蔚来等主流车企，储能业务增速显著但毛利偏低。技术路线押注磷酸铁锂与三元并行，产能布局横跨中欧以贴近终端市场。"
+          "company_name": "通威股份",
+          "industry": "光伏制造",
+          "main_business": "高纯晶硅、太阳能电池及组件、水产饲料",
+          "summary_100cn": "全球高纯晶硅与太阳能电池双龙头，依托四川云南低电价区位布局多晶硅产能，成本曲线位于行业最左侧；电池片环节通过大尺寸+TOPCon技术迭代维持开工率领先；饲料业务提供稳定现金流。核心壁垒为极致成本管控能力与垂直一体化工艺know-how。",
+          "investment_tags": [
+            "上证50",
+            "北向重仓",
+            "高股息",
+            "光伏一体化龙头",
+            "硅料成本王者",
+            "TOPCon电池",
+            "农业+新能源双主业"
+          ]
         }
       }
     ]
   },
-  "generated_at": "2026-03-19T15:54:55.168075+00:00",
+  "generated_at": "2026-03-23T15:47:18.032834+00:00",
   "runtime": {
     "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
     "python_version": "3.13.9",

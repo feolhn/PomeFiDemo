@@ -9,6 +9,7 @@ fake_streamlit = types.SimpleNamespace()
 sys.modules.setdefault("streamlit", fake_streamlit)
 
 render = importlib.import_module("pomefi.ui.render")
+_build_relationship_graph_html = render._build_relationship_graph_html
 _relationship_layout = render._relationship_layout
 _relationship_figure = render._relationship_figure
 
@@ -42,3 +43,19 @@ def test_relationship_figure_contains_edges_and_nodes() -> None:
     assert len(figure.data) >= 4
     assert any(getattr(trace, "mode", "") == "lines" for trace in figure.data)
     assert any("markers+text" == getattr(trace, "mode", "") for trace in figure.data)
+
+
+def test_relationship_html_graph_contains_relation_labels() -> None:
+    html = _build_relationship_graph_html(
+        nodes=[
+            {"id": "隆基绿能", "role": "theme"},
+            {"id": "通威股份", "role": "supplier"},
+            {"id": "BC电池", "role": "other"},
+        ],
+        edges=[
+            {"from": "通威股份", "to": "隆基绿能", "relation": "构成成本"},
+            {"from": "BC电池", "to": "隆基绿能", "relation": "技术路径"},
+        ],
+    )
+    assert "构成成本" in html
+    assert "技术路径" in html

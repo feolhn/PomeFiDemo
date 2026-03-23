@@ -9,28 +9,38 @@ from pomefi.stock_wiki.structured import stream_json_object
 from .common import classify_error, make_skill_result
 
 ENTITY_INFO_SYSTEM_PROMPT = """
-你是资深商业分析师（Equity Research Analyst）。
-你的任务是为目标公司生成一份极简、高浓缩的“企业本质”描述。
+你是资深证券分析师（Senior Equity Research Analyst）。
+你的任务是为目标公司生成一份“投资画像”。
+重点展示公司的内部护城河、业务本质及在二级市场的身份标签。
 必须只输出一个 JSON object，不允许输出 markdown。
 schema:
 {
   "company_name": "string",
-  "summary_100cn": "string, 不超过100字",
   "industry": "string",
-  "main_business": "string"
+  "main_business": "string",
+  "summary_100cn": "string, 不超过100字",
+  "investment_tags": ["string"]
 }
 
 规则：
-- 先判断公司的核心行业，再按行业切换描述重点。
-- 高科技/半导体/AI：优先描述核心技术、研发强度、关键客户或应用场景。
-- 传统制造/汽车：优先描述生产规模、全球布局、成本/毛利优势、供应链控制力。
-- 医药/生物技术：优先描述核心产品或管线、市场地位、关键研发或审批节点。
-- 消费/零售：优先描述品牌力、渠道力、用户运营能力、门店或销售网络。
-- 金融/银行：优先描述资产规模、资本实力、主要利润来源、业务结构。
+- 核心定位：这是公司内部画像，不是外部关系图谱。
+- 禁止讨论外部宏观风险、具体供应商名称、具体竞争对手动态；这些属于 relationship 卡片。
+- 必须聚焦内部特征：核心技术实力、商业模式、毛利水平、品牌地位、工艺或平台能力。
+- 行业适配：
+  - 科技：侧重研发壁垒、专利矩阵、软硬一体化能力。
+  - 制造：侧重一体化成本、产能规模、工艺领先性。
+  - 消费：侧重品牌溢价、渠道密度、用户忠诚度。
+  - 医药：侧重平台技术、管线深度、放量周期。
+- 标签系统：
+  - 指数/身份：如沪深300、上证50、纳指100、标普500。
+  - 资金/风格：如北向重仓、高股息、破净股、社保重仓、现金牛。
+  - 板块/题材：如BC电池、新质生产力、出海领军、华为链、低空经济。
+  - investment_tags 强制提供 4-7 个标签；只写确定标签，不确定就跳过。
 - 禁止空话，如“前景广阔”“持续增长”“行业领先”。
 - 只写你能确定的内容；不确定就跳过，不要编造精确数字或伪细节。
 - summary_100cn 必须回答：它是什么公司、靠什么赚钱、核心壁垒是什么。
-- summary_100cn 控制在 2-4 句、100 字内，语气像股票研究摘要，不像百科简介。
+- summary_100cn 要像券商深度报告开篇第一段，冷峻、客观、高信息密度。
+- summary_100cn 控制在 100 字内。
 """.strip()
 
 
@@ -55,8 +65,8 @@ async def get_entity_info(
     target_name = company_name or symbol
     prompt = (
         f"目标公司：{target_name}（{symbol}）。"
-        "请按 schema 输出 company_name、industry、main_business、summary_100cn。"
-        "先判断该公司的核心行业，再按行业叙事维度生成极简企业本质描述。"
+        "请按 schema 输出 company_name、industry、main_business、summary_100cn、investment_tags。"
+        "先判断该公司的核心行业，再按内部护城河与市场身份标签生成投资画像。"
     )
     try:
         payload: dict[str, Any] | None = None
@@ -84,6 +94,11 @@ async def get_entity_info(
             "main_business": str(payload.get("main_business") or "").strip(),
             "summary_100cn": summary,
             "summary": summary,
+            "investment_tags": [
+                str(item).strip()
+                for item in list(payload.get("investment_tags") or [])
+                if str(item).strip()
+            ][:7],
         }
         return make_skill_result(
             status="valid",
@@ -103,6 +118,7 @@ async def get_entity_info(
                 "main_business": "",
                 "summary_100cn": f"{target_name} 是 A 股上市公司，当前未获取到更完整实体介绍。",
                 "summary": f"{target_name} 是 A 股上市公司，当前未获取到更完整实体介绍。",
+                "investment_tags": [],
             },
             sources=[],
             error=str(exc),

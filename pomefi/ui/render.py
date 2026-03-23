@@ -344,13 +344,23 @@ def inject_page_styles() -> None:
         .pf-rel-graph {
           position: relative;
           padding: 1.5rem 0.5rem;
-          min-height: 200px;
+          min-height: 232px;
+        }
+
+        .pf-rel-svg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+          z-index: 0;
+          pointer-events: none;
         }
 
         .pf-rel-center {
           position: absolute;
           left: 50%;
-          top: 50%;
+          top: 56%;
           transform: translate(-50%, -50%);
           width: 70px;
           height: 70px;
@@ -403,6 +413,29 @@ def inject_page_styles() -> None:
           position: absolute;
           background: #ccc;
           z-index: 1;
+        }
+
+        .pf-rel-edge-text {
+          font-size: 0.58rem;
+          font-weight: 600;
+          fill: #5f6368;
+        }
+
+        .pf-rel-label {
+          position: absolute;
+          transform: translate(-50%, -50%);
+          padding: 0.12rem 0.38rem;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.95);
+          border: 1px solid rgba(0,0,0,0.08);
+          box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+          color: #5f6368;
+          font-size: 0.62rem;
+          font-weight: 600;
+          line-height: 1;
+          white-space: nowrap;
+          z-index: 3;
+          pointer-events: none;
         }
 
         /* Responsive adjustments */
@@ -1202,6 +1235,8 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
 
 def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> str:
     """Build flat-design relationship graph using HTML/CSS."""
+    positions = _relationship_html_layout(nodes)
+
     # Group nodes by role
     grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
     for node in nodes:
@@ -1213,36 +1248,122 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
     # Get theme node (center)
     theme_node = grouped["theme"][0] if grouped["theme"] else "中心"
     
-    # Build node positions
-    # Left side: suppliers, Right side: customers
-    # Top: others, Bottom: competitors
-    nodes_html = f'<div class="pf-rel-center">{escape(theme_node)}</div>'
-    
-    # Left side - suppliers (positioned with inline styles)
-    left_nodes = grouped.get("supplier", [])[:3]
-    for idx, node_id in enumerate(left_nodes):
-        top_pct = 20 + idx * 25
-        nodes_html += f'<div class="pf-rel-node pf-rel-node-supplier" style="left:5%;top:{top_pct}%;">{escape(node_id)}</div>'
-    
-    # Right side - customers
-    right_nodes = grouped.get("customer", [])[:3]
-    for idx, node_id in enumerate(right_nodes):
-        top_pct = 20 + idx * 25
-        nodes_html += f'<div class="pf-rel-node pf-rel-node-customer" style="right:5%;top:{top_pct}%;">{escape(node_id)}</div>'
-    
-    # Top - others
-    top_nodes = grouped.get("other", [])[:2]
-    for idx, node_id in enumerate(top_nodes):
-        left_pct = 35 + idx * 30
-        nodes_html += f'<div class="pf-rel-node pf-rel-node-other" style="left:{left_pct}%;top:5%;">{escape(node_id)}</div>'
-    
-    # Bottom - competitors
-    bottom_nodes = grouped.get("competitor", [])[:2]
-    for idx, node_id in enumerate(bottom_nodes):
-        left_pct = 35 + idx * 30
-        nodes_html += f'<div class="pf-rel-node pf-rel-node-competitor" style="left:{left_pct}%;bottom:5%;">{escape(node_id)}</div>'
-    
-    return f'<div class="pf-rel-graph">{nodes_html}</div>'
+    svg_lines = []
+    label_html = []
+    for edge in edges:
+        start_id = str(edge.get("from") or "")
+        end_id = str(edge.get("to") or "")
+        start = positions.get(start_id)
+        end = positions.get(end_id)
+        if not start or not end:
+            continue
+        relation = escape(_compact_text(str(edge.get("relation") or ""), limit=8))
+        x1, y1 = start
+        x2, y2 = end
+        svg_lines.append(
+            f"<line x1='{x1}' y1='{y1}' x2='{x2}' y2='{y2}' stroke='rgba(150,150,150,0.45)' stroke-width='1.3' />"
+        )
+        if relation:
+            label_x, label_y = _relationship_label_position(start_id, end_id, x1, y1, x2, y2, theme_node)
+            label_html.append(
+                f"<div class='pf-rel-label' style='left:{label_x}%;top:{label_y}%;'>{relation}</div>"
+            )
+
+    nodes_html = []
+    if theme_node in positions:
+        nodes_html.append(f'<div class="pf-rel-center">{escape(theme_node)}</div>')
+
+    for node_id in grouped.get("supplier", [])[:3]:
+        x, y = positions.get(node_id, (5.0, 20.0))
+        nodes_html.append(
+            f'<div class="pf-rel-node pf-rel-node-supplier" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+        )
+
+    for node_id in grouped.get("customer", [])[:3]:
+        x, y = positions.get(node_id, (82.0, 20.0))
+        nodes_html.append(
+            f'<div class="pf-rel-node pf-rel-node-customer" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+        )
+
+    for node_id in grouped.get("other", [])[:2]:
+        x, y = positions.get(node_id, (35.0, 8.0))
+        nodes_html.append(
+            f'<div class="pf-rel-node pf-rel-node-other" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+        )
+
+    for node_id in grouped.get("competitor", [])[:2]:
+        x, y = positions.get(node_id, (35.0, 82.0))
+        nodes_html.append(
+            f'<div class="pf-rel-node pf-rel-node-competitor" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+        )
+
+    svg_html = (
+        "<svg class='pf-rel-svg' viewBox='0 0 100 100' preserveAspectRatio='none'>"
+        + "".join(svg_lines)
+        + "</svg>"
+    )
+    return f"<div class='pf-rel-graph'>{svg_html}{''.join(label_html)}{''.join(nodes_html)}</div>"
+
+
+def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, float]]:
+    """HTML 关系图使用百分比坐标，和移动端卡片布局保持一致。"""
+    grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
+    for node in nodes:
+        role = str(node.get("role") or "other")
+        node_id = str(node.get("id") or "")
+        if node_id:
+            grouped.setdefault(role, []).append(node_id)
+
+    positions: dict[str, tuple[float, float]] = {}
+    if grouped["theme"]:
+        positions[grouped["theme"][0]] = (50.0, 56.0)
+
+    for idx, node_id in enumerate(grouped.get("supplier", [])[:3]):
+        positions[node_id] = (14.0, 18.0 + idx * 22.0)
+
+    for idx, node_id in enumerate(grouped.get("customer", [])[:3]):
+        positions[node_id] = (72.0, 18.0 + idx * 22.0)
+
+    for idx, node_id in enumerate(grouped.get("other", [])[:2]):
+        positions[node_id] = (28.0 + idx * 32.0, 8.0)
+
+    for idx, node_id in enumerate(grouped.get("competitor", [])[:2]):
+        positions[node_id] = (28.0 + idx * 32.0, 86.0)
+
+    return positions
+
+
+def _relationship_label_position(
+    start_id: str,
+    end_id: str,
+    x1: float,
+    y1: float,
+    x2: float,
+    y2: float,
+    theme_node: str,
+) -> tuple[float, float]:
+    """把关系词从中心节点挪开，优先靠近非 theme 节点。"""
+    if start_id == theme_node and end_id != theme_node:
+        tx = x1 * 0.28 + x2 * 0.72
+        ty = y1 * 0.28 + y2 * 0.72
+    elif end_id == theme_node and start_id != theme_node:
+        tx = x1 * 0.72 + x2 * 0.28
+        ty = y1 * 0.72 + y2 * 0.28
+    else:
+        tx = (x1 + x2) / 2
+        ty = (y1 + y2) / 2
+
+    dx = x2 - x1
+    dy = y2 - y1
+    length = (dx * dx + dy * dy) ** 0.5 or 1.0
+    nx = -dy / length
+    ny = dx / length
+    offset = 3.4
+    if start_id == theme_node or end_id == theme_node:
+        offset = 4.2
+    tx += nx * offset
+    ty += ny * offset
+    return tx, ty
 
 
 def _build_card_store_from_result(result: dict[str, Any]) -> dict[str, Any]:
