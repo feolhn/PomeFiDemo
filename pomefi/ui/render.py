@@ -930,6 +930,55 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
     )
 
 
+def _smooth_path_data(ys: list[float], x_scale, y_scale) -> str:
+    """Generate smooth SVG path using cubic bezier curves."""
+    n = len(ys)
+    if n == 0:
+        return ""
+    if n == 1:
+        return f"M{x_scale(0):.1f},{y_scale(ys[0]):.1f}"
+    if n == 2:
+        return f"M{x_scale(0):.1f},{y_scale(ys[0]):.1f} L{x_scale(1):.1f},{y_scale(ys[1]):.1f}"
+    
+    points = [(x_scale(i), y_scale(y)) for i, y in enumerate(ys)]
+    
+    # Build smooth curve using cubic bezier
+    def control_points(p0, p1, p2, t=0.2):
+        """Calculate control points for smooth curve."""
+        d01 = ((p1[0] - p0[0]) ** 2 + (p1[1] - p0[1]) ** 2) ** 0.5
+        d12 = ((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2) ** 0.5
+        
+        fa = t * d01 / (d01 + d12)
+        fb = t * d12 / (d01 + d12)
+        
+        p1x = p1[0] - fa * (p2[0] - p0[0])
+        p1y = p1[1] - fa * (p2[1] - p0[1])
+        p2x = p1[0] + fb * (p2[0] - p0[0])
+        p2y = p1[1] + fb * (p2[1] - p0[1])
+        
+        return (p1x, p1y), (p2x, p2y)
+    
+    path = f"M{points[0][0]:.1f},{points[0][1]:.1f}"
+    
+    # First segment
+    cp1 = (points[0][0] + (points[1][0] - points[0][0]) * 0.3, points[0][1])
+    cp2 = (points[1][0] - (points[2][0] - points[0][0]) * 0.1, points[1][1] - (points[2][1] - points[0][1]) * 0.1)
+    path += f" C{cp1[0]:.1f},{cp1[1]:.1f} {cp2[0]:.1f},{cp2[1]:.1f} {points[1][0]:.1f},{points[1][1]:.1f}"
+    
+    # Middle segments
+    for i in range(1, n - 2):
+        cp1, cp2 = control_points(points[i], points[i+1], points[i+2])
+        path += f" C{cp1[0]:.1f},{cp1[1]:.1f} {cp2[0]:.1f},{cp2[1]:.1f} {points[i+1][0]:.1f},{points[i+1][1]:.1f}"
+    
+    # Last segment
+    if n > 2:
+        cp1 = (points[-2][0] + (points[-1][0] - points[-3][0]) * 0.1, points[-2][1] + (points[-1][1] - points[-3][1]) * 0.1)
+        cp2 = (points[-1][0] - (points[-1][0] - points[-2][0]) * 0.3, points[-1][1])
+        path += f" C{cp1[0]:.1f},{cp1[1]:.1f} {cp2[0]:.1f},{cp2[1]:.1f} {points[-1][0]:.1f},{points[-1][1]:.1f}"
+    
+    return path
+
+
 def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any]]) -> str:
     """Build simple SVG line chart."""
     if not series:
@@ -960,9 +1009,8 @@ def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any
     def y_scale(y: float) -> float:
         return padding["top"] + chart_h - ((y - y_min) / y_range) * chart_h
     
-    # Build path
-    path_points = [f"{x_scale(i):.1f},{y_scale(y):.1f}" for i, y in enumerate(ys)]
-    path_d = f"M{path_points[0]}" + "".join([f" L{p}" for p in path_points[1:]])
+    # Build smooth curved path using Catmull-Rom spline
+    path_d = _smooth_path_data(ys, x_scale, y_scale)
     
     # Y-axis labels (3 ticks)
     y_ticks = []
