@@ -907,6 +907,11 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
     event_html = _timeline_event_html(events)
     summary_text = _compact_text(str(data.get("summary") or "近三个月价格与事件时间线。"), limit=120)
     
+    # Build SVG chart
+    chart_html = ""
+    if series:
+        chart_html = _build_timeline_svg(series, events)
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
@@ -915,28 +920,102 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
             <div class="pf-card-badge">近3个月</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
-    if series:
-        chart_key = f"timeline-card-{state}-{len(series)}-{len(events)}"
-        st.plotly_chart(
-            _timeline_figure(series, events),
-            use_container_width=True,
-            config={"displayModeBar": False},
-            key=chart_key,
-        )
-    st.markdown(
-        f"""
-        <section class="pf-mobile-card" style="margin-top:0.5rem;">
-          <div style="font-weight:600;font-size:0.875rem;margin-bottom:0.5rem;color:var(--ink);">关键事件</div>
+          {chart_html}
+          <div style="font-weight:600;font-size:0.875rem;margin:0.75rem 0 0.5rem;color:var(--ink);">关键事件</div>
           <div>{event_html}</div>
           <div class="pf-foot">{escape(_source_footer(result, "MarketWatch"))}</div>
         </section>
         """,
         unsafe_allow_html=True,
     )
+
+
+def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any]]) -> str:
+    """Build simple SVG line chart."""
+    if not series:
+        return ""
+    
+    # Extract data
+    xs = [row.get("date") for row in series]
+    ys = [float(row.get("close", 0)) for row in series]
+    
+    if not xs or not ys:
+        return ""
+    
+    # Dimensions
+    width = 360
+    height = 180
+    padding = {"top": 40, "right": 20, "bottom": 30, "left": 50}
+    chart_w = width - padding["left"] - padding["right"]
+    chart_h = height - padding["top"] - padding["bottom"]
+    
+    # Scales
+    y_min = min(ys)
+    y_max = max(ys)
+    y_range = y_max - y_min if y_max != y_min else 1
+    
+    def x_scale(i: int) -> float:
+        return padding["left"] + (i / max(len(xs) - 1, 1)) * chart_w
+    
+    def y_scale(y: float) -> float:
+        return padding["top"] + chart_h - ((y - y_min) / y_range) * chart_h
+    
+    # Build path
+    path_points = [f"{x_scale(i):.1f},{y_scale(y):.1f}" for i, y in enumerate(ys)]
+    path_d = f"M{path_points[0]}" + "".join([f" L{p}" for p in path_points[1:]])
+    
+    # Y-axis labels (3 ticks)
+    y_ticks = []
+    for i in range(3):
+        y_val = y_min + (y_range * i / 2)
+        y_pos = y_scale(y_val)
+        y_ticks.append(f'<text x="{padding["left"]-10}" y="{y_pos+4}" text-anchor="end" font-size="10" fill="#888">¥{y_val:.0f}</text>')
+        y_ticks.append(f'<line x1="{padding["left"]}" y1="{y_pos}" x2="{width-padding["right"]}" y2="{y_pos}" stroke="#eee" stroke-width="1"/>')
+    
+    # X-axis labels (show first, middle, last)
+    x_ticks = []
+    x_indices = [0, len(xs)//2, len(xs)-1]
+    for i in x_indices:
+        if i < len(xs):
+            date_str = str(xs[i])[5:] if len(str(xs[i])) > 5 else str(xs[i])  # MM-DD
+            x_pos = x_scale(i)
+            x_ticks.append(f'<text x="{x_pos}" y="{height-10}" text-anchor="middle" font-size="10" fill="#888">{date_str}</text>')
+    
+    # Event markers
+    event_markers = []
+    event_labels = []
+    for idx, item in enumerate(events[:3]):
+        if not isinstance(item, dict):
+            continue
+        date_text = str(item.get("date") or "")
+        title = str(item.get("title") or "").strip()
+        if not date_text or not title:
+            continue
+        try:
+            point_idx = xs.index(date_text)
+        except ValueError:
+            continue
+        
+        x_pos = x_scale(point_idx)
+        y_pos = y_scale(ys[point_idx])
+        
+        # Alternate label position (top/bottom)
+        label_y = y_pos - 25 if idx % 2 == 0 else y_pos + 35
+        
+        event_markers.append(f'<circle cx="{x_pos}" cy="{y_pos}" r="4" fill="#c85a54" stroke="#fff" stroke-width="2"/>')
+        event_labels.append(f'<text x="{x_pos}" y="{label_y}" text-anchor="middle" font-size="9" fill="#666">{escape(title[:12])}</text>')
+    
+    svg_content = f"""
+    <svg width="100%" height="{height}" viewBox="0 0 {width} {height}" style="margin:0.5rem 0;">
+      {''.join(y_ticks)}
+      {''.join(x_ticks)}
+      <path d="{path_d}" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      {''.join(event_markers)}
+      {''.join(event_labels)}
+    </svg>
+    """
+    
+    return svg_content
 
 
 def _watch_calendar_actions_html(url: Any) -> str:
