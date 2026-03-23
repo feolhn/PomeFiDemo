@@ -441,7 +441,7 @@ def render_header() -> None:
     st.markdown(
         """
         <section class="pf-hero">
-          <h1 style="margin-bottom: 0.25rem;">📊 Stock Wiki</h1>
+          <h1 style="margin-bottom: 0.25rem;">Stock Wiki</h1>
           <div class="pf-subtitle">
             智能生成 Summary · Entity · Timeline · Calendar · Relationship 五维分析卡片
           </div>
@@ -452,7 +452,7 @@ def render_header() -> None:
 
 
 def render_question_hint() -> None:
-    st.caption("💡 试试这样问：`宁德时代怎么看？` · `300750 最近三个月关键事件` · `比亚迪的竞争对手有哪些？`")
+    st.caption("试试这样问：宁德时代怎么看？ / 300750 最近三个月关键事件 / 比亚迪的竞争对手有哪些？")
 
 
 def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> None:
@@ -827,7 +827,8 @@ def render_summary_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">📊 行情概览</div>
+            <div class="pf-card-title">行情概览</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Stock Summary</div>
             <div class="pf-card-badge{badge_class}">{escape(badge)}</div>
           </div>
           <div class="pf-big-num">{escape(price_text)}</div>
@@ -879,7 +880,8 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">🏢 公司主体</div>
+            <div class="pf-card-title">公司主体</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Entity Info</div>
             <div class="pf-card-badge">{escape(industry or "Tech & Auto")}</div>
           </div>
           <div style="line-height:1.6;color:#3c4043;">{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
@@ -912,7 +914,8 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
         f'''
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">📈 价格走势 & 关键事件</div>
+            <div class="pf-card-title">价格走势 & 关键事件</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Timeline</div>
             <div class="pf-card-badge">近3个月</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
@@ -1101,7 +1104,7 @@ def _watch_calendar_actions_html(url: Any) -> str:
         safe_url = escape(url_text, quote=True)
         link_html = (
             f"<a class='pf-link-icon' href='{safe_url}' target='_blank' rel='noopener noreferrer' "
-            "title='Open source link'>🔗</a>"
+            "title='Open source link'>→</a>"
         )
     return f"<div class='pf-row-actions'>{link_html}<div class='pf-reminder'>Set Reminder</div></div>"
 
@@ -1147,7 +1150,8 @@ def render_watch_calendar_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">📅 关注日历</div>
+            <div class="pf-card-title">关注日历</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Watch Calendar</div>
             <div class="pf-card-badge">Upcoming</div>
           </div>
           <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.75rem;">{summary_text}</div>
@@ -1183,7 +1187,8 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">🔗 关系图谱</div>
+            <div class="pf-card-title">关系图谱</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Relationship</div>
             <div class="pf-card-badge">{len(nodes)} 节点 · {len(edges)} 关系</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
