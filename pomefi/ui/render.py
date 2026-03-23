@@ -37,10 +37,10 @@ def inject_page_styles() -> None:
         }
 
         .block-container {
-          max-width: 900px;
-          padding-top: 1.5rem;
-          padding-bottom: 3rem;
-          font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          max-width: 430px;
+          padding-top: 0.75rem;
+          padding-bottom: 2rem;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
         h1, h2, h3 {
@@ -89,28 +89,16 @@ def inject_page_styles() -> None:
         .pf-status-error { color: var(--err); border-color: #f6aea9; background: #fce8e6; }
 
         .pf-section-title {
-          margin-top: 1.25rem;
-          margin-bottom: 0.75rem;
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: var(--muted);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
+          display: none;
         }
 
         .pf-mobile-card {
           border: 1px solid var(--line);
           background: var(--card);
-          border-radius: 16px;
-          padding: 1rem 1.1rem 0.85rem 1.1rem;
-          margin-bottom: 0.85rem;
-          box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.04);
-          transition: box-shadow 0.2s ease, transform 0.15s ease;
-        }
-
-        .pf-mobile-card:hover {
-          box-shadow: 0 4px 12px rgba(60, 64, 67, 0.12), 0 2px 4px rgba(60, 64, 67, 0.08);
-          transform: translateY(-1px);
+          border-radius: 12px;
+          padding: 0.875rem 1rem 0.75rem 1rem;
+          margin-bottom: 0.75rem;
+          box-shadow: 0 1px 2px rgba(60, 64, 67, 0.06);
         }
 
         .pf-card-head {
@@ -123,7 +111,7 @@ def inject_page_styles() -> None:
 
         .pf-card-title {
           font-weight: 600;
-          font-size: 1rem;
+          font-size: 0.9375rem;
           line-height: 1.3;
           color: var(--ink);
         }
@@ -160,12 +148,12 @@ def inject_page_styles() -> None:
         }
 
         .pf-big-num {
-          font-size: 2.25rem;
+          font-size: 1.875rem;
           font-weight: 700;
-          line-height: 1.1;
-          margin-bottom: 0.5rem;
+          line-height: 1.15;
+          margin-bottom: 0.35rem;
           color: var(--ink);
-          letter-spacing: -0.02em;
+          letter-spacing: -0.01em;
         }
 
         .pf-big-num-positive { color: var(--ok); }
@@ -184,8 +172,8 @@ def inject_page_styles() -> None:
         .pf-chip-row {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.4rem;
-          margin-top: 0.5rem;
+          gap: 0.35rem;
+          margin-top: 0.4rem;
         }
 
         .pf-chip {
@@ -193,15 +181,9 @@ def inject_page_styles() -> None:
           border: 1px solid #dadce0;
           background: var(--hover-bg);
           color: #3c4043;
-          padding: 0.22rem 0.65rem;
-          font-size: 0.78rem;
+          padding: 0.18rem 0.55rem;
+          font-size: 0.75rem;
           font-weight: 500;
-          transition: all 0.15s ease;
-        }
-
-        .pf-chip:hover {
-          background: #e8eaed;
-          border-color: #bdc1c6;
         }
 
         .pf-foot {
@@ -262,9 +244,9 @@ def inject_page_styles() -> None:
         .pf-kv-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 0.5rem 0.75rem;
-          margin-bottom: 0.5rem;
-          padding: 0.5rem 0;
+          gap: 0.4rem 0.5rem;
+          margin-bottom: 0.4rem;
+          padding: 0.4rem 0;
           border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line);
         }
@@ -277,14 +259,14 @@ def inject_page_styles() -> None:
 
         .pf-kv-label {
           color: var(--muted);
-          font-size: 0.7rem;
+          font-size: 0.65rem;
           font-weight: 500;
           text-transform: uppercase;
-          letter-spacing: 0.03em;
+          letter-spacing: 0.02em;
         }
 
         .pf-kv-value {
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           color: var(--ink);
         }
@@ -468,9 +450,10 @@ def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> Non
             cloneRoot.style.left = "-20000px";
             cloneRoot.style.top = "0";
             cloneRoot.style.zIndex = "-1";
-            cloneRoot.style.width = `${Math.min((blockContainer && blockContainer.clientWidth) || 760, 900)}px`;
-            cloneRoot.style.background = "#f3f4f6";
-            cloneRoot.style.padding = "16px";
+            // iPhone optimized width: 390px (iPhone 14/15 standard), 430px (Pro Max)
+            cloneRoot.style.width = "390px";
+            cloneRoot.style.background = "#f8f9fa";
+            cloneRoot.style.padding = "12px";
             cloneRoot.style.boxSizing = "border-box";
             let cursor = startContainer.nextElementSibling;
             let copied = 0;
@@ -491,7 +474,7 @@ def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> Non
             const html2canvas = await ensureHtml2Canvas();
             const canvas = await html2canvas(cloneRoot, {
               useCORS: true,
-              backgroundColor: "#f3f4f6",
+              backgroundColor: "#f8f9fa",
               scale: 2,
             });
             cloneRoot.remove();
@@ -1077,45 +1060,31 @@ def render_progressive_cards(
     if company and company != "标的":
         st.markdown(
             f"""
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
-                <h2 style="margin:0;font-size:1.5rem;font-weight:600;">{escape(company)}</h2>
-                {f'<span style="color:var(--muted);font-size:1rem;font-weight:500;">{escape(symbol)}</span>' if symbol else ''}
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;">
+                <h2 style="margin:0;font-size:1.25rem;font-weight:600;letter-spacing:-0.01em;">{escape(company)}</h2>
+                {f'<span style="color:var(--muted);font-size:0.875rem;font-weight:500;">{escape(symbol)}</span>' if symbol else ''}
             </div>
             """,
             unsafe_allow_html=True,
         )
-    st.markdown('<div class="pf-section-title">📈 核心指标</div>', unsafe_allow_html=True)
 
-    # Top row: Summary and Entity Info side by side on larger screens
-    col1, col2 = st.columns([1, 1], gap="medium")
-    with col1:
-        render_summary_card(_card_state_entry(card_store, "summary"))
-    with col2:
-        render_entity_info_card(_card_state_entry(card_store, "entity_info"), company, symbol)
-
-    # Timeline section with full width
-    st.markdown('<div class="pf-section-title">📅 事件时间线</div>', unsafe_allow_html=True)
+    # Single column layout for all cards (iPhone optimized)
+    render_summary_card(_card_state_entry(card_store, "summary"))
+    render_entity_info_card(_card_state_entry(card_store, "entity_info"), company, symbol)
     render_timeline_card(_card_state_entry(card_store, "timeline"))
+    render_watch_calendar_card(_card_state_entry(card_store, "watch_calendar"))
+    render_relationship_card(_card_state_entry(card_store, "relationship"))
 
-    # Bottom row: Calendar and Relationship side by side
-    st.markdown('<div class="pf-section-title">🔔 关注日历 & 关系图谱</div>', unsafe_allow_html=True)
-    col3, col4 = st.columns([1, 1], gap="medium")
-    with col3:
-        render_watch_calendar_card(_card_state_entry(card_store, "watch_calendar"))
-    with col4:
-        render_relationship_card(_card_state_entry(card_store, "relationship"))
-
-    # Footer metadata
+    # Footer metadata (compact for mobile)
     if meta:
-        st.markdown('<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line);">', unsafe_allow_html=True)
-        cols = st.columns(3)
-        with cols[0]:
-            st.caption(f"🕐 {meta.get('generated_at', '-')}")
-        with cols[1]:
-            st.caption(f"🔍 trace_id: {meta.get('trace_id', '-')[:16]}...")
-        with cols[2]:
-            st.caption(f"📊 {meta.get('symbol', '-')}")
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--line);font-size:0.7rem;color:var(--muted);text-align:center;">
+                {escape(meta.get('generated_at', '-'))} · {escape(meta.get('symbol', '-'))}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     st.markdown('<div id="pf-export-end" style="height:1px;"></div>', unsafe_allow_html=True)
 
 
@@ -1363,12 +1332,12 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
             )
         )
     figure.update_layout(
-        margin={"l": 8, "r": 8, "t": 40, "b": 8},
-        height=240,
+        margin={"l": 4, "r": 4, "t": 32, "b": 4},
+        height=200,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
-        xaxis={"showgrid": False, "zeroline": False, "showline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
-        yaxis={"showgrid": True, "gridcolor": "rgba(31,35,40,0.08)", "zeroline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
+        xaxis={"showgrid": False, "zeroline": False, "showline": False, "tickfont": {"size": 9, "color": "#6b7280"}},
+        yaxis={"showgrid": True, "gridcolor": "rgba(31,35,40,0.08)", "zeroline": False, "tickfont": {"size": 9, "color": "#6b7280"}},
         annotations=annotations,
         showlegend=False,
     )
@@ -1509,7 +1478,7 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
 
     figure.update_layout(
         margin={"l": 8, "r": 8, "t": 8, "b": 8},
-        height=260,
+        height=220,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
         xaxis={"visible": False, "range": [-2.2, 2.2]},
