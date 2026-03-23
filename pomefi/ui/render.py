@@ -1038,7 +1038,19 @@ def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any
             x_pos = x_scale(i)
             x_ticks.append(f'<text x="{x_pos}" y="{height-10}" text-anchor="middle" font-size="10" fill="#888">{date_str}</text>')
     
-    # Event markers
+    # Data points for hover (invisible larger circles for easier hovering)
+    data_points = []
+    for i, (date_str, price) in enumerate(zip(xs, ys)):
+        x_pos = x_scale(i)
+        y_pos = y_scale(price)
+        date_label = str(date_str)
+        data_points.append(
+            f'<circle cx="{x_pos}" cy="{y_pos}" r="8" fill="transparent" style="cursor:pointer;">'
+            f'<title>{escape(date_label)}: ¥{price:.2f}</title>'
+            f'</circle>'
+        )
+    
+    # Event markers with hover titles
     event_markers = []
     event_labels = []
     for idx, item in enumerate(events[:3]):
@@ -1055,11 +1067,17 @@ def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any
         
         x_pos = x_scale(point_idx)
         y_pos = y_scale(ys[point_idx])
+        price_val = ys[point_idx]
         
         # Alternate label position (top/bottom)
         label_y = y_pos - 25 if idx % 2 == 0 else y_pos + 35
         
-        event_markers.append(f'<circle cx="{x_pos}" cy="{y_pos}" r="4" fill="#c85a54" stroke="#fff" stroke-width="2"/>')
+        # Marker with title for hover
+        event_markers.append(
+            f'<circle cx="{x_pos}" cy="{y_pos}" r="5" fill="#c85a54" stroke="#fff" stroke-width="2" style="cursor:pointer;">'
+            f'<title>{escape(date_text)}\n{escape(title)}\n¥{price_val:.2f}</title>'
+            f'</circle>'
+        )
         event_labels.append(f'<text x="{x_pos}" y="{label_y}" text-anchor="middle" font-size="9" fill="#666">{escape(title[:12])}</text>')
     
     svg_content = f"""
@@ -1067,6 +1085,7 @@ def _build_timeline_svg(series: list[dict[str, Any]], events: list[dict[str, Any
       {''.join(y_ticks)}
       {''.join(x_ticks)}
       <path d="{path_d}" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      {''.join(data_points)}
       {''.join(event_markers)}
       {''.join(event_labels)}
     </svg>
