@@ -340,6 +340,71 @@ def inject_page_styles() -> None:
           font-size: 0.875rem;
         }
 
+        /* Relationship Graph - Flat Design */
+        .pf-rel-graph {
+          position: relative;
+          padding: 1.5rem 0.5rem;
+          min-height: 200px;
+        }
+
+        .pf-rel-center {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          background: #e8e8e8;
+          border: 2px solid #d0d0d0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #333;
+          z-index: 2;
+        }
+
+        .pf-rel-node {
+          position: absolute;
+          padding: 0.4rem 0.7rem;
+          border-radius: 16px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: #444;
+          border: 1px solid rgba(0,0,0,0.08);
+          box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+          white-space: nowrap;
+          z-index: 2;
+        }
+
+        .pf-rel-node-supplier {
+          background: #f0e6dc;
+          color: #5a4a3a;
+        }
+
+        .pf-rel-node-customer {
+          background: #e0f0e0;
+          color: #3a5a3a;
+        }
+
+        .pf-rel-node-competitor {
+          background: #f0e0e0;
+          color: #5a3a3a;
+        }
+
+        .pf-rel-node-other {
+          background: #e0e8f0;
+          color: #3a4a5a;
+        }
+
+        .pf-rel-line {
+          position: absolute;
+          background: #ccc;
+          z-index: 1;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
           .block-container {
@@ -954,6 +1019,11 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
     edges = [dict(item) for item in list(data.get("edges") or []) if isinstance(item, dict)]
     summary_text = _compact_text(str(data.get("summary") or "关系图谱结果暂缺。"), limit=96)
     
+    # Build HTML relationship graph
+    graph_html = ""
+    if nodes:
+        graph_html = _build_relationship_graph_html(nodes, edges)
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
@@ -962,26 +1032,57 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
             <div class="pf-card-badge">{len(nodes)} 节点 · {len(edges)} 关系</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
-    if nodes:
-        chart_key = f"relationship-card-{state}-{len(nodes)}-{len(edges)}"
-        st.plotly_chart(
-            _relationship_figure(nodes, edges),
-            use_container_width=True,
-            config={"displayModeBar": False},
-            key=chart_key,
-        )
-    st.markdown(
-        f"""
-        <section class="pf-mobile-card" style="margin-top:0.5rem;">
+          {graph_html}
           <div class="pf-foot">{escape(_source_footer(result, "Crunchbase"))}</div>
         </section>
         """,
         unsafe_allow_html=True,
     )
+
+
+def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> str:
+    """Build flat-design relationship graph using HTML/CSS."""
+    # Group nodes by role
+    grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
+    for node in nodes:
+        role = str(node.get("role", "other"))
+        node_id = str(node.get("id", ""))
+        if node_id:
+            grouped.setdefault(role, []).append(node_id)
+    
+    # Get theme node (center)
+    theme_node = grouped["theme"][0] if grouped["theme"] else "中心"
+    
+    # Build node positions
+    # Left side: suppliers, Right side: customers
+    # Top: others, Bottom: competitors
+    nodes_html = f'<div class="pf-rel-center">{escape(theme_node)}</div>'
+    
+    # Left side - suppliers (positioned with inline styles)
+    left_nodes = grouped.get("supplier", [])[:3]
+    for idx, node_id in enumerate(left_nodes):
+        top_pct = 20 + idx * 25
+        nodes_html += f'<div class="pf-rel-node pf-rel-node-supplier" style="left:5%;top:{top_pct}%;">{escape(node_id)}</div>'
+    
+    # Right side - customers
+    right_nodes = grouped.get("customer", [])[:3]
+    for idx, node_id in enumerate(right_nodes):
+        top_pct = 20 + idx * 25
+        nodes_html += f'<div class="pf-rel-node pf-rel-node-customer" style="right:5%;top:{top_pct}%;">{escape(node_id)}</div>'
+    
+    # Top - others
+    top_nodes = grouped.get("other", [])[:2]
+    for idx, node_id in enumerate(top_nodes):
+        left_pct = 35 + idx * 30
+        nodes_html += f'<div class="pf-rel-node pf-rel-node-other" style="left:{left_pct}%;top:5%;">{escape(node_id)}</div>'
+    
+    # Bottom - competitors
+    bottom_nodes = grouped.get("competitor", [])[:2]
+    for idx, node_id in enumerate(bottom_nodes):
+        left_pct = 35 + idx * 30
+        nodes_html += f'<div class="pf-rel-node pf-rel-node-competitor" style="left:{left_pct}%;bottom:5%;">{escape(node_id)}</div>'
+    
+    return f'<div class="pf-rel-graph">{nodes_html}</div>'
 
 
 def _build_card_store_from_result(result: dict[str, Any]) -> dict[str, Any]:
