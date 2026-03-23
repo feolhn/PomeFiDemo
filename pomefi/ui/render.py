@@ -1379,6 +1379,7 @@ def _timeline_event_label(text: str, limit: int = 12) -> str:
 
 
 def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, float]]:
+    """Horizontal layout: center theme node, others distributed left/right."""
     grouped: dict[str, list[str]] = {}
     for item in nodes:
         node_id = str(item.get("id") or "").strip()
@@ -1387,48 +1388,54 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
         grouped.setdefault(str(item.get("role") or "other"), []).append(node_id)
 
     positions: dict[str, tuple[float, float]] = {}
+    
+    # Center theme node
     if grouped.get("theme"):
         positions[grouped["theme"][0]] = (0.0, 0.0)
-
-    # Mobile-optimized layout with smaller spread
-    bands = [
-        ("supplier", -1.4),
-        ("customer", 1.4),
-        ("competitor", 0.0),
-        ("other", 0.0),
-    ]
-    for role, x_pos in bands:
-        role_nodes = grouped.get(role) or []
-        if not role_nodes:
-            continue
-        count = len(role_nodes)
-        for idx, node_id in enumerate(role_nodes):
-            if role in {"competitor", "other"}:
-                # Distribute horizontally with limited range
-                spread = min(count * 0.5, 2.0)
-                x = -spread/2 + idx * (spread / max(count - 1, 1)) if count > 1 else 0
-                y = -1.0 if role == "competitor" else 1.0
-                positions[node_id] = (x, y)
-            else:
-                # Vertical distribution with tighter spacing
-                y_spacing = min(0.5, 1.2 / max(count, 1))
-                y = (count - 1) * y_spacing / 2 - idx * y_spacing
-                positions[node_id] = (x_pos, y)
+    
+    # Left side: suppliers (arranged vertically)
+    left_nodes = grouped.get("supplier", [])
+    for idx, node_id in enumerate(left_nodes[:3]):  # Max 3 on each side
+        y_pos = (len(left_nodes) - 1) * 0.4 / 2 - idx * 0.4 if len(left_nodes) > 1 else 0
+        positions[node_id] = (-1.2, y_pos)
+    
+    # Right side: customers (arranged vertically)
+    right_nodes = grouped.get("customer", [])
+    for idx, node_id in enumerate(right_nodes[:3]):
+        y_pos = (len(right_nodes) - 1) * 0.4 / 2 - idx * 0.4 if len(right_nodes) > 1 else 0
+        positions[node_id] = (1.2, y_pos)
+    
+    # Bottom: competitors (horizontal)
+    bottom_nodes = grouped.get("competitor", [])
+    for idx, node_id in enumerate(bottom_nodes[:2]):
+        x_pos = -0.5 + idx * 1.0 if len(bottom_nodes) > 1 else 0
+        positions[node_id] = (x_pos, -0.8)
+    
+    # Top: others (horizontal)
+    top_nodes = grouped.get("other", [])
+    for idx, node_id in enumerate(top_nodes[:2]):
+        x_pos = -0.5 + idx * 1.0 if len(top_nodes) > 1 else 0
+        positions[node_id] = (x_pos, 0.8)
+        
     return positions
 
 
 def _relationship_color(role: str) -> str:
+    """Soft pastel colors matching the reference style."""
     return {
-        "theme": "#c8d6b9",
-        "supplier": "#d8c0a6",
-        "customer": "#d8b0b0",
-        "competitor": "#cbbce2",
-    }.get(role, "#d9dce1")
+        "theme": "#e8e8e8",      # Gray center
+        "supplier": "#e8d5c4",   # Warm beige
+        "customer": "#d4e4d1",   # Soft green
+        "competitor": "#e4d4d1", # Soft pink/beige
+        "other": "#d4d8e4",      # Soft blue
+    }.get(role, "#e0e0e0")
 
 
 def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> go.Figure:
     positions = _relationship_layout(nodes)
     figure = go.Figure()
+    
+    # Draw edges first (behind nodes)
     for edge in edges:
         start = positions.get(str(edge.get("from") or ""))
         end = positions.get(str(edge.get("to") or ""))
@@ -1439,54 +1446,83 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
                 x=[start[0], end[0]],
                 y=[start[1], end[1]],
                 mode="lines",
-                line={"width": 1.4, "color": "rgba(120,128,140,0.35)"},
+                line={"width": 1.5, "color": "rgba(150,150,150,0.4)"},
                 hoverinfo="skip",
                 showlegend=False,
             )
         )
-
-    role_order = ["supplier", "customer", "competitor", "theme", "other"]
+    
+    # Draw nodes as markers (theme is circle, others use rounded rect effect via marker symbol)
+    role_order = ["supplier", "customer", "competitor", "other", "theme"]
     for role in role_order:
         role_nodes = [item for item in nodes if str(item.get("role") or "other") == role]
         if not role_nodes:
             continue
-        xs = [positions[str(item.get("id") or "")][0] for item in role_nodes if str(item.get("id") or "") in positions]
-        ys = [positions[str(item.get("id") or "")][1] for item in role_nodes if str(item.get("id") or "") in positions]
-        texts = [str(item.get("id") or "") for item in role_nodes if str(item.get("id") or "") in positions]
+            
+        xs = []
+        ys = []
+        texts = []
+        for item in role_nodes:
+            node_id = str(item.get("id") or "")
+            if node_id in positions:
+                pos = positions[node_id]
+                xs.append(pos[0])
+                ys.append(pos[1])
+                texts.append(node_id)
+        
         if not xs:
             continue
-        # Adjust text and marker size based on node count
-        node_count = len(nodes)
-        text_size = 9 if node_count > 15 else 10
-        marker_size = 30 if role == "theme" else (22 if node_count > 15 else 26)
-        
-        figure.add_trace(
-            go.Scatter(
-                x=xs,
-                y=ys,
-                mode="markers+text",
-                text=texts,
-                textposition="middle center",
-                textfont={"size": text_size, "color": "#423b37"},
-                marker={
-                    "size": marker_size,
-                    "color": _relationship_color(role),
-                    "line": {"width": 1, "color": "#c7ced6"},
-                    "symbol": "circle",
-                },
-                hoverinfo="text",
-                hovertext=texts,
-                showlegend=False,
+            
+        # Theme node is circular and larger, others are smaller
+        if role == "theme":
+            figure.add_trace(
+                go.Scatter(
+                    x=xs,
+                    y=ys,
+                    mode="markers+text",
+                    text=texts,
+                    textposition="middle center",
+                    textfont={"size": 11, "color": "#333", "family": "Arial, sans-serif"},
+                    marker={
+                        "size": 35,
+                        "color": "#e8e8e8",
+                        "line": {"width": 1.5, "color": "#bbb"},
+                        "symbol": "circle",
+                    },
+                    hoverinfo="text",
+                    hovertext=texts,
+                    showlegend=False,
+                )
             )
-        )
+        else:
+            # Other nodes use diamond/square shape with color
+            figure.add_trace(
+                go.Scatter(
+                    x=xs,
+                    y=ys,
+                    mode="markers+text",
+                    text=texts,
+                    textposition="middle center",
+                    textfont={"size": 9, "color": "#555", "family": "Arial, sans-serif"},
+                    marker={
+                        "size": 28,
+                        "color": _relationship_color(role),
+                        "line": {"width": 1, "color": "rgba(0,0,0,0.1)"},
+                        "symbol": "diamond" if role in ["supplier", "customer"] else "square",
+                    },
+                    hoverinfo="text",
+                    hovertext=texts,
+                    showlegend=False,
+                )
+            )
 
     figure.update_layout(
-        margin={"l": 4, "r": 4, "t": 4, "b": 4},
-        height=240,
+        margin={"l": 8, "r": 8, "t": 8, "b": 8},
+        height=220,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
-        xaxis={"visible": False, "range": [-1.8, 1.8], "fixedrange": True},
-        yaxis={"visible": False, "range": [-1.5, 1.5], "fixedrange": True},
+        xaxis={"visible": False, "range": [-1.6, 1.6], "fixedrange": True},
+        yaxis={"visible": False, "range": [-1.2, 1.2], "fixedrange": True},
         showlegend=False,
         dragmode=False,
     )
