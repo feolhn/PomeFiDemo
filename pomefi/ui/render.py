@@ -99,6 +99,8 @@ def inject_page_styles() -> None:
           padding: 0.875rem 1rem 0.75rem 1rem;
           margin-bottom: 0.75rem;
           box-shadow: 0 1px 2px rgba(60, 64, 67, 0.06);
+          break-inside: avoid;
+          page-break-inside: avoid;
         }
 
         .pf-card-head {
@@ -453,7 +455,10 @@ def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> Non
             // iPhone optimized width: 390px (iPhone 14/15 standard), 430px (Pro Max)
             cloneRoot.style.width = "390px";
             cloneRoot.style.background = "#f8f9fa";
-            cloneRoot.style.padding = "12px";
+            cloneRoot.style.padding = "16px 12px";
+            cloneRoot.style.display = "flex";
+            cloneRoot.style.flexDirection = "column";
+            cloneRoot.style.gap = "12px";
             cloneRoot.style.boxSizing = "border-box";
             let cursor = startContainer.nextElementSibling;
             let copied = 0;
@@ -949,22 +954,6 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
     edges = [dict(item) for item in list(data.get("edges") or []) if isinstance(item, dict)]
     summary_text = _compact_text(str(data.get("summary") or "关系图谱结果暂缺。"), limit=96)
     
-    # Build role-based chips
-    role_chips = {"supplier": [], "customer": [], "competitor": [], "theme": [], "other": []}
-    for node in nodes:
-        role = str(node.get("role", "other"))
-        node_id = str(node.get("id", ""))
-        if node_id:
-            role_chips.get(role, role_chips["other"]).append(node_id)
-    
-    chip_html = ""
-    role_labels = {"supplier": "供应商", "customer": "客户", "competitor": "竞争对手", "theme": "核心", "other": "其他"}
-    for role, node_list in role_chips.items():
-        if node_list:
-            chip_html += f"<div style='margin-bottom:0.5rem;'><div style='font-size:0.7rem;color:var(--muted);margin-bottom:0.25rem;'>{role_labels.get(role, role)}</div>"
-            chip_html += "".join(f"<span class='pf-chip'>{escape(node)}</span>" for node in node_list[:4])
-            chip_html += "</div>"
-    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
@@ -988,7 +977,6 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
     st.markdown(
         f"""
         <section class="pf-mobile-card" style="margin-top:0.5rem;">
-          {chip_html}
           <div class="pf-foot">{escape(_source_footer(result, "Crunchbase"))}</div>
         </section>
         """,
@@ -1300,23 +1288,26 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
         marker_ys.append(ys[point_idx])
         marker_texts.append(title)
         
-        # Add annotation for event (capped at 2 for mobile density)
+        # Add annotation for event (capped at 2 for mobile density, positioned to avoid clipping)
         if len(annotations) < 2:
+            # Alternate between top and bottom to avoid overlap
+            ay_offset = -25 if len(annotations) % 2 == 0 else 25
             annotations.append({
                 "x": xs[point_idx],
                 "y": ys[point_idx],
-                "text": _timeline_event_label(title),
+                "text": _timeline_event_label(title, limit=10),
                 "showarrow": True,
                 "arrowhead": 2,
                 "arrowsize": 1,
                 "arrowwidth": 1,
                 "ax": 0,
-                "ay": -30,
-                "font": {"size": 9, "color": "#5f6368"},
-                "bgcolor": "rgba(255,255,255,0.9)",
-                "bordercolor": "#e8eaed",
+                "ay": ay_offset,
+                "font": {"size": 10, "color": "#3c4043"},
+                "bgcolor": "rgba(255,255,255,0.95)",
+                "bordercolor": "#dadce0",
                 "borderwidth": 1,
-                "borderpad": 3,
+                "borderpad": 4,
+                "align": "center",
             })
     
     if marker_xs:
@@ -1399,9 +1390,10 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
     if grouped.get("theme"):
         positions[grouped["theme"][0]] = (0.0, 0.0)
 
+    # Mobile-optimized layout with smaller spread
     bands = [
-        ("supplier", -1.65),
-        ("customer", 1.65),
+        ("supplier", -1.4),
+        ("customer", 1.4),
         ("competitor", 0.0),
         ("other", 0.0),
     ]
@@ -1412,9 +1404,16 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
         count = len(role_nodes)
         for idx, node_id in enumerate(role_nodes):
             if role in {"competitor", "other"}:
-                positions[node_id] = (-1.2 + idx * (2.4 / max(count - 1, 1)), -1.25 if role == "competitor" else 1.25)
+                # Distribute horizontally with limited range
+                spread = min(count * 0.5, 2.0)
+                x = -spread/2 + idx * (spread / max(count - 1, 1)) if count > 1 else 0
+                y = -1.0 if role == "competitor" else 1.0
+                positions[node_id] = (x, y)
             else:
-                positions[node_id] = (x_pos, (count - 1) * 0.3 - idx * 0.6)
+                # Vertical distribution with tighter spacing
+                y_spacing = min(0.5, 1.2 / max(count, 1))
+                y = (count - 1) * y_spacing / 2 - idx * y_spacing
+                positions[node_id] = (x_pos, y)
     return positions
 
 
@@ -1456,6 +1455,11 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
         texts = [str(item.get("id") or "") for item in role_nodes if str(item.get("id") or "") in positions]
         if not xs:
             continue
+        # Adjust text and marker size based on node count
+        node_count = len(nodes)
+        text_size = 9 if node_count > 15 else 10
+        marker_size = 30 if role == "theme" else (22 if node_count > 15 else 26)
+        
         figure.add_trace(
             go.Scatter(
                 x=xs,
@@ -1463,9 +1467,9 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
                 mode="markers+text",
                 text=texts,
                 textposition="middle center",
-                textfont={"size": 10, "color": "#423b37"},
+                textfont={"size": text_size, "color": "#423b37"},
                 marker={
-                    "size": 34 if role == "theme" else 28,
+                    "size": marker_size,
                     "color": _relationship_color(role),
                     "line": {"width": 1, "color": "#c7ced6"},
                     "symbol": "circle",
@@ -1477,13 +1481,14 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
         )
 
     figure.update_layout(
-        margin={"l": 8, "r": 8, "t": 8, "b": 8},
-        height=220,
+        margin={"l": 4, "r": 4, "t": 4, "b": 4},
+        height=240,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
-        xaxis={"visible": False, "range": [-2.2, 2.2]},
-        yaxis={"visible": False, "range": [-1.8, 1.8]},
+        xaxis={"visible": False, "range": [-1.8, 1.8], "fixedrange": True},
+        yaxis={"visible": False, "range": [-1.5, 1.5], "fixedrange": True},
         showlegend=False,
+        dragmode=False,
     )
     return figure
 
