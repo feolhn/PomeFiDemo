@@ -107,7 +107,7 @@ def inject_page_styles() -> None:
           display: flex;
           justify-content: space-between;
           gap: 0.75rem;
-          align-items: flex-start;
+          align-items: center;
           margin-bottom: 0.5rem;
         }
 
@@ -343,8 +343,9 @@ def inject_page_styles() -> None:
         /* Relationship Graph - Flat Design */
         .pf-rel-graph {
           position: relative;
-          padding: 1.5rem 0.5rem;
-          min-height: 232px;
+          padding: 1.25rem 0.5rem;
+          min-height: 220px;
+          margin: 0.75rem -0.5rem 0.5rem -0.5rem;
         }
 
         .pf-rel-svg {
@@ -360,10 +361,10 @@ def inject_page_styles() -> None:
         .pf-rel-center {
           position: absolute;
           left: 50%;
-          top: 56%;
+          top: 55%;
           transform: translate(-50%, -50%);
-          width: 70px;
-          height: 70px;
+          width: 68px;
+          height: 68px;
           border-radius: 50%;
           background: #e8e8e8;
           border: 2px solid #d0d0d0;
@@ -374,19 +375,26 @@ def inject_page_styles() -> None:
           font-weight: 600;
           color: #333;
           z-index: 2;
+          text-align: center;
+          line-height: 1.2;
+          padding: 0.25rem;
         }
 
         .pf-rel-node {
           position: absolute;
-          padding: 0.4rem 0.7rem;
-          border-radius: 16px;
-          font-size: 0.75rem;
+          padding: 0.35rem 0.6rem;
+          border-radius: 14px;
+          font-size: 0.72rem;
           font-weight: 500;
           color: #444;
           border: 1px solid rgba(0,0,0,0.08);
           box-shadow: 0 1px 2px rgba(0,0,0,0.04);
           white-space: nowrap;
           z-index: 2;
+          transform: translate(-50%, -50%);
+          max-width: 90px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .pf-rel-node-supplier {
@@ -424,18 +432,21 @@ def inject_page_styles() -> None:
         .pf-rel-label {
           position: absolute;
           transform: translate(-50%, -50%);
-          padding: 0.12rem 0.38rem;
+          padding: 0.15rem 0.45rem;
           border-radius: 999px;
-          background: rgba(255,255,255,0.95);
-          border: 1px solid rgba(0,0,0,0.08);
+          background: rgba(255,255,255,0.98);
+          border: 1px solid rgba(0,0,0,0.06);
           box-shadow: 0 1px 2px rgba(0,0,0,0.04);
           color: #5f6368;
-          font-size: 0.62rem;
-          font-weight: 600;
-          line-height: 1;
+          font-size: 0.6rem;
+          font-weight: 500;
+          line-height: 1.2;
           white-space: nowrap;
           z-index: 3;
           pointer-events: none;
+          max-width: 70px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         /* Responsive adjustments */
@@ -860,8 +871,10 @@ def render_summary_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">行情概览</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Stock Summary</div>
+            <div>
+              <div class="pf-card-title">行情概览</div>
+              <div style="font-size:0.75rem;color:var(--muted);">Stock Summary</div>
+            </div>
             <div class="pf-card-badge{badge_class}">{escape(badge)}</div>
           </div>
           <div class="pf-big-num">{escape(price_text)}</div>
@@ -913,8 +926,10 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">公司主体</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Entity Info</div>
+            <div>
+              <div class="pf-card-title">公司主体</div>
+              <div style="font-size:0.75rem;color:var(--muted);">Entity Info</div>
+            </div>
             <div class="pf-card-badge">{escape(industry or "Tech & Auto")}</div>
           </div>
           <div style="line-height:1.6;color:#3c4043;">{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
@@ -947,8 +962,10 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
         f'''
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">价格走势 & 关键事件</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Timeline</div>
+            <div>
+              <div class="pf-card-title">价格走势 & 关键事件</div>
+              <div style="font-size:0.75rem;color:var(--muted);">Timeline</div>
+            </div>
             <div class="pf-card-badge">近3个月</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
@@ -1183,8 +1200,10 @@ def render_watch_calendar_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">关注日历</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Watch Calendar</div>
+            <div>
+              <div class="pf-card-title">关注日历</div>
+              <div style="font-size:0.75rem;color:var(--muted);">Watch Calendar</div>
+            </div>
             <div class="pf-card-badge">Upcoming</div>
           </div>
           <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.75rem;">{summary_text}</div>
@@ -1220,8 +1239,10 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">关系图谱</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">Relationship</div>
+            <div>
+              <div class="pf-card-title">关系图谱</div>
+              <div style="font-size:0.75rem;color:var(--muted);">Relationship</div>
+            </div>
             <div class="pf-card-badge">{len(nodes)} 节点 · {len(edges)} 关系</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
@@ -1274,25 +1295,25 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
         nodes_html.append(f'<div class="pf-rel-center">{escape(theme_node)}</div>')
 
     for node_id in grouped.get("supplier", [])[:3]:
-        x, y = positions.get(node_id, (5.0, 20.0))
+        x, y = positions.get(node_id, (12.0, 55.0))
         nodes_html.append(
             f'<div class="pf-rel-node pf-rel-node-supplier" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
         )
 
     for node_id in grouped.get("customer", [])[:3]:
-        x, y = positions.get(node_id, (82.0, 20.0))
+        x, y = positions.get(node_id, (88.0, 55.0))
         nodes_html.append(
             f'<div class="pf-rel-node pf-rel-node-customer" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
         )
 
     for node_id in grouped.get("other", [])[:2]:
-        x, y = positions.get(node_id, (35.0, 8.0))
+        x, y = positions.get(node_id, (50.0, 12.0))
         nodes_html.append(
             f'<div class="pf-rel-node pf-rel-node-other" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
         )
 
     for node_id in grouped.get("competitor", [])[:2]:
-        x, y = positions.get(node_id, (35.0, 82.0))
+        x, y = positions.get(node_id, (50.0, 88.0))
         nodes_html.append(
             f'<div class="pf-rel-node pf-rel-node-competitor" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
         )
@@ -1306,7 +1327,15 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
 
 
 def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, float]]:
-    """HTML 关系图使用百分比坐标，和移动端卡片布局保持一致。"""
+    """HTML 关系图使用百分比坐标，和移动端卡片布局保持一致。
+    
+    布局策略（最多6个节点）：
+    - 中心节点 (theme): 居中
+    - 供应商 (supplier): 左侧，垂直分布
+    - 客户 (customer): 右侧，垂直分布
+    - 竞争对手 (competitor): 底部，水平分布
+    - 其他 (other): 顶部，水平分布
+    """
     grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
     for node in nodes:
         role = str(node.get("role") or "other")
@@ -1315,20 +1344,59 @@ def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[fl
             grouped.setdefault(role, []).append(node_id)
 
     positions: dict[str, tuple[float, float]] = {}
+    
+    # 中心节点 (theme) - 稍微偏下一点，给顶部标签留空间
     if grouped["theme"]:
-        positions[grouped["theme"][0]] = (50.0, 56.0)
+        positions[grouped["theme"][0]] = (50.0, 55.0)
 
-    for idx, node_id in enumerate(grouped.get("supplier", [])[:3]):
-        positions[node_id] = (14.0, 18.0 + idx * 22.0)
+    # 供应商 (supplier) - 左侧，垂直分布，根据数量调整间距
+    suppliers = grouped.get("supplier", [])[:3]
+    if suppliers:
+        n = len(suppliers)
+        # 根据数量调整起始位置和间距，使节点在垂直方向上居中分布
+        if n == 1:
+            positions[suppliers[0]] = (12.0, 55.0)
+        elif n == 2:
+            positions[suppliers[0]] = (12.0, 38.0)
+            positions[suppliers[1]] = (12.0, 72.0)
+        else:  # n == 3
+            positions[suppliers[0]] = (12.0, 25.0)
+            positions[suppliers[1]] = (12.0, 55.0)
+            positions[suppliers[2]] = (12.0, 85.0)
 
-    for idx, node_id in enumerate(grouped.get("customer", [])[:3]):
-        positions[node_id] = (72.0, 18.0 + idx * 22.0)
+    # 客户 (customer) - 右侧，垂直分布
+    customers = grouped.get("customer", [])[:3]
+    if customers:
+        n = len(customers)
+        if n == 1:
+            positions[customers[0]] = (88.0, 55.0)
+        elif n == 2:
+            positions[customers[0]] = (88.0, 38.0)
+            positions[customers[1]] = (88.0, 72.0)
+        else:  # n == 3
+            positions[customers[0]] = (88.0, 25.0)
+            positions[customers[1]] = (88.0, 55.0)
+            positions[customers[2]] = (88.0, 85.0)
 
-    for idx, node_id in enumerate(grouped.get("other", [])[:2]):
-        positions[node_id] = (28.0 + idx * 32.0, 8.0)
+    # 其他 (other) - 顶部，水平分布
+    others = grouped.get("other", [])[:2]
+    if others:
+        n = len(others)
+        if n == 1:
+            positions[others[0]] = (50.0, 12.0)
+        else:  # n == 2
+            positions[others[0]] = (28.0, 12.0)
+            positions[others[1]] = (72.0, 12.0)
 
-    for idx, node_id in enumerate(grouped.get("competitor", [])[:2]):
-        positions[node_id] = (28.0 + idx * 32.0, 86.0)
+    # 竞争对手 (competitor) - 底部，水平分布
+    competitors = grouped.get("competitor", [])[:2]
+    if competitors:
+        n = len(competitors)
+        if n == 1:
+            positions[competitors[0]] = (50.0, 88.0)
+        else:  # n == 2
+            positions[competitors[0]] = (28.0, 88.0)
+            positions[competitors[1]] = (72.0, 88.0)
 
     return positions
 
