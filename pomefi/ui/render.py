@@ -1575,19 +1575,19 @@ def _timeline_event_html(events: list[dict[str, Any]]) -> str:
             sentiment = "neutral"
         sentiment_text = {"positive": "正向", "negative": "负向", "neutral": "中性"}[sentiment]
         
-        sentiment_html = f"<span class='pf-sentiment pf-sentiment-{sentiment}'>{sentiment_text}</span>"
+        sentiment_html = f'<span class="pf-sentiment pf-sentiment-{sentiment}">{sentiment_text}</span>'
         
         rows.append(
-            f"<div class='pf-timeline-event'>"
-            f"<div class='pf-timeline-date'>{escape(date_text)}</div>"
-            f"<div style='flex:1;'>"
-            f"<div class='pf-timeline-content'>{escape(title)}</div>"
-            f"</div>"
-            f"{sentiment_html}"
-            f"</div>"
+            f'<div class="pf-timeline-event">'
+            f'<div class="pf-timeline-date">{escape(date_text)}</div>'
+            f'<div style="flex:1;">'
+            f'<div class="pf-timeline-content">{escape(title)}</div>'
+            f'</div>'
+            f'{sentiment_html}'
+            f'</div>'
         )
     if not rows:
-        rows.append("<div style='color:var(--muted);padding:0.5rem 0;'>当前没有可展示的事件。</div>")
+        rows.append('<div style="color:var(--muted);padding:0.5rem 0;">当前没有可展示的事件。</div>')
     return "".join(rows)
 
 
