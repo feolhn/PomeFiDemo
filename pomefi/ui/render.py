@@ -18,15 +18,17 @@ def inject_page_styles() -> None:
         @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap');
 
         :root {
-          --bg: #f3f4f6;
+          --bg: #f8f9fa;
           --card: #ffffff;
-          --ink: #1f2328;
-          --muted: #6b7280;
-          --line: #d9dce1;
-          --ok: #3f6e4f;
-          --warn: #8a6d2f;
-          --err: #8b3a3a;
-          --pill: #eef2f7;
+          --ink: #1a1d21;
+          --muted: #5f6368;
+          --line: #e8eaed;
+          --ok: #1e8e3e;
+          --warn: #f9ab00;
+          --err: #d93025;
+          --pill: #e8f0fe;
+          --accent: #1a73e8;
+          --hover-bg: #f1f3f4;
         }
 
         .stApp {
@@ -35,20 +37,23 @@ def inject_page_styles() -> None:
         }
 
         .block-container {
-          max-width: 760px;
-          padding-top: 1.1rem;
-          padding-bottom: 2rem;
-          font-family: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+          max-width: 900px;
+          padding-top: 1.5rem;
+          padding-bottom: 3rem;
+          font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         h1, h2, h3 {
-          font-family: "Public Sans", "Helvetica Neue", Arial, sans-serif !important;
-          font-weight: 700 !important;
-          letter-spacing: 0;
+          font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+          font-weight: 600 !important;
+          letter-spacing: -0.02em;
+          color: var(--ink);
         }
 
         .pf-hero {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.6rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--line);
         }
 
         .pf-kicker {
@@ -56,11 +61,11 @@ def inject_page_styles() -> None:
         }
 
         .pf-subtitle {
-          font-size: 0.88rem;
+          font-size: 0.9rem;
           color: var(--muted);
-          line-height: 1.45;
-          margin-top: -0.15rem;
-          margin-bottom: 0.3rem;
+          line-height: 1.5;
+          margin-top: 0.25rem;
+          margin-bottom: 0.5rem;
         }
 
         .pf-status {
@@ -68,101 +73,146 @@ def inject_page_styles() -> None:
           align-items: center;
           border-radius: 999px;
           border: 1px solid var(--line);
-          padding: 0.2rem 0.65rem;
+          padding: 0.25rem 0.75rem;
           font-size: 0.75rem;
+          font-weight: 500;
           text-transform: uppercase;
           letter-spacing: 0.04em;
           background: #fff;
-          margin-right: 0.45rem;
+          margin-right: 0.5rem;
           margin-bottom: 0.5rem;
+          transition: all 0.2s ease;
         }
 
-        .pf-status-valid { color: var(--ok); border-color: #bfd6c4; background: #edf7ef; }
-        .pf-status-degraded { color: var(--warn); border-color: #eadcae; background: #fcf7e7; }
-        .pf-status-error { color: var(--err); border-color: #e5b7b7; background: #fceded; }
+        .pf-status-valid { color: var(--ok); border-color: #b7dfb9; background: #e6f4ea; }
+        .pf-status-degraded { color: #b06000; border-color: #fde293; background: #fef7e0; }
+        .pf-status-error { color: var(--err); border-color: #f6aea9; background: #fce8e6; }
 
         .pf-section-title {
-          margin-top: 0.7rem;
-          margin-bottom: 0.5rem;
-          font-size: 1.25rem;
+          margin-top: 1.25rem;
+          margin-bottom: 0.75rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .pf-mobile-card {
           border: 1px solid var(--line);
           background: var(--card);
-          border-radius: 14px;
-          padding: 0.75rem 0.8rem 0.65rem 0.8rem;
-          margin-bottom: 0.65rem;
-          box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+          border-radius: 16px;
+          padding: 1rem 1.1rem 0.85rem 1.1rem;
+          margin-bottom: 0.85rem;
+          box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.04);
+          transition: box-shadow 0.2s ease, transform 0.15s ease;
+        }
+
+        .pf-mobile-card:hover {
+          box-shadow: 0 4px 12px rgba(60, 64, 67, 0.12), 0 2px 4px rgba(60, 64, 67, 0.08);
+          transform: translateY(-1px);
         }
 
         .pf-card-head {
           display: flex;
           justify-content: space-between;
-          gap: 0.5rem;
-          align-items: center;
-          margin-bottom: 0.35rem;
+          gap: 0.75rem;
+          align-items: flex-start;
+          margin-bottom: 0.5rem;
         }
 
         .pf-card-title {
-          font-weight: 700;
+          font-weight: 600;
           font-size: 1rem;
+          line-height: 1.3;
+          color: var(--ink);
         }
 
         .pf-card-badge {
           border-radius: 999px;
-          padding: 0.15rem 0.55rem;
-          font-size: 0.72rem;
+          padding: 0.2rem 0.65rem;
+          font-size: 0.7rem;
+          font-weight: 500;
           border: 1px solid var(--line);
           background: var(--pill);
-          color: #46505b;
+          color: var(--accent);
           white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .pf-card-badge-error {
+          background: #fce8e6;
+          color: var(--err);
+          border-color: #f6aea9;
+        }
+
+        .pf-card-badge-pending {
+          background: #fef7e0;
+          color: #b06000;
+          border-color: #fde293;
         }
 
         .pf-card-sub {
-          font-size: 0.86rem;
+          font-size: 0.875rem;
           color: var(--muted);
-          margin-bottom: 0.45rem;
+          margin-bottom: 0.6rem;
+          line-height: 1.45;
         }
 
         .pf-big-num {
-          font-size: 2rem;
+          font-size: 2.25rem;
           font-weight: 700;
-          line-height: 1.05;
-          margin-bottom: 0.35rem;
+          line-height: 1.1;
+          margin-bottom: 0.5rem;
+          color: var(--ink);
+          letter-spacing: -0.02em;
         }
 
+        .pf-big-num-positive { color: var(--ok); }
+        .pf-big-num-negative { color: var(--err); }
+
         .pf-list {
-          margin: 0.2rem 0 0.3rem 0;
-          padding-left: 1.1rem;
+          margin: 0.4rem 0 0.4rem 0;
+          padding-left: 1.25rem;
         }
 
         .pf-list li {
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.35rem;
+          line-height: 1.5;
         }
 
         .pf-chip-row {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.35rem;
-          margin-top: 0.35rem;
+          gap: 0.4rem;
+          margin-top: 0.5rem;
         }
 
         .pf-chip {
           border-radius: 999px;
-          border: 1px solid #cdd4de;
-          background: #f7f9fc;
-          color: #2e3a48;
-          padding: 0.18rem 0.55rem;
-          font-size: 0.76rem;
+          border: 1px solid #dadce0;
+          background: var(--hover-bg);
+          color: #3c4043;
+          padding: 0.22rem 0.65rem;
+          font-size: 0.78rem;
+          font-weight: 500;
+          transition: all 0.15s ease;
+        }
+
+        .pf-chip:hover {
+          background: #e8eaed;
+          border-color: #bdc1c6;
         }
 
         .pf-foot {
-          border-top: 1px solid #eceff3;
-          margin-top: 0.5rem;
-          padding-top: 0.45rem;
-          font-size: 0.78rem;
+          border-top: 1px solid var(--line);
+          margin-top: 0.75rem;
+          padding-top: 0.6rem;
+          font-size: 0.75rem;
           color: var(--muted);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
 
         .pf-reminder {
@@ -170,14 +220,21 @@ def inject_page_styles() -> None:
           border: 1px solid #d4cbe8;
           background: #f1ecfa;
           color: #5d4f87;
-          padding: 0.08rem 0.5rem;
+          padding: 0.12rem 0.6rem;
           font-size: 0.72rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .pf-reminder:hover {
+          background: #e8e0f5;
         }
 
         .pf-row-actions {
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.5rem;
           flex-shrink: 0;
         }
 
@@ -185,41 +242,145 @@ def inject_page_styles() -> None:
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 1.8rem;
-          height: 1.8rem;
+          width: 1.9rem;
+          height: 1.9rem;
           border-radius: 999px;
-          border: 1px solid #d9dce1;
+          border: 1px solid var(--line);
           background: #fff;
-          color: #4b5563;
+          color: #5f6368;
           text-decoration: none;
-          font-size: 0.82rem;
+          font-size: 0.85rem;
           line-height: 1;
+          transition: all 0.15s ease;
+        }
+
+        .pf-link-icon:hover {
+          background: var(--hover-bg);
+          border-color: #dadce0;
         }
 
         .pf-kv-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 0.3rem 0.5rem;
-          margin-bottom: 0.3rem;
+          gap: 0.5rem 0.75rem;
+          margin-bottom: 0.5rem;
+          padding: 0.5rem 0;
+          border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
+        }
+
+        .pf-kv-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
         }
 
         .pf-kv-label {
           color: var(--muted);
-          font-size: 0.75rem;
+          font-size: 0.7rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
 
         .pf-kv-value {
-          font-size: 0.98rem;
+          font-size: 1rem;
           font-weight: 600;
+          color: var(--ink);
         }
+
+        .pf-kv-value-positive { color: var(--ok); }
+        .pf-kv-value-negative { color: var(--err); }
 
         .pf-empty {
           border: 1px dashed var(--line);
           background: #fafbfc;
-          border-radius: 12px;
-          padding: 0.75rem 0.8rem;
+          border-radius: 14px;
+          padding: 1rem 1.1rem;
           color: var(--muted);
-          margin-bottom: 0.65rem;
+          margin-bottom: 0.85rem;
+          text-align: center;
+        }
+
+        .pf-calendar-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 0.75rem;
+          padding: 0.6rem 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .pf-calendar-item:last-child {
+          border-bottom: none;
+        }
+
+        .pf-calendar-date {
+          min-width: 5.5rem;
+          font-weight: 600;
+          color: var(--ink);
+          font-size: 0.85rem;
+        }
+
+        .pf-calendar-event {
+          flex: 1;
+          color: #3c4043;
+          line-height: 1.4;
+          font-size: 0.875rem;
+        }
+
+        .pf-timeline-event {
+          display: flex;
+          gap: 0.75rem;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--line);
+          align-items: flex-start;
+        }
+
+        .pf-timeline-event:last-child {
+          border-bottom: none;
+        }
+
+        .pf-timeline-date {
+          min-width: 4.5rem;
+          font-weight: 600;
+          color: var(--muted);
+          font-size: 0.8rem;
+          font-family: monospace;
+        }
+
+        .pf-timeline-content {
+          flex: 1;
+          color: #3c4043;
+          line-height: 1.4;
+          font-size: 0.875rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .block-container {
+            padding-top: 1rem;
+            padding-bottom: 2rem;
+          }
+
+          .pf-mobile-card {
+            padding: 0.875rem 0.9rem 0.75rem 0.9rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .pf-big-num {
+            font-size: 1.875rem;
+          }
+
+          .pf-kv-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.4rem 0.5rem;
+          }
+
+          .pf-section-title {
+            font-size: 1rem;
+            margin-top: 1rem;
+          }
         }
         </style>
         """,
@@ -231,9 +392,9 @@ def render_header() -> None:
     st.markdown(
         """
         <section class="pf-hero">
-          <h1>Stock Wiki</h1>
+          <h1 style="margin-bottom: 0.25rem;">📊 Stock Wiki</h1>
           <div class="pf-subtitle">
-            生成 Summary / Entity / Timeline / Calendar / Relationship 五张卡片。
+            智能生成 Summary · Entity · Timeline · Calendar · Relationship 五维分析卡片
           </div>
         </section>
         """,
@@ -242,7 +403,7 @@ def render_header() -> None:
 
 
 def render_question_hint() -> None:
-    st.caption("示例：`宁德时代怎么看？`  `300750 最近三个月关键事件`  `比亚迪的竞争对手有哪些？`")
+    st.caption("💡 试试这样问：`宁德时代怎么看？` · `300750 最近三个月关键事件` · `比亚迪的竞争对手有哪些？`")
 
 
 def render_cards_export_button(*, disabled: bool = False, hint: str = "") -> None:
@@ -497,18 +658,46 @@ def _render_skill_error(title: str, entry: dict[str, Any], footer: str) -> None:
     data = dict(result.get("data") or {})
     error = str(result.get("error") or "card_failed")
     summary = str(data.get("summary") or "当前卡片执行失败。")
-    _render_state_shell(
-        title=title,
-        badge="Error",
-        summary=summary,
-        bullets=[f"error: {error}"],
-        footer=footer,
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{escape(title)}</div>
+            <div class="pf-card-badge pf-card-badge-error">Error</div>
+          </div>
+          <div style="color:#3c4043;">{escape(summary)}</div>
+          <div style="margin-top:0.5rem;padding:0.5rem;background:#fce8e6;border-radius:8px;font-size:0.8rem;color:var(--err);">
+            ⚠️ {escape(error)}
+          </div>
+          <div class="pf-foot">{escape(footer)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
     )
 
 
 def _render_skill_pending(title: str, badge: str, footer: str, state: str) -> None:
     summary = "卡片正在生成中..." if state == "running" else "等待卡片启动..."
-    _render_state_shell(title=title, badge=badge, summary=summary, bullets=[], footer=footer)
+    loading_dots = "<span class='loading-dots'>...</span>" if state == "running" else ""
+    st.markdown(
+        f"""
+        <section class="pf-mobile-card">
+          <div class="pf-card-head">
+            <div class="pf-card-title">{escape(title)}</div>
+            <div class="pf-card-badge pf-card-badge-pending">{escape(badge)}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;color:var(--muted);">
+            <div class="pf-spinner" style="width:16px;height:16px;border:2px solid #e8eaed;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;"></div>
+            <span>{escape(summary)}{loading_dots}</span>
+          </div>
+          <style>
+            @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+          </style>
+          <div class="pf-foot">{escape(footer)}</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def render_summary_card(entry: dict[str, Any]) -> None:
@@ -524,38 +713,74 @@ def render_summary_card(entry: dict[str, Any]) -> None:
         _render_skill_error("Stock Summary", entry, "Source: AkShare · Updated: -")
         return
     price_last = metrics.get("price_last")
+    ret_1d = metrics.get("ret_1d")
+    
+    # Build key-value rows with proper labels
     kv_rows = []
-    for key in ("mkt_cap", "pe_ttm", "vol_20d", "pb", "ret_1d", "ret_5d"):
+    metric_labels = {
+        "mkt_cap": "市值",
+        "pe_ttm": "市盈率",
+        "pb": "市净率", 
+        "ret_1d": "1日涨跌",
+        "ret_5d": "5日涨跌",
+        "ret_20d": "20日涨跌",
+        "vol_20d": "20日波动",
+        "max_drawdown_1y": "1年回撤"
+    }
+    
+    for key in ("mkt_cap", "pe_ttm", "pb", "ret_1d", "ret_5d", "ret_20d"):
         if key in metrics and metrics.get(key) is not None:
-            kv_rows.append((key, _format_metric_value(metrics.get(key))))
+            value = _format_metric_value(metrics.get(key), key)
+            # Add color class for return metrics
+            value_class = ""
+            if key in ("ret_1d", "ret_5d", "ret_20d") and metrics.get(key) is not None:
+                try:
+                    val = float(metrics.get(key))
+                    value_class = " pf-kv-value-positive" if val > 0 else " pf-kv-value-negative" if val < 0 else ""
+                except (TypeError, ValueError):
+                    pass
+            kv_rows.append((metric_labels.get(key, key), value, value_class))
+    
     if not kv_rows:
-        kv_rows = [(key, _format_metric_value(val)) for key, val in list(metrics.items())[:6] if val is not None]
-    bullets = [f"{key}: {_format_metric_value(value)}" for key, value in list(metrics.items())[:4] if value is not None]
-    for item in list(data.get("metrics_missing") or [])[:3]:
-        bullets.append(f"{item}: 不可用")
-    if state != "valid":
-        bullets.append(f"status: {str(result.get('error') or 'partial_data')}")
+        kv_rows = [(metric_labels.get(key, key), _format_metric_value(val, key), "") 
+                   for key, val in list(metrics.items())[:6] if val is not None]
+    
     kv_html = "".join(
-        f"<div><div class='pf-kv-label'>{escape(label)}</div><div class='pf-kv-value'>{escape(value)}</div></div>"
-        for label, value in kv_rows[:6]
+        f"<div class='pf-kv-item'><div class='pf-kv-label'>{escape(label)}</div>"
+        f"<div class='pf-kv-value{value_class}'>{escape(value)}</div></div>"
+        for label, value, value_class in kv_rows[:6]
     )
-    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in bullets[:6])
-    price_text = "--" if price_last is None else f"${float(price_last):.2f}"
+    
+    # Price display with change indicator
+    price_text = "--" if price_last is None else f"¥{float(price_last):.2f}"
+    price_change_html = ""
+    if ret_1d is not None:
+        try:
+            change_pct = float(ret_1d) * 100
+            change_class = "pf-big-num-positive" if change_pct > 0 else "pf-big-num-negative" if change_pct < 0 else ""
+            change_sign = "+" if change_pct > 0 else ""
+            price_change_html = f"<div style='font-size:0.875rem;margin-top:0.25rem;' class='{change_class}'>{change_sign}{change_pct:.2f}% 今日</div>"
+        except (TypeError, ValueError):
+            pass
+    
     badge = "Active" if state == "valid" else "Partial"
+    badge_class = "" if state == "valid" else " pf-card-badge-pending"
+    
     summary_text = str(data.get("summary") or "已输出核心行情与估值指标。")
     if state != "valid" and metrics:
         summary_text = "实时价格链路失败，先展示当前已拿到的估值指标。"
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">Stock Summary</div>
-            <div class="pf-card-badge">{escape(badge)}</div>
+            <div class="pf-card-title">📊 行情概览</div>
+            <div class="pf-card-badge{badge_class}">{escape(badge)}</div>
           </div>
           <div class="pf-big-num">{escape(price_text)}</div>
+          {price_change_html}
           <div class="pf-kv-grid">{kv_html}</div>
-          <div>{escape(summary_text)}</div>
-          <ul class="pf-list">{bullet_html}</ul>
+          <div style="font-size:0.875rem;color:var(--muted);">{escape(summary_text)}</div>
           <div class="pf-foot">{escape(_source_footer(result, "AkShare"))}</div>
         </section>
         """,
@@ -566,28 +791,46 @@ def render_summary_card(entry: dict[str, Any]) -> None:
 def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) -> None:
     state = str(entry.get("state") or "pending")
     if state in {"pending", "running"}:
-        _render_skill_pending(f"Entity: Who is {company}?", "Tech & Auto", "Source: kimi · Updated: -", state)
+        _render_skill_pending(f"公司主体", "分析中", "Source: kimi · Updated: -", state)
         return
     if state != "valid":
-        _render_skill_error(f"Entity: Who is {company}?", entry, "Source: kimi · Updated: -")
+        _render_skill_error(f"公司主体", entry, "Source: kimi · Updated: -")
         return
 
     result = dict(entry.get("result") or {})
     data = dict(result.get("data") or {})
-    bullets = [
-        f"公司: {data.get('company_name') or company}",
-        f"代码: {data.get('symbol') or symbol or '-'}",
-    ]
-    bullet_html = "".join(f"<li>{escape(item)}</li>" for item in bullets)
+    
+    # Extract company info
+    industry = data.get('industry', '')
+    main_business = data.get('main_business', '')
+    investment_tags = data.get('investment_tags', [])
+    
+    # Build info chips from various sources
+    chips = []
+    if industry:
+        chips.append(industry)
+    if main_business:
+        # Split main business by delimiter and add as chips
+        for item in str(main_business).split('、'):
+            if item.strip():
+                chips.append(item.strip())
+    # Also add investment tags if available
+    if investment_tags:
+        for tag in investment_tags:
+            if tag and tag not in chips:
+                chips.append(str(tag))
+    
+    chip_html = "".join(f"<span class='pf-chip'>{escape(item)}</span>" for item in chips[:8])
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">Entity: Who is {escape(company)}?</div>
-            <div class="pf-card-badge">Tech & Auto</div>
+            <div class="pf-card-title">🏢 公司主体</div>
+            <div class="pf-card-badge">{escape(industry or "Tech & Auto")}</div>
           </div>
-          <div>{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
-          <ul class="pf-list">{bullet_html}</ul>
+          <div style="line-height:1.6;color:#3c4043;">{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
+          {f"<div class='pf-chip-row'>{chip_html}</div>" if chip_html else ""}
           <div class="pf-foot">{escape(_source_footer(result, "kimi"))}</div>
         </section>
         """,
@@ -597,12 +840,11 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
 
 def render_timeline_card(entry: dict[str, Any]) -> None:
     state = str(entry.get("state") or "pending")
-    title = "Event Timeline: Price vs Key Dates"
     if state in {"pending", "running"}:
-        _render_skill_pending(title, "Price & Event", "Source: MarketWatch · Updated: -", state)
+        _render_skill_pending("事件时间线", "分析中", "Source: MarketWatch · Updated: -", state)
         return
     if state != "valid":
-        _render_skill_error(title, entry, "Source: MarketWatch · Updated: -")
+        _render_skill_error("事件时间线", entry, "Source: MarketWatch · Updated: -")
         return
 
     result = dict(entry.get("result") or {})
@@ -611,12 +853,13 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
     series = [dict(item) for item in list(data.get("series") or []) if isinstance(item, dict)]
     event_html = _timeline_event_html(events)
     summary_text = _compact_text(str(data.get("summary") or "近三个月价格与事件时间线。"), limit=120)
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">{title}</div>
-            <div class="pf-card-badge">Price & Event</div>
+            <div class="pf-card-title">📈 价格走势 & 关键事件</div>
+            <div class="pf-card-badge">近3个月</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
         </section>
@@ -633,7 +876,8 @@ def render_timeline_card(entry: dict[str, Any]) -> None:
         )
     st.markdown(
         f"""
-        <section class="pf-mobile-card" style="margin-top:-0.35rem;">
+        <section class="pf-mobile-card" style="margin-top:0.5rem;">
+          <div style="font-weight:600;font-size:0.875rem;margin-bottom:0.5rem;color:var(--ink);">关键事件</div>
           <div>{event_html}</div>
           <div class="pf-foot">{escape(_source_footer(result, "MarketWatch"))}</div>
         </section>
@@ -656,35 +900,50 @@ def _watch_calendar_actions_html(url: Any) -> str:
 
 def render_watch_calendar_card(entry: dict[str, Any]) -> None:
     state = str(entry.get("state") or "pending")
-    title = "Variables: Watch Calendar"
     if state in {"pending", "running"}:
-        _render_skill_pending(title, "Upcoming", "Source: IR · Updated: -", state)
+        _render_skill_pending("关注日历", " upcoming", "Source: IR · Updated: -", state)
         return
     if state != "valid":
-        _render_skill_error(title, entry, "Source: IR · Updated: -")
+        _render_skill_error("关注日历", entry, "Source: IR · Updated: -")
         return
 
     result = dict(entry.get("result") or {})
     data = dict(result.get("data") or {})
     rows = [dict(item) for item in list(data.get("items") or []) if isinstance(item, dict)][:4]
+    
+    # Build calendar items with improved styling
     row_html = ""
     for item in rows:
+        date_text = escape(str(item.get('date') or '-'))
+        event_text = escape(str(item.get('event') or ''))
+        certainty = str(item.get('certainty', ''))
+        certainty_badge = ""
+        if certainty == "high":
+            certainty_badge = "<span style='font-size:0.65rem;padding:0.1rem 0.4rem;background:#e6f4ea;color:#1e8e3e;border-radius:999px;margin-left:0.5rem;'>高确定性</span>"
+        elif certainty == "medium":
+            certainty_badge = "<span style='font-size:0.65rem;padding:0.1rem 0.4rem;background:#fef7e0;color:#b06000;border-radius:999px;margin-left:0.5rem;'>中确定性</span>"
+        
         row_html += (
-            "<div style='display:flex;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;'>"
-            f"<div><strong>{escape(str(item.get('date') or '-'))}</strong> {escape(str(item.get('event') or ''))}</div>"
+            f"<div class='pf-calendar-item'>"
+            f"<div style='display:flex;align-items:center;'><span class='pf-calendar-date'>{date_text}</span>{certainty_badge}</div>"
+            f"<div class='pf-calendar-event'>{event_text}</div>"
             f"{_watch_calendar_actions_html(item.get('url'))}</div>"
         )
+    
     if not row_html:
-        row_html = "<div style='margin-bottom:0.25rem;'>• 当前没有可展示的日历节点。</div>"
+        row_html = "<div class='pf-calendar-item'><div class='pf-calendar-event' style='color:var(--muted);'>• 当前没有可展示的日历节点。</div></div>"
+    
+    summary_text = escape(str(data.get("summary") or "近期关键事件日历。"))
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">{title}</div>
+            <div class="pf-card-title">📅 关注日历</div>
             <div class="pf-card-badge">Upcoming</div>
           </div>
-          <div>{escape(str(data.get("summary") or "近期关键事件日历。"))}</div>
-          <div style="margin-top:0.45rem;">{row_html}</div>
+          <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.75rem;">{summary_text}</div>
+          <div>{row_html}</div>
           <div class="pf-foot">{escape(_source_footer(result, "IR"))}</div>
         </section>
         """,
@@ -694,12 +953,11 @@ def render_watch_calendar_card(entry: dict[str, Any]) -> None:
 
 def render_relationship_card(entry: dict[str, Any]) -> None:
     state = str(entry.get("state") or "pending")
-    title = "Relationship: Connections & Influences"
     if state in {"pending", "running"}:
-        _render_skill_pending(title, "Map", "Source: Crunchbase · Updated: -", state)
+        _render_skill_pending("关系图谱", "分析中", "Source: Crunchbase · Updated: -", state)
         return
     if state != "valid":
-        _render_skill_error(title, entry, "Source: Crunchbase · Updated: -")
+        _render_skill_error("关系图谱", entry, "Source: Crunchbase · Updated: -")
         return
 
     result = dict(entry.get("result") or {})
@@ -707,12 +965,29 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
     nodes = [dict(item) for item in list(data.get("nodes") or []) if isinstance(item, dict)]
     edges = [dict(item) for item in list(data.get("edges") or []) if isinstance(item, dict)]
     summary_text = _compact_text(str(data.get("summary") or "关系图谱结果暂缺。"), limit=96)
+    
+    # Build role-based chips
+    role_chips = {"supplier": [], "customer": [], "competitor": [], "theme": [], "other": []}
+    for node in nodes:
+        role = str(node.get("role", "other"))
+        node_id = str(node.get("id", ""))
+        if node_id:
+            role_chips.get(role, role_chips["other"]).append(node_id)
+    
+    chip_html = ""
+    role_labels = {"supplier": "供应商", "customer": "客户", "competitor": "竞争对手", "theme": "核心", "other": "其他"}
+    for role, node_list in role_chips.items():
+        if node_list:
+            chip_html += f"<div style='margin-bottom:0.5rem;'><div style='font-size:0.7rem;color:var(--muted);margin-bottom:0.25rem;'>{role_labels.get(role, role)}</div>"
+            chip_html += "".join(f"<span class='pf-chip'>{escape(node)}</span>" for node in node_list[:4])
+            chip_html += "</div>"
+    
     st.markdown(
         f"""
         <section class="pf-mobile-card">
           <div class="pf-card-head">
-            <div class="pf-card-title">{title}</div>
-            <div class="pf-card-badge">Map</div>
+            <div class="pf-card-title">🔗 关系图谱</div>
+            <div class="pf-card-badge">{len(nodes)} 节点 · {len(edges)} 关系</div>
           </div>
           <div class="pf-card-sub">{escape(summary_text)}</div>
         </section>
@@ -729,8 +1004,8 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
         )
     st.markdown(
         f"""
-        <section class="pf-mobile-card" style="margin-top:-0.35rem;">
-          <div style="color:#6b7280;font-size:0.8rem;">nodes: {len(nodes)} · edges: {len(edges)}</div>
+        <section class="pf-mobile-card" style="margin-top:0.5rem;">
+          {chip_html}
           <div class="pf-foot">{escape(_source_footer(result, "Crunchbase"))}</div>
         </section>
         """,
@@ -798,21 +1073,49 @@ def render_progressive_cards(
     )
     symbol = str(route.get("symbol") or meta.get("symbol") or "")
 
+    # Header section with company name
     if company and company != "标的":
-        st.markdown(f"<h2 class='pf-section-title'>{escape(company)}</h2>", unsafe_allow_html=True)
-    st.markdown('<h2 class="pf-section-title">Stock Wiki Cards</h2>', unsafe_allow_html=True)
-
-    render_summary_card(_card_state_entry(card_store, "summary"))
-    render_entity_info_card(_card_state_entry(card_store, "entity_info"), company, symbol)
-    render_timeline_card(_card_state_entry(card_store, "timeline"))
-    render_watch_calendar_card(_card_state_entry(card_store, "watch_calendar"))
-    render_relationship_card(_card_state_entry(card_store, "relationship"))
-
-    if meta:
-        st.markdown('<h2 class="pf-section-title">Sources & Time</h2>', unsafe_allow_html=True)
-        st.caption(
-            f"generated_at={meta.get('generated_at', '')} | trace_id={meta.get('trace_id', '')} | symbol={meta.get('symbol', '')}"
+        st.markdown(
+            f"""
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+                <h2 style="margin:0;font-size:1.5rem;font-weight:600;">{escape(company)}</h2>
+                {f'<span style="color:var(--muted);font-size:1rem;font-weight:500;">{escape(symbol)}</span>' if symbol else ''}
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
+    st.markdown('<div class="pf-section-title">📈 核心指标</div>', unsafe_allow_html=True)
+
+    # Top row: Summary and Entity Info side by side on larger screens
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
+        render_summary_card(_card_state_entry(card_store, "summary"))
+    with col2:
+        render_entity_info_card(_card_state_entry(card_store, "entity_info"), company, symbol)
+
+    # Timeline section with full width
+    st.markdown('<div class="pf-section-title">📅 事件时间线</div>', unsafe_allow_html=True)
+    render_timeline_card(_card_state_entry(card_store, "timeline"))
+
+    # Bottom row: Calendar and Relationship side by side
+    st.markdown('<div class="pf-section-title">🔔 关注日历 & 关系图谱</div>', unsafe_allow_html=True)
+    col3, col4 = st.columns([1, 1], gap="medium")
+    with col3:
+        render_watch_calendar_card(_card_state_entry(card_store, "watch_calendar"))
+    with col4:
+        render_relationship_card(_card_state_entry(card_store, "relationship"))
+
+    # Footer metadata
+    if meta:
+        st.markdown('<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line);">', unsafe_allow_html=True)
+        cols = st.columns(3)
+        with cols[0]:
+            st.caption(f"🕐 {meta.get('generated_at', '-')}")
+        with cols[1]:
+            st.caption(f"🔍 trace_id: {meta.get('trace_id', '-')[:16]}...")
+        with cols[2]:
+            st.caption(f"📊 {meta.get('symbol', '-')}")
+        st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<div id="pf-export-end" style="height:1px;"></div>', unsafe_allow_html=True)
 
 
@@ -887,12 +1190,96 @@ def _source_footer(skill_result: dict[str, Any], fallback: str) -> str:
     return f"Source: {source_name} · Updated: {updated}"
 
 
-def _format_metric_value(value: Any) -> str:
+def _format_metric_value(value: Any, metric_name: str | None = None) -> str:
+    """Format metric value for display. Backward compatible with optional metric_name."""
     if value is None:
         return "不可用"
+    
+    # Handle percentage metrics
+    percent_keys = {"ret_1d", "ret_5d", "ret_20d", "vol_20d", "max_drawdown_1y"}
+    if metric_name in percent_keys:
+        try:
+            numeric = float(value) * 100
+            if metric_name in {"ret_1d", "ret_5d", "ret_20d"} and numeric > 0:
+                return f"+{numeric:.2f}%"
+            return f"{numeric:.2f}%"
+        except (TypeError, ValueError):
+            return str(value)
+    
+    # Handle PE/PB metrics
+    if metric_name in {"pe_ttm", "pb"}:
+        try:
+            numeric = float(value)
+            if metric_name == "pe_ttm" and numeric < 0:
+                return "亏损"
+            return f"{numeric:.2f}"
+        except (TypeError, ValueError):
+            return str(value)
+    
     if isinstance(value, float):
         return f"{value:.6g}"
     return str(value)
+
+
+def _summary_price_text(price_last: Any) -> str:
+    """Format price text with yuan symbol."""
+    if price_last is None:
+        return "--"
+    try:
+        return f"{float(price_last):.2f}元"
+    except (TypeError, ValueError):
+        return str(price_last)
+
+
+def _summary_sections(
+    metrics: dict[str, Any],
+    *,
+    missing: list[str],
+    error_reason: str = "",
+) -> tuple[list[tuple[str, str]], list[str]]:
+    """Generate key-value rows and bullet points for summary."""
+    primary_keys = ("mkt_cap", "pe_ttm", "pb", "ret_1d", "ret_5d", "ret_20d")
+    extra_keys = ("vol_20d", "max_drawdown_1y")
+    
+    metric_labels = {
+        "mkt_cap": "市值",
+        "pe_ttm": "市盈率",
+        "pb": "市净率",
+        "ret_1d": "近1日",
+        "ret_5d": "近5日",
+        "ret_20d": "近20日",
+        "vol_20d": "20日波动",
+        "max_drawdown_1y": "1年回撤",
+    }
+    
+    kv_rows = [
+        (metric_labels.get(key, key), _format_metric_value(metrics.get(key), key))
+        for key in primary_keys
+        if metrics.get(key) is not None
+    ]
+    
+    if not kv_rows:
+        kv_rows = [
+            (metric_labels.get(key, key), _format_metric_value(value, key))
+            for key, value in list(metrics.items())[:6]
+            if value is not None
+        ]
+    
+    shown_keys = {key for key in primary_keys if metrics.get(key) is not None}
+    kv_rows.extend(
+        [
+            (metric_labels.get(key, key), _format_metric_value(metrics.get(key), key))
+            for key in extra_keys
+            if key in metrics and metrics.get(key) is not None and key not in shown_keys
+        ]
+    )
+    
+    bullets: list[str] = []
+    if missing:
+        bullets.extend(
+            [f"{metric_labels.get(item, item)}: 不可用（{error_reason or '数据暂不可达'}）" for item in missing[:3]]
+        )
+    return kv_rows[:8], bullets[:6]
 
 
 def _masked_or_default(
@@ -927,6 +1314,8 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
     marker_xs: list[Any] = []
     marker_ys: list[Any] = []
     marker_texts: list[str] = []
+    annotations: list[dict[str, Any]] = []
+    
     for item in events[:4]:
         if not isinstance(item, dict):
             continue
@@ -941,6 +1330,26 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
         marker_xs.append(xs[point_idx])
         marker_ys.append(ys[point_idx])
         marker_texts.append(title)
+        
+        # Add annotation for event (capped at 2 for mobile density)
+        if len(annotations) < 2:
+            annotations.append({
+                "x": xs[point_idx],
+                "y": ys[point_idx],
+                "text": _timeline_event_label(title),
+                "showarrow": True,
+                "arrowhead": 2,
+                "arrowsize": 1,
+                "arrowwidth": 1,
+                "ax": 0,
+                "ay": -30,
+                "font": {"size": 9, "color": "#5f6368"},
+                "bgcolor": "rgba(255,255,255,0.9)",
+                "bordercolor": "#e8eaed",
+                "borderwidth": 1,
+                "borderpad": 3,
+            })
+    
     if marker_xs:
         figure.add_trace(
             go.Scatter(
@@ -954,13 +1363,13 @@ def _timeline_figure(series: list[dict[str, Any]], events: list[dict[str, Any]])
             )
         )
     figure.update_layout(
-        margin={"l": 8, "r": 8, "t": 8, "b": 8},
-        height=220,
+        margin={"l": 8, "r": 8, "t": 40, "b": 8},
+        height=240,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
         xaxis={"showgrid": False, "zeroline": False, "showline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
         yaxis={"showgrid": True, "gridcolor": "rgba(31,35,40,0.08)", "zeroline": False, "tickfont": {"size": 10, "color": "#6b7280"}},
-        annotations=[],
+        annotations=annotations,
         showlegend=False,
     )
     return figure
@@ -970,19 +1379,39 @@ def _timeline_event_html(events: list[dict[str, Any]]) -> str:
     rows: list[str] = []
     for item in events[:4]:
         date_text = str(item.get("event_date") or item.get("date") or "").strip() or "-"
-        title = _compact_text(str(item.get("title") or "").strip() or "未命名事件", limit=48)
+        title = _compact_text(str(item.get("title") or "").strip() or "未命名事件", limit=56)
+        
+        # Get sentiment if available
+        sentiment = str(item.get("sentiment") or "neutral").strip().lower()
+        if sentiment not in {"positive", "negative", "neutral"}:
+            sentiment = "neutral"
+        sentiment_text = {"positive": "正向", "negative": "负向", "neutral": "中性"}[sentiment]
+        
+        sentiment_html = f"<span class='pf-sentiment pf-sentiment-{sentiment}'>{sentiment_text}</span>"
+        
         rows.append(
-            "<div style='display:flex;gap:0.45rem;margin-bottom:0.42rem;align-items:flex-start;'>"
-            f"<div style='min-width:4.2rem;font-weight:700;color:#5d4f4f;'>{escape(date_text)}</div>"
-            f"<div style='color:#2e3a48;line-height:1.4;'>{escape(title)}</div>"
-            "</div>"
+            f"<div class='pf-timeline-event'>"
+            f"<div class='pf-timeline-date'>{escape(date_text)}</div>"
+            f"<div style='flex:1;'>"
+            f"<div class='pf-timeline-content'>{escape(title)}</div>"
+            f"</div>"
+            f"{sentiment_html}"
+            f"</div>"
         )
     if not rows:
-        rows.append("<div style='color:#6b7280;'>当前没有可展示的事件。</div>")
+        rows.append("<div style='color:var(--muted);padding:0.5rem 0;'>当前没有可展示的事件。</div>")
     return "".join(rows)
 
 
 def _compact_text(text: str, *, limit: int) -> str:
+    compact = " ".join(str(text or "").split())
+    if len(compact) <= limit:
+        return compact
+    return compact[:limit] + "..."
+
+
+def _timeline_event_label(text: str, limit: int = 12) -> str:
+    """Compact event label for timeline chart annotations."""
     compact = " ".join(str(text or "").split())
     if len(compact) <= limit:
         return compact
