@@ -29,8 +29,13 @@ KIMI_MODEL="kimi-k2.5"
 ## 启动前端
 
 ```bash
-source venv/bin/activate
-streamlit run app.py
+./scripts/run_app.sh
+```
+
+等价命令：
+
+```bash
+/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python -m streamlit run /Users/hujiawei/Documents/PomeFiDemo/app.py
 ```
 
 页面里可以开启“使用本地 Fixture 调试”：
