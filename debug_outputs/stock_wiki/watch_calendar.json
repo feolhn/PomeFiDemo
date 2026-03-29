@@ -1,0 +1,3431 @@
+{
+  "skill": "watch_calendar",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
+      "today": "2026-03-29",
+      "items": [
+        {
+          "date": "2026年4月下旬",
+          "event": "一季报披露，创新药收入目标增长超25%",
+          "source": "机构预期",
+          "url": ""
+        },
+        {
+          "date": "2026年7月23日",
+          "event": "FDA卡瑞利珠单抗联合阿帕替尼肝癌适应症BLA目标审评日期",
+          "source": "公司公告",
+          "url": ""
+        },
+        {
+          "date": "2026年下半年",
+          "event": "HRS9531减重适应症中国获批",
+          "source": "机构预期",
+          "url": ""
+        },
+        {
+          "date": "2026年",
+          "event": "20项以上NDA/BLA申报，计划获批10款以上创新药或新增适应症",
+          "source": "公司公告",
+          "url": ""
+        },
+        {
+          "date": "2026年",
+          "event": "25项以上Ⅲ期临床数据读出",
+          "source": "机构预期",
+          "url": ""
+        }
+      ],
+      "summary": "未来4个月：FDA卡瑞利珠单抗肝癌适应症7月23日目标审评日期为核心催化剂；4月下旬一季报披露创新药增长；2026年全年20项以上NDA/BLA申报及25项以上Ⅲ期数据读出支撑管线价值。",
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search",
+              "web_search"
+            ],
+            "reasoning_present": false,
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "reasoning_present": false,
+            "content_preview": "## 证据摘要\n\n**生物医药行业重大事件（恒瑞医药 600276）：**\n\n**1. 监管审批节点（未来3个月）**\n- **FDA BLA审评**：卡瑞利珠单抗联合阿帕替尼用于肝细胞癌一线治疗，目标审评日期为**2026年7月23日**。若获批，将成为中国首个登陆美国市场的肿瘤免疫联合疗法。\n- **HRS9531（GLP-1/GIP双靶点激动剂）**：用于减重适应症，预计**2026年下半年..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\": \"恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划\", \"classes\": [\"medical\",\"finance\"]}",
+            "arguments_dict": {
+              "query": "恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划",
+              "classes": [
+                "medical",
+                "finance"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----xPQwCWYrDOlCa04IEZ5yBa9BCAwoUQetURd1+VhEh7yczFkSiPWMfNiiikTbvk6pd2CQyKJhCXhoL3Q/1CIkfhwydoDoFOS6E9pOtUI0yMOb4BvQXV9SH0E0I0UVEBAk8gYJBXC4ZLsmkV72IgeH+a50alyhRnK5xhO8HJ3I..."
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\": \"恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于\", \"classes\": [\"finance\"]}",
+            "arguments_dict": {
+              "query": "恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于",
+              "classes": [
+                "finance"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----o9DdQ0YIFjV3U/pmpoEtoNVJEIfMooJrKVt4JwQlzbPWQdQ5GX14ENXi9wKL1fNReqdoI/B/lu8WXWZSS9LuSixE00oySwBI4oJoD7ODApnxEuJppluw9Vfd1obkvwxuhd1cJPjbXr0Oae69OmdLBUpJG7G7XGf0beBRLVpz..."
+          }
+        ],
+        "degrade_reason": null
+      }
+    },
+    "sources": [
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": false
+  },
+  "trace": {
+    "events": [
+      {
+        "type": "session_start",
+        "prompt": "标的：恒瑞医药(600276)。今天是 2026-03-29。不要直接回答。按 system prompt 里的行业规则调用 web_search；query 必须覆盖时间意图词（未来、即将、计划、预计、将于、时间表）和股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
+        "model": "kimi-k2.5",
+        "tool_count": 2
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划\", \"classes\": [\"medical\",\"finance\"]}",
+        "arguments": {
+          "query": "恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划",
+          "classes": [
+            "medical",
+            "finance"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----xPQwCWYrDOlCa04IEZ5yBa9BCAwoUQetURd1+VhEh7yczFkSiPWMfNiiikTbvk6pd2CQyKJhCXhoL3Q/1CIkfhwydoDoFOS6E9pOtUI0yMOb4BvQXV9SH0E0I0UVEBAk8gYJBXC4ZLsmkV72IgeH+a50alyhRnK5xhO8HJ3I...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于\", \"classes\": [\"finance\"]}",
+        "arguments": {
+          "query": "恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于",
+          "classes": [
+            "finance"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----o9DdQ0YIFjV3U/pmpoEtoNVJEIfMooJrKVt4JwQlzbPWQdQ5GX14ENXi9wKL1fNReqdoI/B/lu8WXWZSS9LuSixE00oySwBI4oJoD7ODApnxEuJppluw9Vfd1obkvwxuhd1cJPjbXr0Oae69OmdLBUpJG7G7XGf0beBRLVpz...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "##"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "证据"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "摘要"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "生物医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "行业"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "重大"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "600"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "276"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "监管"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "审批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "节点"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "未来"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "个月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "FDA"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " BLA"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "审评"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "卡"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "利"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "珠"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "单"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "联合"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "阿"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "帕"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "替"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "尼"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "用于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "肝细胞"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "癌"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "一线"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "治疗"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "目标"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "审评"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "日期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "23"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**。"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "若"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "将成为"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "首个"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "登陆"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "美国"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "市场的"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "免疫"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "联合"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "疗法"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "H"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "RS"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "953"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "GL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "P"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/G"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IP"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "双"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "靶"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "点"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "激动"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "剂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "用于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "减重"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预计"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年下半年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "在中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "峰值"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "销售"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "50"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "80"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "2"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "数据"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "读出"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预计"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "迎来"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "25"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "Ⅲ"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "数据"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "读取"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "包括"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "HER"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "2"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " ADC"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "FX"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "I"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "单"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "CD"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "K"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "抑制剂"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "23"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "36"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "R"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "双"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "重磅"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "品种"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "多个"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "临床试验"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "数据"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "有望"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "读出"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "AR"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " PROT"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "AC"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "23"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "p"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "19"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "36"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "IF"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "N"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "AR"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/T"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "AC"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "I"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " N"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "DA"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "BL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "申报"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预计"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "将有"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "20"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "ND"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "BL"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "申报"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "计划"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "款"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "或"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新增"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "2"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "多项"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "N"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "MP"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "受理"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "磷"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "罗拉"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "匹"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "坦"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "帕"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "洛"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "诺"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "司"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "琼"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "卡"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "利"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "珠"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "单"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "联合"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "阿"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "帕"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "替"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "尼"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "肝癌"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "业绩"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "商业化"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "一"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "季报"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预计"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "月下旬"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "目标"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "超"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "25"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "%。"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新版"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "医保"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "目录"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "款"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "于"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "日起"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "执行"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "预计"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "营收"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "跃"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "升至"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "120"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "150"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " **"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "里程碑"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "付款"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**："
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年为"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "合作项目"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "里程碑"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "付款"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "集中"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "兑现"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "多个"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "项目"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "进入"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "III"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "ND"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "商业化"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "节点"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "。\n\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "学术"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "会议"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "催化"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "**\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "关注"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "相关"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "学术"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "会议上"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "数据的"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "读出"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "具体"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "会议"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "时间"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "待"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "）。"
+      },
+      {
+        "type": "session_done",
+        "trace": {
+          "prompt": "标的：恒瑞医药(600276)。今天是 2026-03-29。不要直接回答。按 system prompt 里的行业规则调用 web_search；query 必须覆盖时间意图词（未来、即将、计划、预计、将于、时间表）和股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
+          "turns": [
+            {
+              "index": 0,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search",
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            },
+            {
+              "index": 1,
+              "has_tool_calls": false,
+              "tool_names": [],
+              "reasoning_present": false,
+              "content_preview": "## 证据摘要\n\n**生物医药行业重大事件（恒瑞医药 600276）：**\n\n**1. 监管审批节点（未来3个月）**\n- **FDA BLA审评**：卡瑞利珠单抗联合阿帕替尼用于肝细胞癌一线治疗，目标审评日期为**2026年7月23日**。若获批，将成为中国首个登陆美国市场的肿瘤免疫联合疗法。\n- **HRS9531（GLP-1/GIP双靶点激动剂）**：用于减重适应症，预计**2026年下半年..."
+            }
+          ],
+          "tool_events": [
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:0",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划\", \"classes\": [\"medical\",\"finance\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 2026年 未来3个月 审批节点 临床数据 医学会议 新药获批 预计 即将 计划",
+                "classes": [
+                  "medical",
+                  "finance"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----xPQwCWYrDOlCa04IEZ5yBa9BCAwoUQetURd1+VhEh7yczFkSiPWMfNiiikTbvk6pd2CQyKJhCXhoL3Q/1CIkfhwydoDoFOS6E9pOtUI0yMOb4BvQXV9SH0E0I0UVEBAk8gYJBXC4ZLsmkV72IgeH+a50alyhRnK5xhO8HJ3I..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于\", \"classes\": [\"finance\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 2026年 一季报 业绩 解禁 回购 指数纳入 股价影响 预计 将于",
+                "classes": [
+                  "finance"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----o9DdQ0YIFjV3U/pmpoEtoNVJEIfMooJrKVt4JwQlzbPWQdQ5GX14ENXi9wKL1fNReqdoI/B/lu8WXWZSS9LuSixE00oySwBI4oJoD7ODApnxEuJppluw9Vfd1obkvwxuhd1cJPjbXr0Oae69OmdLBUpJG7G7XGf0beBRLVpz..."
+            }
+          ],
+          "local_context": {},
+          "final_content": "## 证据摘要\n\n**生物医药行业重大事件（恒瑞医药 600276）：**\n\n**1. 监管审批节点（未来3个月）**\n- **FDA BLA审评**：卡瑞利珠单抗联合阿帕替尼用于肝细胞癌一线治疗，目标审评日期为**2026年7月23日**。若获批，将成为中国首个登陆美国市场的肿瘤免疫联合疗法。\n- **HRS9531（GLP-1/GIP双靶点激动剂）**：用于减重适应症，预计**2026年下半年**在中国获批，峰值销售预期50-80亿元。\n\n**2. 临床数据读出（2026年）**\n- 预计迎来**25项以上Ⅲ期临床数据读取**，包括HER2 ADC、FXI单抗、CDK4抑制剂、IL-23/IL-36R双抗等重磅品种。\n- 多个海外临床试验数据有望读出：AR PROTAC、IL23p19/IL36、IFNAR1/TACI等。\n\n**3. NDA/BLA申报**\n- 预计**2026年将有20项以上NDA/BLA申报**，计划获批10款以上创新药或新增适应症。\n- 2026年2月，多项新适应症已获NMPA受理（磷罗拉匹坦帕洛诺司琼、卡瑞利珠单抗联合阿帕替尼肝癌适应症等）。\n\n**4. 业绩与商业化**\n- **2026年一季报**：预计4月下旬披露，创新药收入目标增长超25%。\n- 2025年新版医保目录10款新药于2026年1月1日起执行，预计2026年营收跃升至120-150亿元。\n- **BD里程碑付款**：2026年为合作项目里程碑付款集中兑现年，多个项目进入临床III期/NDA/商业化节点。\n\n**5. 学术会议催化**\n- 关注相关学术会议上创新药临床数据的读出（具体会议时间待公告）。",
+          "usage": {
+            "prompt_tokens": 4110,
+            "completion_tokens": 518,
+            "total_tokens": 4628
+          },
+          "degrade_reason": null,
+          "events": []
+        }
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "today"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "03"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "29"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "summary"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "未来"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "个月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "FDA"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "卡"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "利"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "珠"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "单"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "肝癌"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "23"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "目标"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "审评"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "为核心"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "催化剂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "；"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月下旬"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "一"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "季报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "；"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年全年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "20"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "ND"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "BL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "申报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "25"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "Ⅲ"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "数据"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "读出"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "支撑"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "管线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "价值"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "。"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "items"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":[{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "4"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月下旬"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "一"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "季报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "目标"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "超"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "25"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "机构"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "预期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "23"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "FDA"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "卡"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "利"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "珠"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "单"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "联合"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "阿"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "帕"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "替"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "尼"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "肝癌"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "BL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "目标"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "审评"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "日期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "公司"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年下半年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "H"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "RS"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "953"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "减重"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "机构"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "预期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "20"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "ND"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "BL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "申报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "计划"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "10"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "款"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "或"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "新增"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "公司"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "公告"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "event"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "25"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "以上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "Ⅲ"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "数据"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "读出"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "机构"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "预期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "\"}"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "watch_calendar_json",
+        "delta": "]}"
+      },
+      {
+        "type": "structured_json_done",
+        "scope": "watch_calendar_json",
+        "content": "{\"today\":\"2026-03-29\",\"summary\":\"未来4个月：FDA卡瑞利珠单抗肝癌适应症7月23日目标审评日期为核心催化剂；4月下旬一季报披露创新药增长；2026年全年20项以上NDA/BLA申报及25项以上Ⅲ期数据读出支撑管线价值。\",\"items\":[{\"date\":\"2026年4月下旬\",\"event\":\"一季报披露，创新药收入目标增长超25%\",\"source\":\"机构预期\"},{\"date\":\"2026年7月23日\",\"event\":\"FDA卡瑞利珠单抗联合阿帕替尼肝癌适应症BLA目标审评日期\",\"source\":\"公司公告\"},{\"date\":\"2026年下半年\",\"event\":\"HRS9531减重适应症中国获批\",\"source\":\"机构预期\"},{\"date\":\"2026年\",\"event\":\"20项以上NDA/BLA申报，计划获批10款以上创新药或新增适应症\",\"source\":\"公司公告\"},{\"date\":\"2026年\",\"event\":\"25项以上Ⅲ期临床数据读出\",\"source\":\"机构预期\"}]}",
+        "json": {
+          "today": "2026-03-29",
+          "summary": "未来4个月：FDA卡瑞利珠单抗肝癌适应症7月23日目标审评日期为核心催化剂；4月下旬一季报披露创新药增长；2026年全年20项以上NDA/BLA申报及25项以上Ⅲ期数据读出支撑管线价值。",
+          "items": [
+            {
+              "date": "2026年4月下旬",
+              "event": "一季报披露，创新药收入目标增长超25%",
+              "source": "机构预期"
+            },
+            {
+              "date": "2026年7月23日",
+              "event": "FDA卡瑞利珠单抗联合阿帕替尼肝癌适应症BLA目标审评日期",
+              "source": "公司公告"
+            },
+            {
+              "date": "2026年下半年",
+              "event": "HRS9531减重适应症中国获批",
+              "source": "机构预期"
+            },
+            {
+              "date": "2026年",
+              "event": "20项以上NDA/BLA申报，计划获批10款以上创新药或新增适应症",
+              "source": "公司公告"
+            },
+            {
+              "date": "2026年",
+              "event": "25项以上Ⅲ期临床数据读出",
+              "source": "机构预期"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-03-29T05:47:05.486778+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  }
+}

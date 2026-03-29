@@ -34,10 +34,11 @@ async def stream_json_object(
                 {"role": "user", "content": user_prompt},
             ],
             "response_format": {"type": "json_object"},
-            "temperature": config.temperature,
             "max_completion_tokens": max_completion_tokens,
             "stream": True,
         }
+        if config.model != "kimi-k2.5":
+            request_payload["temperature"] = config.temperature
         if disable_thinking and config.model == "kimi-k2.5":
             request_payload["extra_body"] = {"thinking": {"type": "disabled"}}
 

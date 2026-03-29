@@ -10,6 +10,7 @@ FAILURE_REASON_MESSAGES = {
     "ROUTING_UNRESOLVED": "路由失败：未解析到可分析的A股标的。",
     "AKSHARE_NETWORK_UNRECOVERED": "核心行情链路未恢复：AkShare 网络请求失败且无可用回退数据。",
     "TIMELINE_TIMEOUT_UNRECOVERED": "时间线链路未恢复：timeline 在超时后仍无可用序列。",
+    "TIMELINE_EVENTS_UNRECOVERED": "时间线链路未恢复：过去事件支路未成功返回可用事件。",
     "KIMI_TIMEOUT_UNRECOVERED": "模型链路未恢复：Kimi 调用超时且未恢复。",
     "TOOL_CALL_MISSING_UNRECOVERED": "工具调用链路未恢复：必需 tool_call 缺失。",
     "UNKNOWN_UNRECOVERED": "链路未恢复：出现未知错误，请查看 failure_evidence。",
@@ -119,8 +120,6 @@ def aggregate_stock_wiki_payload(
     company_name: str,
     skill_results: dict[str, dict[str, Any]],
     trace_id: str | None = None,
-    short_circuit: bool = False,
-    cancelled_skills: list[str] | None = None,
 ) -> dict[str, Any]:
     relationship = dict(skill_results.get("relationship") or {})
     relationship_pending = bool((relationship.get("data") or {}).get("pending"))
@@ -131,8 +130,22 @@ def aggregate_stock_wiki_payload(
     ]
     partial_release = relationship_pending or bool(timeout_skills)
     failure_mask, critical_failures = _compute_failure_mask(skill_results)
-    outcome = resolve_execution_outcome(skill_results)
-    strict_fail = outcome["execution_status"] == "failed"
+    completed_skills = [
+        skill
+        for skill, result in skill_results.items()
+        if str((result or {}).get("status") or "") == "valid"
+    ]
+    failed_skills = [
+        skill
+        for skill, result in skill_results.items()
+        if str((result or {}).get("status") or "") in {"error", "degraded"}
+    ]
+    pending_skills = [
+        skill
+        for skill, result in skill_results.items()
+        if str((result or {}).get("status") or "") in {"pending", "running"}
+    ]
+    page_status = "partial" if failed_skills or pending_skills else "complete"
 
     per_skill_latency = {
         skill: int((result or {}).get("latency_ms") or 0)
@@ -165,22 +178,24 @@ def aggregate_stock_wiki_payload(
         "partial_release": partial_release,
         "relationship_pending": relationship_pending,
         "timeout_skills": timeout_skills,
-        "strict_fail": strict_fail,
+        "strict_fail": False,
         "critical_failures": critical_failures,
         "failure_mask": failure_mask,
-        "degrade_reason": outcome["failure_reason_code"] if strict_fail else None,
-        "execution_status": outcome["execution_status"],
-        "failure_reason_code": outcome["failure_reason_code"],
-        "failure_reason_message": outcome["failure_reason_message"],
-        "failure_stage": outcome["failure_stage"],
-        "failure_evidence": outcome["failure_evidence"],
-        "short_circuit": bool(short_circuit),
-        "cancelled_skills": [str(item) for item in list(cancelled_skills or [])],
+        "degrade_reason": None,
+        "execution_status": None,
+        "failure_reason_code": None,
+        "failure_reason_message": None,
+        "failure_stage": None,
+        "failure_evidence": None,
+        "page_status": page_status,
+        "completed_skills": completed_skills,
+        "failed_skills": failed_skills,
+        "pending_skills": pending_skills,
     }
 
     return {
         "data": data,
         "metadata": metadata,
-        "quality_status": "error" if strict_fail else "valid",
+        "quality_status": "degraded" if page_status == "partial" else "valid",
         "sources": sources,
     }

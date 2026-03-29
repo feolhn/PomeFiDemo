@@ -20,7 +20,13 @@ SUMMARY_METRICS = [
 
 
 def _run_akshare_summary(symbol: str) -> dict[str, Any]:
-    return execute_akshare_tool({"symbol": symbol, "metrics": SUMMARY_METRICS})
+    return execute_akshare_tool(
+        {
+            "symbol": symbol,
+            "metrics": SUMMARY_METRICS,
+            "include_financial_series_5y": True,
+        }
+    )
 
 
 async def get_stock_summary(symbol: str, company_name: str) -> dict[str, Any]:
@@ -35,6 +41,11 @@ async def get_stock_summary(symbol: str, company_name: str) -> dict[str, Any]:
         source_name = "AkShare"
         asof = str(metrics_data.get("asof") or "")
         raw_metrics = dict(metrics_data.get("metrics") or {})
+        financial_series_5y = [
+            dict(item)
+            for item in list(metrics_data.get("financial_series_5y") or [])
+            if isinstance(item, dict)
+        ]
         akshare_calls = [dict(item) for item in list(metrics_data.get("akshare_calls") or []) if isinstance(item, dict)]
         data_origin = str(metrics_data.get("data_origin") or "live")
         network_evidence = [dict(item) for item in list(metrics_data.get("network_evidence") or []) if isinstance(item, dict)]
@@ -46,7 +57,7 @@ async def get_stock_summary(symbol: str, company_name: str) -> dict[str, Any]:
         history_statuses = {
             str(item.get("status") or "")
             for item in akshare_calls
-            if str(item.get("interface") or "") == "stock_zh_a_hist"
+            if str(item.get("interface") or "") in {"stock_zh_a_hist", "stock_zh_a_hist_tx"}
         }
         history_available = bool(history_statuses & {"ok", "cache_hit", "cache_fallback"})
         recovered = core_ready
@@ -73,6 +84,7 @@ async def get_stock_summary(symbol: str, company_name: str) -> dict[str, Any]:
             "notes": notes,
             "akshare_calls": akshare_calls,
             "data_origin": data_origin,
+            "financial_series_5y": financial_series_5y,
             "network_evidence": network_evidence,
             "recovered": recovered,
             "unrecovered_reason_code": unrecovered_reason_code,

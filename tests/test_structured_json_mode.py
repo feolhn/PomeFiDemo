@@ -101,3 +101,4 @@ def test_json_object_once_enforces_json_mode(monkeypatch) -> None:
     assert call["stream"] is True
     assert call["max_completion_tokens"] == 4096
     assert call["extra_body"] == {"thinking": {"type": "disabled"}}
+    assert "temperature" not in call

@@ -7,6 +7,7 @@ import time
 from typing import Any
 
 from pomefi.agent.loop import KimiAgentLoop
+from pomefi.budgets import BudgetLimits, BudgetTracker
 from pomefi.stock_wiki.structured import stream_json_object
 
 def classify_error(error: str | None) -> str:
@@ -211,6 +212,8 @@ async def run_tool_grounded_json_skill(
     required_tools: set[str],
     event_handler: Any = None,
     require_first_turn_tool_calls: bool = True,
+    disable_tool_thinking: bool = False,
+    tool_budget_limits: BudgetLimits | None = None,
     json_max_completion_tokens: int = 4096,
 ) -> dict[str, Any]:
     started = time.perf_counter()
@@ -227,12 +230,15 @@ async def run_tool_grounded_json_skill(
     for attempt, prompt in enumerate(prompts, start=1):
         trace = None
         agent = KimiAgentLoop(config=config, formula_client=formula_client)
+        budget_tracker = BudgetTracker(tool_budget_limits) if tool_budget_limits is not None else None
         try:
             async for event in agent.run_conversation_trace_stream(
                 user_prompt=prompt,
                 system_prompt=tool_system_prompt,
                 local_tools=[],
                 local_tool_handlers={},
+                disable_thinking=disable_tool_thinking,
+                budget_tracker=budget_tracker,
             ):
                 await _emit_event(event_handler, event)
                 event_type = str(event.get("type") or "")
@@ -340,144 +346,6 @@ async def run_tool_grounded_json_skill(
 
     return {
         "content_json": structured_payload,
-        "tool_trace": trace,
-        "sources": build_sources_from_tool_trace(trace),
-        "error": None,
-        "latency_ms": latency_ms,
-        "retry_count": retry_count,
-        "tool_call_observed": True,
-        "observed_tools": sorted(observed_tools),
-    }
-
-
-async def run_tool_grounded_json_direct(
-    *,
-    symbol: str,
-    company_name: str,
-    config: Any,
-    formula_client: Any,
-    tool_system_prompt: str,
-    tool_user_prompts: list[str],
-    event_scope: str,
-    required_tools: set[str],
-    event_handler: Any = None,
-    require_first_turn_tool_calls: bool = True,
-) -> dict[str, Any]:
-    started = time.perf_counter()
-    trace: dict[str, Any] | None = None
-    content_json: dict[str, Any] | None = None
-    tool_call_observed = False
-    observed_tools: set[str] = set()
-    retry_count = 0
-    last_error = ""
-
-    prompts = [str(item or "").strip() for item in tool_user_prompts if str(item or "").strip()]
-    if not prompts:
-        raise RuntimeError("tool_user_prompts is empty")
-
-    for attempt, prompt in enumerate(prompts, start=1):
-        trace = None
-        content_json = None
-        agent = KimiAgentLoop(config=config, formula_client=formula_client)
-        try:
-            async for event in agent.run_conversation_trace_stream(
-                user_prompt=prompt,
-                system_prompt=tool_system_prompt,
-                response_format={"type": "json_object"},
-                local_tools=[],
-                local_tool_handlers={},
-            ):
-                await _emit_event(event_handler, event)
-                event_type = str(event.get("type") or "")
-                if event_type == "session_done":
-                    maybe_trace = event.get("trace")
-                    if isinstance(maybe_trace, dict):
-                        trace = maybe_trace
-                elif event_type == "session_error":
-                    raise RuntimeError(str(event.get("error") or f"{event_scope}_session_error"))
-        finally:
-            await agent.aclose()
-
-        if trace is None:
-            last_error = f"{event_scope}_trace_missing"
-            retry_count = attempt
-        else:
-            tool_call_observed, _first_turn, observed_tools = _has_required_tool_call(
-                trace,
-                required_tools=required_tools,
-                require_first_turn_tool_calls=require_first_turn_tool_calls,
-            )
-            if not tool_call_observed:
-                last_error = f"{event_scope}_required_tool_call_missing"
-                retry_count = attempt
-            else:
-                final_content = str(trace.get("final_content") or "").strip()
-                if not final_content:
-                    last_error = f"{event_scope}_json_missing"
-                    retry_count = attempt
-                else:
-                    try:
-                        loaded = json.loads(final_content)
-                    except json.JSONDecodeError:
-                        last_error = f"{event_scope}_json_parse_failed"
-                        retry_count = attempt
-                    else:
-                        if not isinstance(loaded, dict):
-                            last_error = f"{event_scope}_json_object_expected"
-                            retry_count = attempt
-                        else:
-                            content_json = loaded
-                            retry_count = attempt - 1
-                            break
-
-        if attempt < len(prompts):
-            await _emit_event(
-                event_handler,
-                {
-                    "type": "tool_grounded_retry",
-                    "scope": event_scope,
-                    "attempt": attempt + 1,
-                    "reason": last_error,
-                },
-            )
-
-    latency_ms = max(int((time.perf_counter() - started) * 1000), 0)
-    if trace is None:
-        return {
-            "content_json": None,
-            "tool_trace": {},
-            "sources": [],
-            "error": last_error or f"{event_scope}_trace_missing",
-            "latency_ms": latency_ms,
-            "retry_count": retry_count,
-            "tool_call_observed": False,
-            "observed_tools": [],
-        }
-    if not tool_call_observed:
-        return {
-            "content_json": None,
-            "tool_trace": trace,
-            "sources": build_sources_from_tool_trace(trace),
-            "error": last_error or f"{event_scope}_required_tool_call_missing",
-            "latency_ms": latency_ms,
-            "retry_count": retry_count,
-            "tool_call_observed": False,
-            "observed_tools": sorted(observed_tools),
-        }
-    if content_json is None:
-        return {
-            "content_json": None,
-            "tool_trace": trace,
-            "sources": build_sources_from_tool_trace(trace),
-            "error": last_error or f"{event_scope}_json_missing",
-            "latency_ms": latency_ms,
-            "retry_count": retry_count,
-            "tool_call_observed": True,
-            "observed_tools": sorted(observed_tools),
-        }
-
-    return {
-        "content_json": content_json,
         "tool_trace": trace,
         "sources": build_sources_from_tool_trace(trace),
         "error": None,

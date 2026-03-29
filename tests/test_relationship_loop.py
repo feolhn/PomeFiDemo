@@ -16,7 +16,7 @@ def test_relationship_returns_structured_json(monkeypatch) -> None:
         return {
             "content_json": {
                 "summary": "产业链集中在材料与整车两端。",
-                "nodes": [{"id": "宁德时代", "role": "theme"}],
+                "nodes": [{"id": "宁德时代", "role": "company"}],
                 "edges": [],
             },
             "tool_trace": {
@@ -51,6 +51,7 @@ def test_relationship_returns_structured_json(monkeypatch) -> None:
     assert result["status"] == "valid"
     assert result["data"]["pending"] is False
     assert result["data"]["nodes"][0]["id"] == "宁德时代"
+    assert result["data"]["nodes"][0]["role"] == "company"
 
 
 def test_relationship_retries_when_no_tool_call(monkeypatch) -> None:
@@ -91,3 +92,53 @@ def test_relationship_retries_when_no_tool_call(monkeypatch) -> None:
     assert result["error"] == "relationship_no_tool_calls"
     assert result["data"]["trace"]["tool_call_observed"] is False
     assert result["data"]["trace"]["retry_count"] == 2
+
+
+def test_relationship_normalizes_graph_consistency(monkeypatch) -> None:
+    async def _fake_probe(**kwargs):
+        _ = kwargs
+        return {
+            "content_json": {
+                "summary": "上游和竞争对手较多。",
+                "nodes": [{"id": "宁德时代", "role": "company"}],
+                "edges": [
+                    {"from": "容百科技", "to": "宁德时代", "relation": "supplies"},
+                    {"from": "比亚迪", "to": "宁德时代", "relation": "competes"},
+                    {"from": "宁德时代", "to": "固态电池", "relation": "related"},
+                ],
+            },
+            "tool_trace": {
+                "turns": [{"index": 0, "has_tool_calls": True}],
+                "tool_events": [{"tool_name": "web_search", "tool_content_preview": "ok"}],
+                "degrade_reason": None,
+            },
+            "sources": [],
+            "error": None,
+            "retry_count": 0,
+            "tool_call_observed": True,
+            "observed_tools": ["web_search"],
+        }
+
+    monkeypatch.setattr(relationship, "run_tool_grounded_json_skill", _fake_probe)
+    config = KimiConfig(
+        api_key="test",
+        base_url="https://api.test",
+        model="kimi-k2.5",
+        temperature=1.0,
+        stream=True,
+        debug=False,
+    )
+    result = asyncio.run(
+        relationship.get_relationship(
+            "300750",
+            "宁德时代",
+            config=config,
+            formula_client=_FakeFormulaClient(),
+        )
+    )
+    node_ids = {item["id"] for item in result["data"]["nodes"]}
+    assert {"宁德时代", "容百科技", "比亚迪", "固态电池"}.issubset(node_ids)
+    assert next(item for item in result["data"]["nodes"] if item["id"] == "宁德时代")["role"] == "company"
+    for item in result["data"]["edges"]:
+        assert item["from"] in node_ids
+        assert item["to"] in node_ids

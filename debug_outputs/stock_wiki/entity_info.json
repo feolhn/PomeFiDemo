@@ -1,0 +1,1573 @@
+{
+  "skill": "entity_info",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
+      "industry": "医药制造",
+      "main_business": "创新药研发、生产与销售，涵盖肿瘤、自身免疫、代谢疾病、心血管等领域",
+      "summary_100cn": "中国创新药龙头，从仿制药转型为以肿瘤免疫为核心的Biopharma，依托自主平台持续产出大分子/小分子新药，销售网络覆盖医院终端，正处于创新药放量与国际化突破的关键期。",
+      "summary": "中国创新药龙头，从仿制药转型为以肿瘤免疫为核心的Biopharma，依托自主平台持续产出大分子/小分子新药，销售网络覆盖医院终端，正处于创新药放量与国际化突破的关键期。",
+      "core_competencies": [
+        "全链条自主研发平台：拥有小分子靶向、抗体药物偶联（ADC）、双抗/多抗、PROTAC等模块化技术平台，具备从靶点发现到临床转化的完整能力，管线深度国内领先",
+        "肿瘤领域临床与商业化壁垒：深耕实体瘤多年，PD-1、PARP抑制剂等核心品种已建立医院准入与学术推广优势，新适应症拓展形成产品生命周期管理闭环"
+      ],
+      "profit_analysis": {
+        "revenue_structure": "创新药收入占比持续提升，肿瘤线贡献主要利润，麻醉/造影剂板块提供稳定现金流但增速放缓，国际化授权收入（BD）成为阶段性利润补充",
+        "profit_tag": "高研发兑现型"
+      },
+      "investment_tags": [
+        "创新药龙头",
+        "肿瘤免疫",
+        "BD出海",
+        "医保谈判敏感",
+        "机构重仓"
+      ]
+    },
+    "sources": [
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": false
+  },
+  "trace": {
+    "events": [
+      {
+        "type": "session_start",
+        "prompt": "目标公司：恒瑞医药（600276）。不要直接回答。先调用 web_search，检索主营业务、产业链位置、护城河、盈利模式与市场标签。若第一轮证据不足，可补 1 次更聚焦的搜索。拿到结果后输出简短证据摘要。",
+        "model": "kimi-k2.5",
+        "tool_count": 1
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 600276 主营业务 产业链 商业模式 核心收入来源\", \"classes\": [\"finance\",\"all\"]}",
+        "arguments": {
+          "query": "恒瑞医药 600276 主营业务 产业链 商业模式 核心收入来源",
+          "classes": [
+            "finance",
+            "all"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----o50RGSxTOs1uV0aZq3Wz60707XMV0+nTueQY9thPto6mIQOPo5CLpcg/Xti9RNUtKUSKb3Za+TCaWP3goJyTnctZLtWMk9GRg4U67IZ1R+5JNOHPDXVE/pqyezV1Scs30PpDHEA6CHwqb+tyRXGbfuMUK1gN25ZYZUvf/SCv...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 护城河 研发管线 指数成分股 MSCI 资金风格\", \"classes\": [\"finance\",\"all\"]}",
+        "arguments": {
+          "query": "恒瑞医药 护城河 研发管线 指数成分股 MSCI 资金风格",
+          "classes": [
+            "finance",
+            "all"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 1,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----tL+m/GYvimoBKOGTxNi16av3lh1GjipQg0veGf9Q8wH7F/Hr8E755V317M3NoJocKjtvikuZ2G/N2u4WYBrEizkBRfuexLidQxbXJE/cFOX/8tFxD7yJMejymtepcaN5kB5XwA904JAXQ+MWwvB7Ki3ogY1T7Hx4sXXeg3hB...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "session_done",
+        "trace": {
+          "prompt": "目标公司：恒瑞医药（600276）。不要直接回答。先调用 web_search，检索主营业务、产业链位置、护城河、盈利模式与市场标签。若第一轮证据不足，可补 1 次更聚焦的搜索。拿到结果后输出简短证据摘要。",
+          "turns": [
+            {
+              "index": 0,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            },
+            {
+              "index": 1,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            },
+            {
+              "index": 2,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            }
+          ],
+          "tool_events": [
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:0",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 主营业务 产业链 商业模式 核心收入来源\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 主营业务 产业链 商业模式 核心收入来源",
+                "classes": [
+                  "finance",
+                  "all"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----o50RGSxTOs1uV0aZq3Wz60707XMV0+nTueQY9thPto6mIQOPo5CLpcg/Xti9RNUtKUSKb3Za+TCaWP3goJyTnctZLtWMk9GRg4U67IZ1R+5JNOHPDXVE/pqyezV1Scs30PpDHEA6CHwqb+tyRXGbfuMUK1gN25ZYZUvf/SCv..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 护城河 研发管线 指数成分股 MSCI 资金风格\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 护城河 研发管线 指数成分股 MSCI 资金风格",
+                "classes": [
+                  "finance",
+                  "all"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----tL+m/GYvimoBKOGTxNi16av3lh1GjipQg0veGf9Q8wH7F/Hr8E755V317M3NoJocKjtvikuZ2G/N2u4WYBrEizkBRfuexLidQxbXJE/cFOX/8tFxD7yJMejymtepcaN5kB5XwA904JAXQ+MWwvB7Ki3ogY1T7Hx4sXXeg3hB..."
+            }
+          ],
+          "local_context": {},
+          "final_content": "",
+          "usage": {
+            "prompt_tokens": 4804,
+            "completion_tokens": 132,
+            "total_tokens": 4936
+          },
+          "degrade_reason": "search_budget_exceeded",
+          "events": []
+        }
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "company"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_name"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "ind"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "ustry"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "制造"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "main"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_b"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "usiness"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "生产"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "与销售"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "涵盖"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "自身免疫"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "代谢"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "疾病"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "心血管"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "等领域"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "summary"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "100"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "cn"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "龙头"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "从"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "仿制药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "转型"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "以"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "免疫"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "为核心的"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "Bi"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "oph"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "arma"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "依托"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "自主"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "平台"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "持续"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "产出"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "大"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "分子"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "小分子"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "新药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "销售"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "网络"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "覆盖"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "医院"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "终端"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "正处于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "放量"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "国际化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "突破"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "的关键"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "。\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "core"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_comp"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "et"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "encies"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " [\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "链条"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "自主研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "平台"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "拥有"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "小分子"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "靶向"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "抗体"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "偶"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "联"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "ADC"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "）、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "双"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "多"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "抗"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "PROT"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "AC"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "模块化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "技术"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "平台"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "具备"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "从"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "靶"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "点"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "发现"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "到"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "转化的"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "完整"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "能力"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "管线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "深度"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "国内"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "领先"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "领域"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "临床"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "商业化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "壁垒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "："
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "深耕"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "实体"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "多年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "PD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "PAR"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "P"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "抑制"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "剂等"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "核心"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "品种"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "建立"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "医院"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "准入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "学术"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "推广"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "优势"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "拓展"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "形成"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "产品"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "生命周期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "管理"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "闭环"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\"],"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "profit"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_analysis"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " {\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "re"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "venue"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_structure"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "占比"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "持续提升"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "贡献"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "主要"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "利润"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "麻醉"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "造影"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "剂"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "板块"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "提供"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "稳定"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "现金流"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "但"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "增速"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "放缓"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "国际化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "成为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "阶段性"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "利润"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "补充"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "profit"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_tag"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "高"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "兑现"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "型"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\"},"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "invest"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "ment"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "_tags"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\":"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " [\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "龙头"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "免疫"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "出海"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "医保"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "谈判"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "敏感"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\","
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": " \""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "机构"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "重仓"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "\"]"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "entity_info_json",
+        "delta": "}"
+      },
+      {
+        "type": "structured_json_done",
+        "scope": "entity_info_json",
+        "content": "{\"company_name\": \"恒瑞医药\", \"industry\": \"医药制造\", \"main_business\": \"创新药研发、生产与销售，涵盖肿瘤、自身免疫、代谢疾病、心血管等领域\", \"summary_100cn\": \"中国创新药龙头，从仿制药转型为以肿瘤免疫为核心的Biopharma，依托自主平台持续产出大分子/小分子新药，销售网络覆盖医院终端，正处于创新药放量与国际化突破的关键期。\", \"core_competencies\": [\"全链条自主研发平台：拥有小分子靶向、抗体药物偶联（ADC）、双抗/多抗、PROTAC等模块化技术平台，具备从靶点发现到临床转化的完整能力，管线深度国内领先\", \"肿瘤领域临床与商业化壁垒：深耕实体瘤多年，PD-1、PARP抑制剂等核心品种已建立医院准入与学术推广优势，新适应症拓展形成产品生命周期管理闭环\"], \"profit_analysis\": {\"revenue_structure\": \"创新药收入占比持续提升，肿瘤线贡献主要利润，麻醉/造影剂板块提供稳定现金流但增速放缓，国际化授权收入（BD）成为阶段性利润补充\", \"profit_tag\": \"高研发兑现型\"}, \"investment_tags\": [\"创新药龙头\", \"肿瘤免疫\", \"BD出海\", \"医保谈判敏感\", \"机构重仓\"]}",
+        "json": {
+          "company_name": "恒瑞医药",
+          "industry": "医药制造",
+          "main_business": "创新药研发、生产与销售，涵盖肿瘤、自身免疫、代谢疾病、心血管等领域",
+          "summary_100cn": "中国创新药龙头，从仿制药转型为以肿瘤免疫为核心的Biopharma，依托自主平台持续产出大分子/小分子新药，销售网络覆盖医院终端，正处于创新药放量与国际化突破的关键期。",
+          "core_competencies": [
+            "全链条自主研发平台：拥有小分子靶向、抗体药物偶联（ADC）、双抗/多抗、PROTAC等模块化技术平台，具备从靶点发现到临床转化的完整能力，管线深度国内领先",
+            "肿瘤领域临床与商业化壁垒：深耕实体瘤多年，PD-1、PARP抑制剂等核心品种已建立医院准入与学术推广优势，新适应症拓展形成产品生命周期管理闭环"
+          ],
+          "profit_analysis": {
+            "revenue_structure": "创新药收入占比持续提升，肿瘤线贡献主要利润，麻醉/造影剂板块提供稳定现金流但增速放缓，国际化授权收入（BD）成为阶段性利润补充",
+            "profit_tag": "高研发兑现型"
+          },
+          "investment_tags": [
+            "创新药龙头",
+            "肿瘤免疫",
+            "BD出海",
+            "医保谈判敏感",
+            "机构重仓"
+          ]
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-03-29T05:38:26.383556+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  }
+}

@@ -1,296 +1,182 @@
 # progress.md
 
+## Historical Summary
+- 已完成 Progressive Loading、本地 fixture 联调、五张单卡 JSON 调试链路。`timeline/watch_calendar/entity_info/relationship` 已能稳定产出当前 contract；`summary` 后端现已接入 AkShare 新浪 `stock_financial_abstract`，可输出近五年营收/净利润序列。
+
 ## 当前阶段（Phase）
-- Phase: timeline 优先跑通（唯一 critical）+ trace 透传修复
-- 日期: 2026-03-17
+- Phase: 本地 Fixture 前端收边 + `summary` 单卡收敛
+- 日期: 2026-03-24
 
 ## 本阶段目标
-- 以 `timeline` 作为当前唯一 critical skill，优先保证它能跑通。
-- 保证 `timeline_phase` 事件能真实透传进最终 trace。
-- 在 `timeline` 跑通前，不让 `summary` 的 AkShare 失败继续挡住最终结果。
+- 用本地 fixture 收尾五张卡前端显示。
+- 保持 `timeline/watch_calendar/relationship/entity_info` contract 稳定。
+- 决定 `summary` 的近五年营收/净利润数据如何进入前端展示。
 
-## 已完成要点
-- 已新增 `agent-instructions.md`，整合静态规则（Kimi/Tool loop/JSON/AkShare/P*）。
-- 已产出第一性原理问题清单并形成 P1-P5 因果链。
-- 已新增个股最小验证脚本 `scripts/mvp_akshare_300750.py`。
-- 已给 `PLAN_GUARDRAILS.md` 与 `FIRST_PRINCIPLES_ISSUE_CHECKLIST.md` 增加归档迁移说明，避免继续作为主入口。
-- 已在 `akshare_tool` 增加 `stock_zh_a_hist` 失败时的 symbol 级缓存回退，并输出 `data_origin/network_evidence`。
-- 已在 `summary/timeline` 接入 `data_origin/network_evidence/akshare_calls`，避免“无解释空白”。
-- 已在 `aggregator` 增加 `network_live_failed_cache_hit|miss` 失败归因，收敛 strict-fail 误判。
-- 已在前端与 trace 事件中展示 `data_origin` 与网络证据摘要，且指标层不再直出 `None`。
-- 已在 `agent-instructions.md` 新增 B1-B4：最终输出必须二值，禁止最终对外 `degraded`。
-- 已重构 `pomefi/stock_wiki/aggregator.py`：
-  - 新增 `resolve_execution_outcome()`；
-  - metadata 追加 `execution_status/failure_reason_*`；
-  - 最终 `quality_status` 固定映射为 `valid|error`。
-- 已在 `stock_summary/timeline/orchestrator` 增加 `recovered + unrecovered_reason_code`，统一未恢复失败判定。
-- 已在 `engine.py` 路由拦截路径输出标准失败合同（`ROUTING_UNRESOLVED`）。
-- 已在 `render.py` 增加 failed 专用展示卡：失败码、阶段、证据；failed 时不再渲染业务成功卡。
-- 已更新二值合同相关测试并通过。
-- 已重构 `pomefi/stock_wiki/orchestrator.py`：
-  - 新增 `orchestrator_short_circuit` 事件；
-  - 核心 skill 失败后取消非关键 skill；
-  - 非关键被取消时统一填充 `cancelled_due_to_critical_failure`。
-- 已扩展 `aggregate_stock_wiki_payload(...)`：
-  - 新增可选参数 `short_circuit/cancelled_skills`；
-  - metadata 持久化短路证据。
-- 已在 `engine.py` 透传短路信息到最终 payload 和 trace。
-- 已在 `render.py` failed 卡新增 `short_circuit` 与 `cancelled_skills` 展示。
-- 已补 `orchestrator` 快速失败测试（summary/timeline 两条路径）。
-- 已重构 `pomefi/tools/akshare_tool.py`：
-  - `execute()` 改为按指标懒加载，不再无条件调用 info/financial/valuation；
-  - `get_cached_price_history()` 增加 key 级 singleflight，避免并发重复远程拉取；
-  - `stock_zh_a_hist` 增加有限重试与退避（网络类错误）；
-  - `akshare_calls/network_evidence` 追加 `dedup_hit/retry_count` 字段。
-- 已在 `stock_summary` 收敛失败判定：
-  - 仅当价格主链路 live/cache 都不可用时，才给 `AKSHARE_NETWORK_UNRECOVERED`；
-  - 非核心接口失败不再放大为核心未恢复失败。
-- 已在 `aggregator` 失败证据中补充 `akshare_calls` 片段，便于验证去重与重试是否生效。
-- 已补 AkShare 专项测试：按需加载、singleflight、重试成功、非核心失败不致命。
-- 已重构 `pomefi/stock_wiki/skills/timeline.py`：
-  - `price_series` 与 `events_json` 改为并行执行；
-  - `events_json` 改走 direct JSON 主路径，不再做二次结构化调用；
-  - `timeline.trace` 新增 `phase_latency_ms/phase_status/phase_error`。
-- 已在 `pomefi/stock_wiki/skills/common.py` 新增 `run_tool_grounded_json_direct()`：
-  - 强制 `web_search tool_call`；
-  - tool 回填后直接输出 JSON object；
-  - 保留 `tool_call_observed/retry_count/observed_tools`。
-- 已在 `aggregator` 的 `failure_evidence` 中追加 `phase_latency_ms/phase_status/phase_error`。
-- 已补 `timeline` 专项测试：
-  - 并行双支路；
-  - `events_json` 未恢复失败；
-  - failure evidence 带 phase 级信息。
-- 已确认调试下载包根结构是 `result/trace/local_context`，后续诊断统一从 `result.metadata` 与 `trace.skill_results` 读取。
-- 已确认 `/Users/hujiawei/Downloads/pomefi_debug_trace_36f870702099.json` 的首个 critical fail 是 `summary`，不是 `timeline`。
-- 已确认当前 `timeline` timeout placeholder 会丢失内部 `trace.phase_*`，因此还无法从诊断包判断失败在 `price_series` 还是 `events_json`。
-- 已收敛 `summary` 的 AkShare 调用面：
-  - 当只是为 `price_last/ret_1d` 做 fallback 时，不再额外调用 `stock_individual_info_em`；
-  - `summary` 优先使用 `stock_individual_spot_xq` 做轻量回退，避免无关接口放大失败噪声。
-- 已在 `orchestrator` 保留 `timeline` timeout 前的 phase 证据：
-  - `trace.phase_latency_ms`
-  - `trace.phase_status`
-  - `trace.phase_error`
-- 已补回归测试：
-  - `summary` fallback 路径不再触发 `stock_individual_info_em`
-  - `timeline` timeout placeholder 会保留 `phase_*`
-- 已修复 `orchestrator._invoke_runner()`：
-  - 对 `lambda s, n, **kw` 这类 runner 也会透传 `event_handler`
-  - `timeline_phase` 不再因为 `**kwargs` 被吞掉
-- 已把当前阶段的 critical 判定收窄到 `timeline`：
-  - `summary` 失败不再直接触发最终 `execution_status=failed`
-  - 当前用户目标改为“必须先跑通 timeline”
-- 已更新回归测试：
-  - `summary` 失败但 `timeline` 成功时，整体仍判定为 `success`
-  - `timeline` runner 通过 `**kwargs` 仍能收到 `event_handler`
-- 已读取 `/Users/hujiawei/Downloads/pomefi_debug_trace_26c2e3a13908.json`，确认：
-  - `summary` 已 `valid`
-  - `timeline` 是当前唯一 critical fail
-  - `timeline.price_series` 已成功，失败集中在 `events_json`
-  - 当前超时不是 AkShare，而是 `events_json` 未稳定触发 `web_search tool_call`
-- 已重构 `timeline.events_json`：
-  - 不再使用“tool + json_object 同轮”主路径
-  - 改回“两阶段稳定路径”：先 `web_search` 取证，再独立做 `json_object` 结构化
-  - `price_series` 并行支路保持不变
-- 已复核官方手册 `docs/Kimi_API_Usage_Guide_v1.md`，确认：
-  - 官方标准闭环是 `tool_calls -> role=tool -> 再继续推理`
-  - `response_format=json_object` 只保证 JSON object，不保证必需 `tool_call` 稳定触发
-  - 因此 `timeline` 不再尝试把 tool use 和最终 JSON 压到同一轮主路径
-- 已按官方闭环进一步收紧 `timeline` 第一阶段 prompt：
-  - 第一轮必须只输出 `tool_calls`
-  - 第一轮禁止输出正文和 JSON
-  - 仅在拿到 `tool` 结果后输出证据摘要，再进入第二阶段结构化
-- 已读取 `/Users/hujiawei/Downloads/pomefi_debug_trace_643cd8c3fd1f.json`，确认：
-  - `timeline.price_series` 已 `valid`
-  - 第一阶段 `web_search tool_call` 与 `tool_result` 已成功
-  - 第一阶段 `session_done` 已产出证据摘要
-  - 当前唯一剩余失败点是第二阶段 `timeline_json`
-- 已收敛 `timeline_json` 结构化阶段：
-  - `build_tool_grounded_evidence()` 不再把 `MOONSHOT ENCRYPTED` 预览塞进第二阶段 prompt
-  - `stream_json_object()` 在 `kimi-k2.5` 下默认通过 `extra_body={"thinking":{"type":"disabled"}}` 禁用思考
-  - JSON 结构化默认 `max_completion_tokens` 从 `16000` 收紧到 `4096`
-  - `timeline` 的 JSON 结构化进一步收紧到 `2048` tokens
-- 已按最新要求把 `timeline` 收敛为 skill 层的价格单支路：
-  - 暂停 `LLM` 事件支路
-  - `timeline` 只做 live 价格抓取与折线图输出
-  - 成功即显示价格折线图，失败即返回明确失败原因
-- 已新增 `get_live_price_history()`：
-  - 只走 live `stock_zh_a_hist`
-  - 不使用价格缓存回退
-  - 不返回历史缓存价格
-- 已重构 `timeline`：
-  - `price_series` 改用 `get_live_price_history()`
-  - `events_json` 固定标记为 `skipped`
-  - `trace.phase_status.events_json = skipped`
-  - `summary` 改为“已抓取近三个月价格折线图；事件支路当前停用。”
-- 已继续收敛 `timeline` 价格抓取路径，对齐已验证通过的 MVP 脚本：
-  - 直接在 `timeline` skill 内调用 `ak.stock_zh_a_hist`
-  - 参数对齐为 `period=daily / adjust=qfq / timeout=8.0`
-  - `start_date` 固定为 `20250101`
-  - 不再通过共享 price helper 间接取数
+## 最近确认
+- 前端 fixture 模式已稳定，页面不再依赖 live 链路才能验收。
+- `timeline` 已有 `sentiment`，图和表事件数量已统一。
+- `watch_calendar` 已支持短标题、自然时间表达、可选 `🔗`。
+- `entity_info` 已恢复 `investment_tags`。
+- `relationship` 已恢复语义化 `edges.relation`，前端 HTML 图也已开始渲染关系词。
+- `watch_calendar` 两步 prompt 已压缩，保留工具约束、日期粒度和 JSON schema，不改主链路行为。
+- `watch_calendar` 继续只保留 two-pass；one-pass 实验链路已判定为无价值并移除。
+- `watch_calendar` 压缩 prompt 后 two-pass 仍保持 `valid`，且体感延迟未变差；但当前 live 内容更偏“业绩预期/产能规划/行业判断”，不再完全是明确公告节点。
+- `watch_calendar` two-pass benchmark 已跑完：`3/3 valid`，但平均耗时约 `51.2s`，`source` 命名不稳定。
+- `watch_calendar` 已回退过强约束：保留 `source` 固定，移除 `certainty`，避免和来源语义重叠。
+- 已确认 `watch_calendar` 的“summary 说得更好、items 过于保守”主要出在第二阶段 JSON 抽取和本地事件压缩；现已放宽为允许“事件 + 结果短语”。
+- `watch_calendar` 已移除 `date` tool；今天日期改为后端直传 prompt，只保留 `web_search` 作为必需工具。
+- `watch_calendar` benchmark 现已按 run 落盘 `trace`，并静默底层过程输出；终端只保留最终 benchmark JSON。
+- `watch_calendar` benchmark 现已改为落可读 `trace`：保留 query、turns、evidence preview、sources，不再暴露整段加密 tool content。
+- `timeline` 已新增 Kimi-only benchmark：只看事件支路，不落 akshare/merged benchmark 结果。
+- `timeline` 两步链路保留不变，但事件支路 user prompt 已压缩，删掉了和 system/schema 重复的约束。
+- `timeline` 继续不使用 `date` tool；今天日期已由后端直传到两步 prompt，并明确只允许搜索/输出今天及之前的事件。
+- 已修复 `timeline` benchmark 的 prompt 注入错误：`today_text` 改用安全字符串替换，不再因 JSON schema 花括号触发 `KeyError`。
+- `timeline` 第一阶段事件筛选 prompt 已改成更接近 `watch_calendar` 的简洁结构，但仍保持“过去三个月、今天之前”的事件复盘口径。
+- `timeline` 现已切到“过去六个月 + 最多三次 web_search”的实验配置，且窗口天数、tool budget、prompt 三处已对齐。
+- `timeline` 的 AkShare 价格支路也已改成最近六个月窗口，不再只返回最近 90 条。
+- `timeline` 第二步 JSON contract 已升级为 `title + content + sentiment`，暂不要求前端对齐。
+- `entity_info` 已新增 Kimi-only benchmark：可多次对比行业、主业、摘要和标签稳定性。
+- `entity_info` JSON contract 已扩展：新增 `core_competencies` 和 `profit_analysis`，用于拆开内部护城河与盈利质量。
+- `entity_info` 已从一步直出 JSON 改成 two-pass：先 `web_search` 取证，再 `json_object` 结构化，降低标签和盈利分析乱编风险。
+- `relationship` 现已新增 benchmark 脚本，可多轮对比 `summary/nodes/edges/trace`，不再只靠单次 live 判断图谱质量。
+- `relationship` 的节点语义已拆分为：`company` 仅表示目标公司中心节点；`theme` 仅表示外部变量、政策、技术路线等非公司因素。
+- `relationship` 第一阶段证据摘要现已强制按“上游/下游/竞争/关键变量”四行输出，降低第二阶段从自由文本抽图谱时的漂移。
+- 已验证 AkShare 的新浪口径可拿到 5 年财务绝对值：`stock_financial_abstract` 可直接返回多报告期的 `营业总收入/归母净利润/净利润`，比东方财富链路更适合 `summary` 卡补 5 年财务序列。
+- `summary` 后端现已真正接入 `stock_financial_abstract`：`summary.data.financial_series_5y` 已包含近五年 `report_date/year/revenue/net_profit`。
+- `summary` 前端现已开始消费 `financial_series_5y`：在指标网格下方渲染“近五年营收 / 近五年净利润”竖向柱状图。
 
-## 进行中
-- 基于新代码重新生成诊断包，验证 `timeline.price_series` 是否能稳定 live 抓取成功并显示折线图。
-- 继续以 `timeline` 为唯一 critical skill 做手动验收。
+## 当前下一步
+1. 继续收 `relationship` 前端布局，直到关系词与节点不再互相遮挡。
+2. 若继续优化 `watch_calendar`，应收紧 prompt：优先明确公告/已披露节点，并保持 `source` 固定口径。
+3. 重新跑 `debug_watch_calendar_card.py`，验证移除 `date` tool 后耗时与结果质量是否保持稳定，并确认 items 保留“预计扭亏为盈”这类关键结果短语。
+4. 继续验收 `summary` 柱状图的可读性，包括移动端宽度、年份标签和单位表达。
+5. 如需继续收 `entity_info`，下一步看 benchmark 多轮 live 的稳定性，而不是再回到无工具链路。
+6. 如需继续收 `relationship`，下一步先跑 benchmark 看多轮 `nodes/edges` 稳定性，再决定是否继续调 prompt。
 
-## 下一步（Next Action）
-1. 运行 `streamlit run app.py`，重新生成新的诊断包。
-2. 核对 `result.metadata.failure_stage` 是否仍为 `timeline`，而不是其他 skill。
-3. 核对 `trace.skill_results.timeline.data.series` 是否非空。
-4. 核对 `trace.skill_results.timeline.data.trace.phase_status.price_series` 是否为 `valid`。
-5. 核对 `trace.skill_results.timeline.data.trace.phase_status.events_json` 是否为 `skipped`。
-6. 若 `timeline` 仍失败，再只修 `price_series` live 抓取，不回头优先修其他卡片。
+## 阻塞项
+- 默认代理环境仍会把 `summary` live 链路打成 `network_live_failed_cache_miss`；无代理环境下后端逻辑已验证可用。
+- `relationship` 仍存在移动端布局密度问题，属于前端渲染问题，不是后端 contract 问题。
 
-## 剩余边界条件/风险
-- 网络或代理波动会导致 Eastmoney 接口间歇性失败。
-- 单标的链路仍依赖 Eastmoney，可用性波动会影响 live run。
-- 必须持续避免全市场接口误用与 `None` 指标直出。
-- 二值模式会让失败暴露更直接，属于预期行为。
+## 剩余风险
+- 未开 fixture 时，前端仍可能被 live timeout 干扰。
+- `watch_calendar` 的来源链接依然取决于 tool 证据是否提供可复用 URL。
+- `watch_calendar` 当前虽能稳定返回，但事件类型有向“预期驱动”漂移的风险，可能削弱日历卡的可执行性。
+- `watch_calendar` 当前平均 50s 级耗时偏高，不适合作为前端默认实时链路。
+- 即使收紧 prompt，`source` 仍可能受模型波动影响；若这轮 live 仍不稳，下一步应改为本地规则归一，而不是继续堆 prompt。
 
-## 最新验证结果（命令 + 结论）
-- 命令:
-`python /Users/hujiawei/Documents/PomeFiDemo/scripts/mvp_akshare_300750.py > /Users/hujiawei/Downloads/mvp_akshare_300750_result.json`
-- 结论: 成功（非降级）；个股基础信息与历史行情可拉取，输出字段完整。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`52 passed, 2 skipped`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py`
-- 结论: 通过（`13 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`9 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
-- 结论: 通过（`3 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`9 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`54 passed, 2 skipped`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_ui_smoke.py`
-- 结论: 通过（`9 passed, 1 skipped`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_ui_smoke.py`
-- 结论: 通过（`8 passed, 1 skipped`）。
-- 命令:
-`python -m py_compile app.py pomefi/tools/akshare_tool.py pomefi/tools/hooks.py pomefi/stock_wiki/skills/stock_summary.py pomefi/stock_wiki/skills/timeline.py pomefi/stock_wiki/orchestrator.py pomefi/stock_wiki/aggregator.py pomefi/stock_wiki/engine.py pomefi/ui/render.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_36f870702099.json`
-- 结论:
-  - 调试包根结构为 `result/trace/local_context`
-  - `execution_status=failed`
-  - `failure_stage=summary`
-  - `failure_reason_code=AKSHARE_NETWORK_UNRECOVERED`
-  - `timeline` 仍 timeout，但 `trace.phase_*` 未保留
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py`
-- 结论: 通过（`13 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`10 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`55 passed, 2 skipped`）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_9ec7890448b5.json`
-- 结论:
-  - `execution_status=failed`
-  - `failure_stage=summary`
-  - `failure_reason_code=AKSHARE_NETWORK_UNRECOVERED`
-  - `timeline` 仍 timeout，且 `trace.phase_*` 仍未落盘
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`11 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`56 passed, 2 skipped`）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_26c2e3a13908.json`
-- 结论:
-  - `execution_status=failed`
-  - `failure_stage=timeline`
-  - `failure_reason_code=TIMELINE_TIMEOUT_UNRECOVERED`
-  - `timeline.price_series=valid`
-  - `timeline.events_json` 未产出 phase 结果，但事件流显示模型持续 reasoning/content，未稳定触发 `web_search tool_call`
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
-- 结论: 通过（`3 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`11 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`56 passed, 2 skipped`）。
-- 命令:
-`读取 /Users/hujiawei/Documents/PomeFiDemo/docs/Kimi_API_Usage_Guide_v1.md`
-- 结论:
-  - 官方推荐的是多步 `tool_calls` 闭环
-  - 未证明“tool use + json_object 同轮”是稳定主路径
-  - `timeline` 应继续使用“两阶段稳定路径”
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`14 passed`）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_643cd8c3fd1f.json`
-- 结论:
-  - `execution_status=failed`
-  - `failure_stage=timeline`
-  - `failure_reason_code=TIMELINE_TIMEOUT_UNRECOVERED`
-  - `timeline.price_series=valid`
-  - 第一阶段 `web_search tool_call/tool_result/session_done` 已成功
-  - 第二阶段 `timeline_json` 只有 `llm_reasoning_delta`，没有 `llm_content_delta` 与 `structured_json_done`
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/common.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/structured.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_structured_json_mode.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_structured_json_mode.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`15 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`56 passed, 2 skipped`）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_67a247db911d.json`
-- 结论:
-  - `execution_status=failed`
-  - `failure_stage=timeline`
-  - `timeline.price_series=error`
-  - `phase_error.price_series` 为 live `stock_zh_a_hist` 抓取失败
-  - 当前首要目标应切换为“先把价格折线图稳定抓取显示”
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/tools/akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`14 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`56 passed, 2 skipped`）。
-- 命令:
-`读取 /Users/hujiawei/Downloads/pomefi_debug_trace_9b29cfc845f7.json`
-- 结论:
-  - `execution_status=failed`
-  - `failure_stage=timeline`
-  - `timeline.price_series=error`
-  - 当前失败已收敛为 live `stock_zh_a_hist` 抓取失败
-  - `events_json=skipped`，说明 `timeline` 已完全进入价格单支路模式
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py`
-- 结论: 通过（无语法错误）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_orchestrator.py`
-- 结论: 通过（`14 passed`）。
-- 命令:
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo`
-- 结论: 通过（`56 passed, 2 skipped`）。
-
-## 阻塞项（如有）
-- 仍缺新的手动诊断包，暂时无法确认“价格单支路 + live-only”是否已让 `timeline` 折线图稳定显示。
+## 最新验证结果
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `watch_calendar` 现在只保留 two-pass 主链路，并已新增 benchmark 脚本。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `7 passed`
+  - `watch_calendar` 已移除 `date` tool，今天日期改为后端直传 prompt，主链路只要求 `web_search`。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+  - `7 passed`
+  - benchmark 每轮已落 `trace`，并吞掉 live 过程输出，只保留最终结果 JSON。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
+  - `11 passed`
+  - `timeline` 已新增仅覆盖 Kimi 事件支路的 benchmark，输出 events、sources 与可读 trace。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 事件支路 prompt 已压缩，保留两步架构、搜索预算和 JSON schema，不改 contract。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 已把今天日期改为后端直传，并在两步 prompt 中明确“只搜索/输出今天及之前、最近三个月的事件”。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline.kimi.benchmark` 的 `KeyError: "\\n  \"summary\""` 已修复；根因是 JSON system prompt 用 `.format()` 注入日期时误解析了 schema 花括号。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 第一阶段 prompt 已切到更接近 `watch_calendar` 的简洁筛选风格，但不改“过去事件”口径和 JSON contract。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 的“过去六个月 + 最多三次 web_search”已真正落到代码，不再只是 prompt 文案。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 的 AkShare 价格支路已从固定 `rows[-90:]` 改成按最近六个月窗口过滤，和事件支路对齐。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline.events[]` 现已保留 `title + content + sentiment`，benchmark 也会同步展示内容摘要。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 已新增 benchmark，输出多轮 live 的 `industry/main_business/summary_100cn/investment_tags` 与耗时统计。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 现已新增 `core_competencies` 与 `profit_analysis`，benchmark 同步输出这两个字段。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/engine.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_skill.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 已切到 `web_search -> json_object` two-pass，主流程、单卡 debug、benchmark 接线均已对齐。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py`
+  - live 结果：`entity_info.json.status=valid`
+  - 当前 live 已观测到 `2` 次 `web_search`，并成功产出 `industry/main_business/summary_100cn/core_competencies/profit_analysis/investment_tags`。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/relationship.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_relationship.py`
+  - `7 passed`
+  - `relationship` prompt 已去掉部分重复约束；`nodes.role` 保持小枚举，但目标公司已独立为 `company`，前端中心节点识别同步对齐。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/relationship.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_relationship.py`
+  - `4 passed`
+  - `relationship` 第一阶段现已强制按“上游/下游/竞争/关键变量”固定顺序输出摘要，便于第二阶段 JSON 抽取。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python` live probe
+  - `stock_financial_abstract(symbol="603618")` 成功返回 `80 x 52`，包含多报告期的 `营业总收入/归母净利润/净利润`
+  - `stock_financial_analysis_indicator(symbol="603618", start_year="2020")` 成功返回 `23 x 86`
+  - 结论：若要给 `summary` 卡加近五年营收/净利润，优先走新浪 `stock_financial_abstract`，不必优先走东方财富。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/tools/hooks.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/tools/akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/stock_summary.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_summary.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_summary.py`
+  - `16 passed`
+  - `summary` 后端已新增 `financial_series_5y`，并通过单测覆盖。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_summary.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_summary.py`
+  - `4 passed`
+  - `summary` 卡现已把近五年营收/净利润渲染为两个 vertical bar chart。
+- `env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy /Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py`
+  - live 结果：`summary.json.status=valid`
+  - `summary.data.financial_series_5y` 已返回 2020-2024 五年 `revenue/net_profit`
+  - 当前问题已从“后端没有五年财务序列”转为“前端如何展示这组数据”。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+  - live 结果：`watch_calendar.json.status=valid`
+  - `observed_tools=["web_search"]`
+  - tool turns 变为：第 0 轮 `2` 次 `web_search`，第 1 轮输出证据摘要，不再调用 `date` tool。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+  - `6 passed`
+  - `watch_calendar` 第二阶段 event 规则已放宽，不再把“预计扭亏为盈”这类结果短语裁掉。
+- `python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+  - live 结果：`watch_calendar.json.status=valid`
+  - 当前事件为：
+    - `2026年4月底 / 2026年一季报披露，预计扭亏为盈`
+    - `2026年5月 / 硅料产能丰水期恢复超产`
+    - `2026年 / 光伏行业周期筑底拐点之年`
+  - 结论：压缩 prompt 后主链路未退化，甚至体感更快；但结果质量更偏“预期/规划/主题判断”，若目标是严格事件日历，后续需收紧筛选口径。
+- `python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py --runs 3`
+  - `3/3 valid`
+  - `avg_latency_ms=51238`
+  - `source` 在三次运行中出现了：
+    - `证据摘要`
+    - `证据摘要-业绩披露事件`
+    - `行业政策公告`
+    - `公司公告/业绩预测`
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `6 passed`
+  - `watch_calendar` 已回退为更简单 contract：保留 `source`，移除 `certainty`。
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+  - `3 passed`
+  - `relationship` HTML 图已支持关系词标签，但仍需继续收布局。
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_entity.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+  - `19 passed`
+  - `entity_info/relationship/timeline` 的后端 contract 已重新对齐前端。

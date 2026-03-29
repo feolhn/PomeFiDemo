@@ -1,0 +1,315 @@
+{
+  "skill": "timeline_kimi_benchmark",
+  "symbol": "603618",
+  "company_name": "杭电股份",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  },
+  "summary": {
+    "runs": 2,
+    "valid_runs": 2,
+    "success_rate": 1.0,
+    "avg_latency_ms": 35641,
+    "min_latency_ms": 32009,
+    "max_latency_ms": 39273,
+    "avg_events": 4
+  },
+  "runs": [
+    {
+      "run_index": 1,
+      "status": "valid",
+      "latency_ms": 39273,
+      "summary": "杭电股份(603618)近六个月经历业绩巨亏与股价暴涨的极端分化。2026年1月预告年度亏损3亿元（计提大额减值），但同期股价因铜箔/算力概念炒作飙升122%。3月控股股东宣布减持，此前2月底股价已因连续涨停触发异常波动公告。2025年9月亦有短期异动记录。",
+      "events": [
+        {
+          "date": "2026-01-19",
+          "event_date": "2026-01-19",
+          "title": "2025年年度业绩预亏公告",
+          "content": "公司预计归母净利润亏损约3亿元，主要因计提固定资产减值准备2.64亿元。巨额亏损利空基本面，但市场后续炒作算力铜箔概念未受业绩拖累。",
+          "source": "新浪财经/搜狐",
+          "url": "",
+          "sentiment": "negative"
+        },
+        {
+          "date": "2026-01-30",
+          "event_date": "2026-01-30",
+          "title": "股价异常波动区间起点",
+          "content": "自1月30日起至3月2日，公司股价区间涨幅累计达122.99%，显著高于同行业及上证指数涨幅，脱离基本面引发监管关注。",
+          "source": "公司公告",
+          "url": "",
+          "sentiment": "neutral"
+        },
+        {
+          "date": "2026-02-26",
+          "event_date": "2026-02-26",
+          "title": "股票交易异常波动公告",
+          "content": "连续三个交易日内收盘价格涨幅偏离值累计超过20%，公司发布风险提示公告，称生产经营正常但股价严重偏离基本面。",
+          "source": "新浪财经",
+          "url": "",
+          "sentiment": "neutral"
+        },
+        {
+          "date": "2026-03-02",
+          "event_date": "2026-03-02",
+          "title": "股价异常波动区间终点",
+          "content": "股价炒作达到阶段性高点，区间累计涨幅122.99%结束，随后进入高位震荡。",
+          "source": "公司公告",
+          "url": "",
+          "sentiment": "neutral"
+        }
+      ],
+      "event_summaries": [
+        "2026-01-19 | 2025年年度业绩预亏公告 | 公司预计归母净利润亏损约3亿元，主要因计提固定资产减值准备2.64亿元。巨额亏损利空基本面，但市场后续炒作算力铜箔概念未受业绩拖累。 | negative",
+        "2026-01-30 | 股价异常波动区间起点 | 自1月30日起至3月2日，公司股价区间涨幅累计达122.99%，显著高于同行业及上证指数涨幅，脱离基本面引发监管关注。 | neutral",
+        "2026-02-26 | 股票交易异常波动公告 | 连续三个交易日内收盘价格涨幅偏离值累计超过20%，公司发布风险提示公告，称生产经营正常但股价严重偏离基本面。 | neutral",
+        "2026-03-02 | 股价异常波动区间终点 | 股价炒作达到阶段性高点，区间累计涨幅122.99%结束，随后进入高位震荡。 | neutral"
+      ],
+      "sources": [
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        }
+      ],
+      "tool_call_observed": true,
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 2,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 3,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "content_preview": "**杭电股份(603618)事件证据摘要**\n\n行业判断：电力设备/电缆制造 + 铜箔/算力连接（特高压、超薄铜箔、数据中心概念）\n\n2026-01-19 | 2025年年度业绩预亏公告：预计归母净利润亏损约3亿元（计提固定资产减值2.64亿元） | 新浪财经/搜狐\n2026-01-30至03-02 | 股价异常波动：区间涨幅累计达122.99%，显著高于同行业 | 公司公告\n2026-02-26..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 2025年9月至2026年3月 股价影响 重大事件 交付数据 产能投产 订单",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----wULqkXFhRVCJaSCxDAqcf3ECXinZVh+BwDX5im4eQ9aet5h+BemFRBkDgYiHK2+4yP9ykB62dDtEA7onDP9+RVx35hyEkYiuxipAqDNwx5Z/vPF7fwPRFYFvPr+temtyEHpBxWRTle+YXsNv4BXsBhPEkXyEyAyfqMyXGOKp...",
+            "content_encrypted": true
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 2025年9月至2026年3月 铜缆高速连接 算力 订单 数据中心 中标",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----SRLEPMPXdL1XhRJuYG7RrT0vazgtYY5MMtXdcFWVhdgFdmUYFhj+YxK/5oTO97AgyYOA1g6yYmU4I5p1hF7X3NTYe2qy4B7yICSgMcsLhx84YSAVtkkJySqdO7UbCFUmNUFANnBkA3RU46HJvRApO3YxhGIm0nyhwYw5/tZ0...",
+            "content_encrypted": true
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:2",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 2025年10月至2026年3月 年报 预亏 业绩 铜箔 特高压",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----lpJblWl9CaoBnDUkTPsV6w/GLHeHgtbu+D1aSvrnnG+3RMi+LTQF/7ZbPwDnblkgTU3ttQPw9B31r2S3uvn+9H0MJ/x48u8Eur7EiAa/2UAvq43c14PXh9PIY5CygFSCFsEQPEOx6iS+lx/ludCDjYE51ZmDYUBuvd1VrPdf...",
+            "content_encrypted": true
+          }
+        ],
+        "evidence_preview": "**杭电股份(603618)事件证据摘要**\n\n行业判断：电力设备/电缆制造 + 铜箔/算力连接（特高压、超薄铜箔、数据中心概念）\n\n2026-01-19 | 2025年年度业绩预亏公告：预计归母净利润亏损约3亿元（计提固定资产减值2.64亿元） | 新浪财经/搜狐\n2026-01-30至03-02 | 股价异常波动：区间涨幅累计达122.99%，显著高于同行业 | 公司公告\n2026-02-26至03-02 | 股票交易异常波动公告：连续三日收盘价格涨幅偏离值累计超20% | 新浪财经\n2026-03-25 | 控股股东富春江通信集团拟减持不超过0.6639%股份 | 阿斯达克\n2025-09-22至09-23 | 股价异动：连续两日换手率超20%，两日涨幅累计20.97% | 东方财富",
+        "degrade_reason": null
+      },
+      "error": null
+    },
+    {
+      "run_index": 2,
+      "status": "valid",
+      "latency_ms": 32009,
+      "summary": "杭电股份(603618)过去六个月关键事件包括：2025年9月与国网杭州及宇树科技签署\"电力+具身智能\"合作协议引发涨停；2025年8月半年报显示电力电缆订单优异、光通信光纤产销两旺、超薄铜箔项目试生产；2025年7月曾因特高压概念涨停并发生大宗交易。",
+      "events": [
+        {
+          "date": "2025-09-15",
+          "event_date": "2025-09-15",
+          "title": "国网杭州与宇树科技\"电力+具身智能\"合作",
+          "content": "国网杭州与宇树科技签署\"电力+具身智能\"合作协议，杭电股份作为本地电缆龙头企业参与该项目，切入具身智能赛道。",
+          "source": "打板客网",
+          "url": "",
+          "sentiment": "positive"
+        },
+        {
+          "date": "2025-09-16",
+          "event_date": "2025-09-16",
+          "title": "股价涨停",
+          "content": "受国网合作、光纤概念、铜箔概念多重催化，杭电股份股价涨停。",
+          "source": "打板客网",
+          "url": "",
+          "sentiment": "positive"
+        },
+        {
+          "date": "2025-08-29",
+          "event_date": "2025-08-29",
+          "title": "2025年半年报披露",
+          "content": "半年报显示电力电缆新增订单优异，光通信光纤产销两旺，新能源汽车超薄铜箔一期工程进入试生产，业务多点开花。",
+          "source": "打板客网",
+          "url": "",
+          "sentiment": "positive"
+        },
+        {
+          "date": "2025-07-09",
+          "event_date": "2025-07-09",
+          "title": "特高压概念涨停",
+          "content": "因特高压概念催化，网传公司供货杭钢股份光纤光缆，股价涨停。",
+          "source": "打板客网",
+          "url": "",
+          "sentiment": "positive"
+        }
+      ],
+      "event_summaries": [
+        "2025-09-15 | 国网杭州与宇树科技\"电力+具身智能\"合作 | 国网杭州与宇树科技签署\"电力+具身智能\"合作协议，杭电股份作为本地电缆龙头企业参与该项目，切入具身智能赛道。 | positive",
+        "2025-09-16 | 股价涨停 | 受国网合作、光纤概念、铜箔概念多重催化，杭电股份股价涨停。 | positive",
+        "2025-08-29 | 2025年半年报披露 | 半年报显示电力电缆新增订单优异，光通信光纤产销两旺，新能源汽车超薄铜箔一期工程进入试生产，业务多点开花。 | positive",
+        "2025-07-09 | 特高压概念涨停 | 因特高压概念催化，网传公司供货杭钢股份光纤光缆，股价涨停。 | positive"
+      ],
+      "sources": [
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        }
+      ],
+      "tool_call_observed": true,
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search",
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "content_preview": "**杭电股份(603618) 事件证据摘要**\n\n2025-09-15 | 国网杭州与宇树科技签署\"电力+具身智能\"合作协议，杭电股份参与 | 打板客网  \n2025-09-16 | 股价涨停（国网合作+光纤概念+铜箔概念催化） | 打板客网  \n2025-08-29 | 2025年半年报披露：电力电缆新增订单优异，光通信光纤产销两旺，新能源汽车超薄铜箔一期工程进入试生产 | 打板客网  \n202..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 2025年9月至2026年3月 重大事件 股价影响 电线电缆 产能投产 订单 财报",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----C/NPW4o1Vgbj8gvZd/1VRtKL7mCSmXOqvs+S4qwpYS/GHPtwkM9eWoKkQoLjGq2LeSsQwm3gxxEXKGKseaIlh1op1z0SVO+vboH7HsPIWYwTZLhiJD/JoJ35YO4TPm55fFmAdshcSu7IiPNsPzpgyH792vKWQCsOFesCA5bU...",
+            "content_encrypted": true
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 2025年 回购 指数纳入 解禁 并购 资本运作 股价",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----ul1wkS+etYt8x3ZYa2mgfcOJe+7vpVfxsXPkx/niq2M66PtlLpdg8kk0skfBk1ZTWuwvF6GTh+FPTH/MILsNKJbdi+unTraSlbbP6NHZHh2NcOP7+2jkvci6l9T8QvNiYALjGfyFFSr1K0b9xzdR4R6gq2SyzqgyXhypoOOP...",
+            "content_encrypted": true
+          }
+        ],
+        "evidence_preview": "**杭电股份(603618) 事件证据摘要**\n\n2025-09-15 | 国网杭州与宇树科技签署\"电力+具身智能\"合作协议，杭电股份参与 | 打板客网  \n2025-09-16 | 股价涨停（国网合作+光纤概念+铜箔概念催化） | 打板客网  \n2025-08-29 | 2025年半年报披露：电力电缆新增订单优异，光通信光纤产销两旺，新能源汽车超薄铜箔一期工程进入试生产 | 打板客网  \n2025-07-09 | 股价曾涨停（特高压概念，网传供货杭钢股份光纤光缆） | 打板客网  \n2025-07-10 | 大宗交易成交645万股，成交价6.46元 | 搜狐证券",
+        "degrade_reason": null
+      },
+      "error": null
+    }
+  ]
+}

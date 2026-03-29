@@ -1,0 +1,134 @@
+{
+  "skill": "summary",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
+      "asof": "2026-03-27",
+      "metrics": {
+        "price_last": 55.18,
+        "ret_1d": 0.06875847375556843,
+        "ret_5d": 0.0007254261878852919,
+        "ret_20d": -0.024398868458274436,
+        "pe_ttm": 47.5,
+        "pb": 5.98,
+        "vol_20d": 0.43256837936635617,
+        "max_drawdown_1y": -0.28756726921484743
+      },
+      "metrics_missing": [],
+      "notes": [
+        "rate-like metrics are normalized to decimal fractions"
+      ],
+      "akshare_calls": [
+        {
+          "interface": "stock_zh_a_hist",
+          "symbol": "600276",
+          "latency_ms": 50,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_zh_valuation_baidu",
+          "symbol": "600276",
+          "latency_ms": 221,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_zh_valuation_baidu",
+          "symbol": "600276",
+          "latency_ms": 263,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_financial_abstract",
+          "symbol": "600276",
+          "latency_ms": 681,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        }
+      ],
+      "data_origin": "live",
+      "financial_series_5y": [
+        {
+          "report_date": "20211231",
+          "year": "2021",
+          "revenue": 25905526375.8,
+          "net_profit": 4530217550.47
+        },
+        {
+          "report_date": "20221231",
+          "year": "2022",
+          "revenue": 21275270681.52,
+          "net_profit": 3906375067.36
+        },
+        {
+          "report_date": "20231231",
+          "year": "2023",
+          "revenue": 22819784741.31,
+          "net_profit": 4302435930.05
+        },
+        {
+          "report_date": "20241231",
+          "year": "2024",
+          "revenue": 27984605342.06,
+          "net_profit": 6336527014.75
+        },
+        {
+          "report_date": "20251231",
+          "year": "2025",
+          "revenue": 31629416193.83,
+          "net_profit": 7711054811.98
+        }
+      ],
+      "network_evidence": [],
+      "recovered": true,
+      "unrecovered_reason_code": null,
+      "summary": "已输出核心行情与估值指标。"
+    },
+    "sources": [
+      {
+        "source": "AkShare",
+        "kind": "akshare",
+        "published_at": "2026-03-27",
+        "title": "600276 实时行情与估值",
+        "url": null
+      }
+    ],
+    "error": null,
+    "error_category": null,
+    "data_ready": true,
+    "is_critical": true
+  },
+  "trace": {
+    "events": []
+  },
+  "generated_at": "2026-03-29T05:37:55.595452+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  }
+}

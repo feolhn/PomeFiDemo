@@ -75,6 +75,20 @@ def _mock_financial_df() -> pd.DataFrame:
     )
 
 
+def _mock_financial_abstract_df() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "选项": ["常用指标", "常用指标"],
+            "指标": ["归母净利润", "营业总收入"],
+            "20211231": [1.2e8, 10.5e8],
+            "20221231": [1.4e8, 11.8e8],
+            "20231231": [1.6e8, 13.1e8],
+            "20241231": [1.8e8, 14.7e8],
+            "20251231": [2.1e8, 16.2e8],
+        }
+    )
+
+
 def _patch_akshare(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(akshare_tool_module.ak, "stock_individual_info_em", lambda symbol: _mock_info_df())
     monkeypatch.setattr(akshare_tool_module.ak, "stock_zh_a_hist", lambda **kwargs: _mock_price_df())
@@ -85,6 +99,7 @@ def _patch_akshare(monkeypatch: pytest.MonkeyPatch) -> None:
     )
     monkeypatch.setattr(akshare_tool_module.ak, "stock_individual_spot_xq", lambda symbol: _mock_spot_df())
     monkeypatch.setattr(akshare_tool_module.ak, "stock_financial_analysis_indicator", lambda symbol, start_year: _mock_financial_df())
+    monkeypatch.setattr(akshare_tool_module.ak, "stock_financial_abstract", lambda symbol: _mock_financial_abstract_df())
 
 
 def test_execute_requires_symbol() -> None:
@@ -130,6 +145,28 @@ def test_execute_returns_wrapped_local_tool_result(monkeypatch: pytest.MonkeyPat
     assert math.isclose(metrics["profit_yoy"], 0.08)
     assert metrics_data["data_origin"] == "live"
     assert metrics_data["network_evidence"] == []
+
+
+def test_execute_includes_financial_series_5y_when_requested(monkeypatch: pytest.MonkeyPatch) -> None:
+    _patch_akshare(monkeypatch)
+
+    result = execute_akshare_tool(
+        {
+            "symbol": "300750",
+            "metrics": ["price_last"],
+            "include_financial_series_5y": True,
+        }
+    )
+
+    metrics_data = result["tool_content"]["metrics_data"]
+    raw_bundle = result["local_context"]["raw_bundle"]
+    series = metrics_data["financial_series_5y"]
+
+    assert len(series) == 5
+    assert series[0]["year"] == "2021"
+    assert math.isclose(series[-1]["revenue"], 16.2e8)
+    assert math.isclose(series[-1]["net_profit"], 2.1e8)
+    assert raw_bundle["financial_series_5y"] == series
 
 
 def test_execute_sets_none_and_notes_for_missing_fields(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -215,7 +252,7 @@ def test_execute_fallback_price_from_spot_when_history_failed(monkeypatch: pytes
     assert math.isclose(metrics["price_last"], 101.2)
     assert math.isclose(metrics["ret_1d"], 0.012)
     assert metrics_data["data_origin"] == "partial"
-    assert metrics_data["network_evidence"] == []
+    assert any(item.get("interface") in {"stock_zh_a_hist", "stock_zh_a_hist_tx"} for item in metrics_data["network_evidence"])
     assert any("stock_zh_a_hist failed" in note for note in metrics_data["notes"])
     assert any(call.get("interface") == "stock_zh_a_hist" for call in metrics_data.get("akshare_calls", []))
     assert not any(call.get("interface") == "stock_individual_info_em" for call in metrics_data.get("akshare_calls", []))
@@ -240,6 +277,34 @@ def test_execute_uses_cache_fallback_when_live_history_fails(monkeypatch: pytest
     assert metrics["price_last"] is not None
     assert metrics_data["data_origin"] == "cache_fallback"
     assert any(item.get("status") == "cache_fallback" for item in metrics_data["network_evidence"])
+
+
+def test_execute_falls_back_to_tx_history_when_eastmoney_fails(monkeypatch: pytest.MonkeyPatch) -> None:
+    akshare_tool_module._PRICE_HISTORY_CACHE.clear()
+    monkeypatch.setattr(akshare_tool_module.ak, "stock_individual_info_em", lambda symbol: _mock_info_df())
+    monkeypatch.setattr(
+        akshare_tool_module.ak,
+        "stock_zh_a_hist",
+        lambda **kwargs: (_ for _ in ()).throw(RuntimeError("ProxyError: eastmoney offline")),
+    )
+    monkeypatch.setattr(akshare_tool_module.ak, "stock_zh_a_hist_tx", lambda **kwargs: _mock_price_df())
+    monkeypatch.setattr(
+        akshare_tool_module.ak,
+        "stock_zh_valuation_baidu",
+        lambda symbol, indicator, period: pd.DataFrame(columns=["date", "value"]),
+    )
+    monkeypatch.setattr(akshare_tool_module.ak, "stock_individual_spot_xq", lambda symbol: pd.DataFrame(columns=["item", "value"]))
+    monkeypatch.setattr(akshare_tool_module.ak, "stock_financial_analysis_indicator", lambda symbol, start_year: pd.DataFrame())
+
+    result = execute_akshare_tool({"symbol": "300750", "metrics": ["price_last", "ret_1d", "ret_5d"]})
+    metrics_data = result["tool_content"]["metrics_data"]
+    metrics = metrics_data["metrics"]
+
+    assert metrics["price_last"] is not None
+    assert metrics["ret_1d"] is not None
+    assert metrics["ret_5d"] is not None
+    assert metrics_data["data_origin"] == "live"
+    assert any(item.get("interface") == "stock_zh_a_hist_tx" and item.get("status") == "ok" for item in metrics_data["akshare_calls"])
 
 
 def test_execute_does_not_call_spot_when_not_needed(monkeypatch: pytest.MonkeyPatch) -> None:

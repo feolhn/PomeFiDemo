@@ -1,0 +1,382 @@
+{
+  "skill": "relationship_benchmark",
+  "symbol": "603618",
+  "company_name": "杭电股份",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  },
+  "summary": {
+    "runs": 2,
+    "valid_runs": 2,
+    "success_rate": 1.0,
+    "avg_latency_ms": 30322.5,
+    "min_latency_ms": 30085,
+    "max_latency_ms": 30560,
+    "avg_edges": 7.5
+  },
+  "runs": [
+    {
+      "run_index": 1,
+      "status": "valid",
+      "latency_ms": 30085,
+      "summary": "该图谱说明了杭电股份的估值逻辑核心锚定于电网投资/特高压建设节奏与铜铝价格波动两大theme，其作为第二梯队电缆制造商，通过直销模式深度绑定国网/南网大客户，在料重工轻的行业特性下，原材料价格传导能力与电网招标景气度共同决定盈利弹性。",
+      "nodes": [
+        {
+          "id": "杭电股份",
+          "role": "company"
+        },
+        {
+          "id": "铜铝价格",
+          "role": "theme"
+        },
+        {
+          "id": "电网投资/特高压",
+          "role": "theme"
+        },
+        {
+          "id": "国家电网/南方电网",
+          "role": "customer"
+        },
+        {
+          "id": "汉缆股份",
+          "role": "competitor"
+        },
+        {
+          "id": "东方电缆",
+          "role": "competitor"
+        },
+        {
+          "id": "亨通光电",
+          "role": "competitor"
+        },
+        {
+          "id": "铜/铝供应商",
+          "role": "supplier"
+        }
+      ],
+      "node_ids": [
+        "杭电股份",
+        "铜铝价格",
+        "电网投资/特高压",
+        "国家电网/南方电网",
+        "汉缆股份",
+        "东方电缆",
+        "亨通光电",
+        "铜/铝供应商"
+      ],
+      "edges": [
+        {
+          "from": "铜/铝供应商",
+          "to": "杭电股份",
+          "relation": "供应原材料"
+        },
+        {
+          "from": "杭电股份",
+          "to": "国家电网/南方电网",
+          "relation": "直销供货"
+        },
+        {
+          "from": "铜铝价格",
+          "to": "杭电股份",
+          "relation": "侵蚀毛利率"
+        },
+        {
+          "from": "电网投资/特高压",
+          "to": "杭电股份",
+          "relation": "驱动订单量"
+        },
+        {
+          "from": "汉缆股份",
+          "to": "杭电股份",
+          "relation": "同梯队竞争"
+        },
+        {
+          "from": "东方电缆",
+          "to": "杭电股份",
+          "relation": "同梯队竞争"
+        },
+        {
+          "from": "亨通光电",
+          "to": "杭电股份",
+          "relation": "高端压制"
+        }
+      ],
+      "edge_summaries": [
+        "铜/铝供应商 -> 供应原材料 -> 杭电股份",
+        "杭电股份 -> 直销供货 -> 国家电网/南方电网",
+        "铜铝价格 -> 侵蚀毛利率 -> 杭电股份",
+        "电网投资/特高压 -> 驱动订单量 -> 杭电股份",
+        "汉缆股份 -> 同梯队竞争 -> 杭电股份",
+        "东方电缆 -> 同梯队竞争 -> 杭电股份",
+        "亨通光电 -> 高端压制 -> 杭电股份"
+      ],
+      "sources": [
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        }
+      ],
+      "tool_call_observed": true,
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 2,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "content_preview": "## 核心行业判断\n**电线电缆制造**（高压/超高压电力电缆、特高压导线为主，兼具光通信业务）\n\n---\n\n## 证据摘要\n\n- **上游**：铜、铝等有色金属是核心原材料，行业特征为\"料重工轻\"，原材料价格波动幅度大、存货成本高。公司采用订单排产模式应对价格风险。\n\n- **下游**：国家电网、南方电网是主要客户，销售以\"直销\"为主，通过参与两大电网招投标实现销售。客户高度集中（B端大客户驱动..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 主营业务 电线电缆 原材料 铜 铝 供应商 客户 电网 竞争格局 行业分析",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----B0OJqvmlmVySCh5Oy8EaAK2eMgN8lnxmPoCLzwSsBLv+DrhRmrJhGRGMTg00Fvt4QZFY9Z3H08BxKDYJ71V0FYNVIqb+2bH8MVtHan8Cn9bmssjTNw8y/d3Qez6do1fT6/0zD/3Q/YE49D7bOFq6d66lTcg5DrutQAgCXEFv...",
+            "content_encrypted": true
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 电线电缆 竞争对手 亨通光电 中天科技 宝胜股份 铜价 铝价 原材料波动 特高压 电网投资",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----oxOxPnwPPTWcNkaFB6jOb5ghGCaMJr0eeqmF31tKm9xq8k5OXxqFjKBp+qzruZO4wr9zOIZH/bthl4/2mOQRMXDxM8Bc7UQi7wCOrcmZTReUfVGWLA5lnsNQDqKjHiqTgZda2xwjUGPJbhNcUkFkfo91bQ0jcO0s7LWCU0Sa...",
+            "content_encrypted": true
+          }
+        ],
+        "degrade_reason": null
+      },
+      "error": null
+    },
+    {
+      "run_index": 2,
+      "status": "valid",
+      "latency_ms": 30560,
+      "summary": "该图谱说明了杭电股份的估值逻辑主要受铜铝价格波动与电网投资规模两大theme驱动，公司通过订单排产模式应对原材料风险，在电力电缆与光通信双主业格局下面临亨通光电等头部企业竞争，下游深度绑定国家电网等核心客户。",
+      "nodes": [
+        {
+          "id": "杭电股份",
+          "role": "company"
+        },
+        {
+          "id": "铜铝价格",
+          "role": "theme"
+        },
+        {
+          "id": "电网投资",
+          "role": "theme"
+        },
+        {
+          "id": "国家电网",
+          "role": "customer"
+        },
+        {
+          "id": "亨通光电",
+          "role": "competitor"
+        },
+        {
+          "id": "光棒光纤",
+          "role": "supplier"
+        },
+        {
+          "id": "电信运营商",
+          "role": "customer"
+        },
+        {
+          "id": "行业集中度",
+          "role": "theme"
+        }
+      ],
+      "node_ids": [
+        "杭电股份",
+        "铜铝价格",
+        "电网投资",
+        "国家电网",
+        "亨通光电",
+        "光棒光纤",
+        "电信运营商",
+        "行业集中度"
+      ],
+      "edges": [
+        {
+          "from": "铜铝价格",
+          "to": "杭电股份",
+          "relation": "波动侵蚀毛利"
+        },
+        {
+          "from": "杭电股份",
+          "to": "铜铝价格",
+          "relation": "订单排产对冲"
+        },
+        {
+          "from": "电网投资",
+          "to": "杭电股份",
+          "relation": "驱动电缆需求"
+        },
+        {
+          "from": "国家电网",
+          "to": "杭电股份",
+          "relation": "招标采购产品"
+        },
+        {
+          "from": "亨通光电",
+          "to": "杭电股份",
+          "relation": "光电缆直接竞争"
+        },
+        {
+          "from": "光棒光纤",
+          "to": "杭电股份",
+          "relation": "供应光通信原料"
+        },
+        {
+          "from": "杭电股份",
+          "to": "电信运营商",
+          "relation": "销售光缆产品"
+        },
+        {
+          "from": "行业集中度",
+          "to": "杭电股份",
+          "relation": "决定份额空间"
+        }
+      ],
+      "edge_summaries": [
+        "铜铝价格 -> 波动侵蚀毛利 -> 杭电股份",
+        "杭电股份 -> 订单排产对冲 -> 铜铝价格",
+        "电网投资 -> 驱动电缆需求 -> 杭电股份",
+        "国家电网 -> 招标采购产品 -> 杭电股份",
+        "亨通光电 -> 光电缆直接竞争 -> 杭电股份",
+        "光棒光纤 -> 供应光通信原料 -> 杭电股份",
+        "杭电股份 -> 销售光缆产品 -> 电信运营商",
+        "行业集中度 -> 决定份额空间 -> 杭电股份"
+      ],
+      "sources": [
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        }
+      ],
+      "tool_call_observed": true,
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search",
+              "web_search"
+            ],
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": false,
+            "tool_names": [],
+            "content_preview": "**证据摘要**\n\n- **上游**：铜、铝等金属材料是电线电缆行业最重要的原材料，价格波动幅度大，存货成本高。公司采用订单排产模式应对原材料价格波动。此外，公司光通信板块涉及光纤预制棒（光棒）、光纤、光缆等上游材料。\n\n- **下游**：电线电缆板块下游客户主要为国家电网、南方电网以及大型电力、工程企业，销售模式以参与招投标为主。公司产品应用于国家重点工程（三峡工程、京沪高铁等）及城市地铁项目。..."
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 603618 主营业务 电线电缆 原材料 铜铝 供应商 客户 国家电网 竞争格局",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----d167jYaccBzTCktHOXjn3pHQNuvq4bdbpHwJdDMsV23l2nJPojfeEfqHzky5MAhJl+RnoWngSX7rVRO+dv4uOfpQ/6zpJ7OM/3FUWtTKT2ug1QOmu1Yr2pH2JlKBJtJuHCpsrIqz31gCcY+nMFRFQHEsGYSphvg1IuLJEaE9...",
+            "content_encrypted": true
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_dict": {
+              "query": "杭电股份 电线电缆行业 竞争对手 万马股份 中天科技 宝胜股份 铜价波动 电网投资",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "content_preview": "----MOONSHOT ENCRYPTED BEGIN----LDjEBjRGRjnzrK0fbFswP3og7cC5jXnjSr6JL+BFo2HN2z2E/ZWItQVx+CpQiaAq5fFlUzYCeJicr8kbs35F8rBklzzwjDDhZrIOLiNxuxI4lELLfpbpEJjVxrzNdGyjf6K2FvYrIeDoERuatl7W1exrYKi7oKvtmjMTupHa...",
+            "content_encrypted": true
+          }
+        ],
+        "degrade_reason": null
+      },
+      "error": null
+    }
+  ]
+}

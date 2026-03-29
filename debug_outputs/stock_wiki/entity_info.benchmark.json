@@ -1,0 +1,79 @@
+{
+  "skill": "entity_info_benchmark",
+  "symbol": "603618",
+  "company_name": "杭电股份",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  },
+  "summary": {
+    "runs": 2,
+    "valid_runs": 2,
+    "success_rate": 1.0,
+    "avg_latency_ms": 37954.5,
+    "min_latency_ms": 32593,
+    "max_latency_ms": 43316,
+    "avg_tags": 5
+  },
+  "runs": [
+    {
+      "run_index": 1,
+      "status": "valid",
+      "latency_ms": 43316,
+      "company_name": "杭电股份",
+      "industry": "电力设备-线缆部件",
+      "main_business": "电力电缆、导线、光通信（光纤光缆）、锂电池超薄铜箔",
+      "summary_100cn": "国内电网电缆核心供应商，以电力电缆为绝对主业，深度绑定国家电网、南方电网招投标体系；光通信与锂电铜箔构成战略两翼，但尚处产能爬坡期。核心投资逻辑在于电网投资韧性下的渠道卡位，以及铜箔业务从0到1的期权价值。",
+      "core_competencies": [
+        "电网渠道壁垒：长期深耕国网、南网、铁路总公司集采体系，招投标资质与历史业绩形成准入护城河，特高压、大截面耐热导线等高端产品技术储备支撑溢价能力",
+        "产能与工艺一体化：四大生产基地布局，"
+      ],
+      "profit_analysis": {
+        "revenue_structure": "电力电缆贡献超75%收入及80%以上利润，为绝对现金牛；导线为传统补充；光通信规模小且光纤业务亏损；锂电铜箔处战略投入期，收入占比约7%但利润贡献不足2%，毛利率仅2%左右，尚未跨越盈亏平衡点",
+        "profit_tag": "传统业务现金牛+新业务重资本放量期"
+      },
+      "investment_tags": [
+        "电网设备",
+        "特高压",
+        "锂电池材料",
+        "光通信",
+        "浙江板块",
+        "沪股通"
+      ],
+      "error": null
+    },
+    {
+      "run_index": 2,
+      "status": "valid",
+      "latency_ms": 32593,
+      "company_name": "杭电股份",
+      "industry": "电力设备/电线电缆",
+      "main_business": "电线电缆制造与销售、光通信（光棒-光纤-光缆一体化）、锂电铜箔及电子铜箔材料",
+      "summary_100cn": "国内综合线缆供应商，主业为全系列电力电缆及导线，光通信业务占比不足4%但具备光棒-光纤-光缆一体化能力，新能源铜箔项目尚处产能爬坡期。核心投资逻辑在于传统电网基建需求与锂电材料第二曲线的产能兑现。",
+      "core_competencies": [
+        "全电压等级电线电缆产品矩阵，覆盖超高压至民用线缆，电网集采资质完备",
+        "光通信领域具备光棒-光纤-光缆一体化产业链，技术闭环降低外购依赖"
+      ],
+      "profit_analysis": {
+        "revenue_structure": "电线电缆为绝对收入主力，光通信业务占比极低（约4%），锂电铜箔项目尚未形成规模贡献",
+        "profit_tag": "传统业务现金牛+新材料重资本放量期"
+      },
+      "investment_tags": [
+        "智能电网",
+        "光通信",
+        "锂电铜箔",
+        "算力概念（低相关度）"
+      ],
+      "error": null
+    }
+  ]
+}

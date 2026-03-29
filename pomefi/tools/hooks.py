@@ -48,6 +48,21 @@ def build_chart_index(raw_bundle: dict[str, Any]) -> list[dict[str, Any]]:
                 }
             )
 
+    financial_series = raw_bundle.get("financial_series_5y")
+    if isinstance(financial_series, list) and financial_series:
+        y_keys = [key for key in ("revenue", "net_profit") if any(item.get(key) is not None for item in financial_series)]
+        if y_keys:
+            chart_index.append(
+                {
+                    "chart_id": "financial_5y_line",
+                    "type": "line",
+                    "title": "营收与净利润（近五年）",
+                    "data_ref": "local://raw_bundle/financial_series_5y",
+                    "x_key": "report_date",
+                    "y_keys": y_keys,
+                }
+            )
+
     return chart_index
 
 
@@ -137,6 +152,20 @@ def normalize_financial_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
                 "date": _iso_date(row.get("date")),
                 "revenue_yoy": row.get("revenue_yoy"),
                 "profit_yoy": row.get("profit_yoy"),
+            }
+        )
+    return out
+
+
+def normalize_financial_series_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        out.append(
+            {
+                "report_date": _iso_date(row.get("report_date")),
+                "year": row.get("year"),
+                "revenue": row.get("revenue"),
+                "net_profit": row.get("net_profit"),
             }
         )
     return out

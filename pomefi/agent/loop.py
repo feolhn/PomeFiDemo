@@ -123,6 +123,7 @@ class KimiAgentLoop:
         response_format: dict[str, str] | None = None,
         local_tools: list[dict[str, Any]] | None = None,
         local_tool_handlers: dict[str, LocalToolHandler] | None = None,
+        disable_thinking: bool = False,
         budget_tracker: BudgetTracker | None = None,
         logger: EventLogger | None = None,
     ) -> AsyncIterator[dict[str, Any]]:
@@ -181,11 +182,14 @@ class KimiAgentLoop:
                     "messages": messages,
                     "tools": tools if tools else None,
                     "tool_choice": "auto" if tools else None,
-                    "temperature": self.config.temperature,
                     "max_completion_tokens": MAX_COMPLETION_TOKENS,
                     "stream": True,
                     "stream_options": {"include_usage": True},
                 }
+                if self.config.model != "kimi-k2.5":
+                    request_payload["temperature"] = self.config.temperature
+                if disable_thinking and self.config.model == "kimi-k2.5":
+                    request_payload["extra_body"] = {"thinking": {"type": "disabled"}}
                 if response_format is not None:
                     request_payload["response_format"] = response_format
 
@@ -468,6 +472,7 @@ class KimiAgentLoop:
         response_format: dict[str, str] | None = None,
         local_tools: list[dict[str, Any]] | None = None,
         local_tool_handlers: dict[str, LocalToolHandler] | None = None,
+        disable_thinking: bool = False,
         budget_tracker: BudgetTracker | None = None,
         logger: EventLogger | None = None,
     ) -> dict[str, Any]:
@@ -477,6 +482,7 @@ class KimiAgentLoop:
             response_format=response_format,
             local_tools=local_tools,
             local_tool_handlers=local_tool_handlers,
+            disable_thinking=disable_thinking,
             budget_tracker=budget_tracker,
             logger=logger,
         )
@@ -493,6 +499,7 @@ class KimiAgentLoop:
         response_format: dict[str, str] | None = None,
         local_tools: list[dict[str, Any]] | None = None,
         local_tool_handlers: dict[str, LocalToolHandler] | None = None,
+        disable_thinking: bool = False,
         budget_tracker: BudgetTracker | None = None,
         logger: EventLogger | None = None,
     ) -> str:
@@ -503,6 +510,7 @@ class KimiAgentLoop:
             response_format=response_format,
             local_tools=local_tools,
             local_tool_handlers=local_tool_handlers,
+            disable_thinking=disable_thinking,
             budget_tracker=budget_tracker,
             logger=logger,
         )

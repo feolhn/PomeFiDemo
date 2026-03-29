@@ -1,0 +1,1945 @@
+{
+  "skill": "relationship",
+  "result": {
+    "status": "valid",
+    "data": {
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
+      "summary": "该图谱说明了恒瑞医药的估值逻辑正受创新药出海（NewCo模式）、医保谈判定价压力、ADC/GLP-1研发竞赛及生物安全法案地缘政治风险四大主题交织影响，其从仿制药向创新药转型已进入国际化兑现关键期。",
+      "pending": false,
+      "nodes": [
+        {
+          "id": "恒瑞医药",
+          "role": "company"
+        },
+        {
+          "id": "创新药出海",
+          "role": "theme"
+        },
+        {
+          "id": "医保谈判/集采",
+          "role": "theme"
+        },
+        {
+          "id": "ADC/GLP-1研发竞赛",
+          "role": "theme"
+        },
+        {
+          "id": "生物安全法案/地缘政治",
+          "role": "theme"
+        },
+        {
+          "id": "海外药企（Merck等）",
+          "role": "customer"
+        },
+        {
+          "id": "国内肿瘤患者市场",
+          "role": "customer"
+        },
+        {
+          "id": "中国生物制药/百济神州",
+          "role": "competitor"
+        }
+      ],
+      "edges": [
+        {
+          "from": "恒瑞医药",
+          "to": "创新药出海",
+          "relation": "战略转型至"
+        },
+        {
+          "from": "恒瑞医药",
+          "to": "医保谈判/集采",
+          "relation": "收入承压于"
+        },
+        {
+          "from": "恒瑞医药",
+          "to": "ADC/GLP-1研发竞赛",
+          "relation": "管线布局于"
+        },
+        {
+          "from": "恒瑞医药",
+          "to": "生物安全法案/地缘政治",
+          "relation": "估值受制于"
+        },
+        {
+          "from": "海外药企（Merck等）",
+          "to": "恒瑞医药",
+          "relation": "授权引进自"
+        },
+        {
+          "from": "国内肿瘤患者市场",
+          "to": "恒瑞医药",
+          "relation": "支付购买于"
+        },
+        {
+          "from": "中国生物制药/百济神州",
+          "to": "恒瑞医药",
+          "relation": "管线竞争于"
+        }
+      ],
+      "trace": {
+        "tool_call_required": true,
+        "tool_call_observed": true,
+        "retry_count": 0,
+        "observed_tools": [
+          "web_search"
+        ],
+        "turns": [
+          {
+            "index": 0,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search",
+              "web_search"
+            ],
+            "reasoning_present": false,
+            "content_preview": ""
+          },
+          {
+            "index": 1,
+            "has_tool_calls": true,
+            "tool_names": [
+              "web_search"
+            ],
+            "reasoning_present": false,
+            "content_preview": ""
+          }
+        ],
+        "tool_events": [
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:0",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\": \"恒瑞医药 600276 上游原材料 供应商 原料药 成本结构\", \"classes\": [\"finance\",\"all\"]}",
+            "arguments_dict": {
+              "query": "恒瑞医药 600276 上游原材料 供应商 原料药 成本结构",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----K3C54zylWVY2AMpdX+VUzz2LaLHTz6/WrxLoeS4ue32Ytsri0FmvPeBCEK+ooAM69llFk5jz2RqTAKzbj5N3myBf/E08LH3ydWUrsvqIbzlhf+l5d/i1xRkmBmZ45FnVxdKDrrbqWvyqcDSSHtvaQSAjdKRx48FG0jShugvJ..."
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\": \"恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药\", \"classes\": [\"finance\",\"all\"]}",
+            "arguments_dict": {
+              "query": "恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药",
+              "classes": [
+                "finance",
+                "all"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----l/8S6WQzFsbeJzBf31CW7ri6bkFg2ZFF0ezYB5EIIn+h0Snq1wtGg+XupwO3pqUnMzxJqvtHidQiw6Eg3+vDx1n+xV2etptvv2UsGiE7G+KwQiYVI9OT4CKhqyoaDnHVtWH0Jgnp2kq7IvmsIb8za+33imHtKgABL5jcJCiy..."
+          }
+        ],
+        "degrade_reason": "search_budget_exceeded"
+      }
+    },
+    "sources": [
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
+        "url": null
+      }
+    ],
+    "error": "search_budget_exceeded",
+    "error_category": "unknown",
+    "data_ready": true,
+    "is_critical": false
+  },
+  "trace": {
+    "events": [
+      {
+        "type": "session_start",
+        "prompt": "标的：恒瑞医药(600276)。不要直接回答。先判断核心行业，再调用 web_search 检索最重要的上游、下游、竞争和关键变量。优先把供应链、客户、竞争格局和外部变量合并进 1-2 次查询。拿到结果后立刻输出证据摘要。",
+        "model": "kimi-k2.5",
+        "tool_count": 2
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 600276 上游原材料 供应商 原料药 成本结构\", \"classes\": [\"finance\",\"all\"]}",
+        "arguments": {
+          "query": "恒瑞医药 600276 上游原材料 供应商 原料药 成本结构",
+          "classes": [
+            "finance",
+            "all"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:0",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----K3C54zylWVY2AMpdX+VUzz2LaLHTz6/WrxLoeS4ue32Ytsri0FmvPeBCEK+ooAM69llFk5jz2RqTAKzbj5N3myBf/E08LH3ydWUrsvqIbzlhf+l5d/i1xRkmBmZ45FnVxdKDrrbqWvyqcDSSHtvaQSAjdKRx48FG0jShugvJ...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药\", \"classes\": [\"finance\",\"all\"]}",
+        "arguments": {
+          "query": "恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药",
+          "classes": [
+            "finance",
+            "all"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----l/8S6WQzFsbeJzBf31CW7ri6bkFg2ZFF0ezYB5EIIn+h0Snq1wtGg+XupwO3pqUnMzxJqvtHidQiw6Eg3+vDx1n+xV2etptvv2UsGiE7G+KwQiYVI9OT4CKhqyoaDnHVtWH0Jgnp2kq7IvmsIb8za+33imHtKgABL5jcJCiy...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "session_done",
+        "trace": {
+          "prompt": "标的：恒瑞医药(600276)。不要直接回答。先判断核心行业，再调用 web_search 检索最重要的上游、下游、竞争和关键变量。优先把供应链、客户、竞争格局和外部变量合并进 1-2 次查询。拿到结果后立刻输出证据摘要。",
+          "turns": [
+            {
+              "index": 0,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search",
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            },
+            {
+              "index": 1,
+              "has_tool_calls": true,
+              "tool_names": [
+                "web_search"
+              ],
+              "reasoning_present": false,
+              "content_preview": ""
+            }
+          ],
+          "tool_events": [
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:0",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 上游原材料 供应商 原料药 成本结构\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 上游原材料 供应商 原料药 成本结构",
+                "classes": [
+                  "finance",
+                  "all"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----K3C54zylWVY2AMpdX+VUzz2LaLHTz6/WrxLoeS4ue32Ytsri0FmvPeBCEK+ooAM69llFk5jz2RqTAKzbj5N3myBf/E08LH3ydWUrsvqIbzlhf+l5d/i1xRkmBmZ45FnVxdKDrrbqWvyqcDSSHtvaQSAjdKRx48FG0jShugvJ..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 下游客户 销售收入 医保谈判 竞争对手 创新药",
+                "classes": [
+                  "finance",
+                  "all"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----l/8S6WQzFsbeJzBf31CW7ri6bkFg2ZFF0ezYB5EIIn+h0Snq1wtGg+XupwO3pqUnMzxJqvtHidQiw6Eg3+vDx1n+xV2etptvv2UsGiE7G+KwQiYVI9OT4CKhqyoaDnHVtWH0Jgnp2kq7IvmsIb8za+33imHtKgABL5jcJCiy..."
+            }
+          ],
+          "local_context": {},
+          "final_content": "",
+          "usage": {
+            "prompt_tokens": 4039,
+            "completion_tokens": 131,
+            "total_tokens": 4170
+          },
+          "degrade_reason": "search_budget_exceeded",
+          "events": []
+        }
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "summary"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "该"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "图谱"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "说明了"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "的"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "估值"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "逻辑"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "正"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "受"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "出海"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "New"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "Co"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "模式"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "）、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医保"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "谈判"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "定价"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "压力"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "、"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "ADC"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "GL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "P"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "竞赛"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "生物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "安全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "法案"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "地缘政治"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "风险"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "四大"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "主题"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "交织"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "影响"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "其"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "从"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "仿制药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "向"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "转型"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "已进入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "国际化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "兑现"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "关键"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "。"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "nodes"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":[{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "company"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "出海"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "theme"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医保"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "谈判"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "集"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "采"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "theme"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "ADC"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "GL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "P"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "竞赛"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "theme"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "生物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "安全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "法案"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "地缘政治"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "theme"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药企"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "Mer"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "ck"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "customer"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "国内"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "患者"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "市场"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "customer"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "id"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "生物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "制药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "百"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "济"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "神州"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "role"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "comp"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "et"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "itor"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"}"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "],\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "edges"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":[{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "出海"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "战略"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "转型"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "至"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医保"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "谈判"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "集"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "采"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "承压"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "ADC"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "GL"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "P"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "研发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "竞赛"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "管线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "布局"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "生物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "安全"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "法案"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "地缘政治"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "估值"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "受制于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "药企"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "Mer"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "ck"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "等"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "）"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "授权"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "引进"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "自"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "国内"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "肿瘤"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "患者"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "市场"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "支付"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "购买"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "from"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "中国"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "生物"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "制药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "/"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "百"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "济"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "神州"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "to"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "恒"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "瑞"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "relation"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "管线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "竞争"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "于"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "\"}"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "relationship_json",
+        "delta": "]}"
+      },
+      {
+        "type": "structured_json_done",
+        "scope": "relationship_json",
+        "content": "{\"summary\":\"该图谱说明了恒瑞医药的估值逻辑正受创新药出海（NewCo模式）、医保谈判定价压力、ADC/GLP-1研发竞赛及生物安全法案地缘政治风险四大主题交织影响，其从仿制药向创新药转型已进入国际化兑现关键期。\",\"nodes\":[{\"id\":\"恒瑞医药\",\"role\":\"company\"},{\"id\":\"创新药出海\",\"role\":\"theme\"},{\"id\":\"医保谈判/集采\",\"role\":\"theme\"},{\"id\":\"ADC/GLP-1研发竞赛\",\"role\":\"theme\"},{\"id\":\"生物安全法案/地缘政治\",\"role\":\"theme\"},{\"id\":\"海外药企（Merck等）\",\"role\":\"customer\"},{\"id\":\"国内肿瘤患者市场\",\"role\":\"customer\"},{\"id\":\"中国生物制药/百济神州\",\"role\":\"competitor\"}],\"edges\":[{\"from\":\"恒瑞医药\",\"to\":\"创新药出海\",\"relation\":\"战略转型至\"},{\"from\":\"恒瑞医药\",\"to\":\"医保谈判/集采\",\"relation\":\"收入承压于\"},{\"from\":\"恒瑞医药\",\"to\":\"ADC/GLP-1研发竞赛\",\"relation\":\"管线布局于\"},{\"from\":\"恒瑞医药\",\"to\":\"生物安全法案/地缘政治\",\"relation\":\"估值受制于\"},{\"from\":\"海外药企（Merck等）\",\"to\":\"恒瑞医药\",\"relation\":\"授权引进自\"},{\"from\":\"国内肿瘤患者市场\",\"to\":\"恒瑞医药\",\"relation\":\"支付购买于\"},{\"from\":\"中国生物制药/百济神州\",\"to\":\"恒瑞医药\",\"relation\":\"管线竞争于\"}]}",
+        "json": {
+          "summary": "该图谱说明了恒瑞医药的估值逻辑正受创新药出海（NewCo模式）、医保谈判定价压力、ADC/GLP-1研发竞赛及生物安全法案地缘政治风险四大主题交织影响，其从仿制药向创新药转型已进入国际化兑现关键期。",
+          "nodes": [
+            {
+              "id": "恒瑞医药",
+              "role": "company"
+            },
+            {
+              "id": "创新药出海",
+              "role": "theme"
+            },
+            {
+              "id": "医保谈判/集采",
+              "role": "theme"
+            },
+            {
+              "id": "ADC/GLP-1研发竞赛",
+              "role": "theme"
+            },
+            {
+              "id": "生物安全法案/地缘政治",
+              "role": "theme"
+            },
+            {
+              "id": "海外药企（Merck等）",
+              "role": "customer"
+            },
+            {
+              "id": "国内肿瘤患者市场",
+              "role": "customer"
+            },
+            {
+              "id": "中国生物制药/百济神州",
+              "role": "competitor"
+            }
+          ],
+          "edges": [
+            {
+              "from": "恒瑞医药",
+              "to": "创新药出海",
+              "relation": "战略转型至"
+            },
+            {
+              "from": "恒瑞医药",
+              "to": "医保谈判/集采",
+              "relation": "收入承压于"
+            },
+            {
+              "from": "恒瑞医药",
+              "to": "ADC/GLP-1研发竞赛",
+              "relation": "管线布局于"
+            },
+            {
+              "from": "恒瑞医药",
+              "to": "生物安全法案/地缘政治",
+              "relation": "估值受制于"
+            },
+            {
+              "from": "海外药企（Merck等）",
+              "to": "恒瑞医药",
+              "relation": "授权引进自"
+            },
+            {
+              "from": "国内肿瘤患者市场",
+              "to": "恒瑞医药",
+              "relation": "支付购买于"
+            },
+            {
+              "from": "中国生物制药/百济神州",
+              "to": "恒瑞医药",
+              "relation": "管线竞争于"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-03-29T05:47:45.149178+00:00",
+  "runtime": {
+    "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
+    "python_version": "3.13.9",
+    "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
+    "packages": {
+      "akshare": "1.18.26",
+      "python-dotenv": "1.2.1",
+      "httpx": "0.28.1",
+      "openai": "2.21.0"
+    },
+    "proxy_env": {}
+  }
+}

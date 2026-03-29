@@ -1,0 +1,123 @@
+{
+  "status": "valid",
+  "data": {
+    "symbol": "600276",
+    "company_name": "恒瑞医药",
+    "events": [
+      {
+        "date": "2026-03-25",
+        "event_date": "2026-03-25",
+        "title": "恒瑞医药披露2025年年报",
+        "content": "2025年营收316.29亿元同比增长13.02%，归母净利润77.11亿元同比增长21.69%，创新药收入163.42亿元占比超50%达26.09%高增速，但股价已连跌6个月反映市场担忧",
+        "source": "ZAKER新闻",
+        "url": "",
+        "sentiment": "neutral"
+      },
+      {
+        "date": "2026-03-26",
+        "event_date": "2026-03-26",
+        "title": "年报摘要发布创新药进展",
+        "content": "2025年7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元显示国际化BD能力突破",
+        "source": "上海证券报",
+        "url": "",
+        "sentiment": "positive"
+      },
+      {
+        "date": "2026-03-27",
+        "event_date": "2026-03-27",
+        "title": "管理层展望2026-2028年创新药爆发期",
+        "content": "年报会上披露2026-2028年将迎53项创新产品及新适应症获批，海外BD从'偶发事件'升级为'常态化'经营，强化长期增长预期",
+        "source": "新浪财经",
+        "url": "",
+        "sentiment": "positive"
+      }
+    ],
+    "summary": "恒瑞医药(600276)在2026年3月下旬密集披露2025年年报及未来战略，业绩稳健增长但股价承压，创新药管线与国际化BD成为关注焦点",
+    "trace": {
+      "tool_call_required": true,
+      "tool_call_observed": true,
+      "retry_count": 0,
+      "observed_tools": [
+        "web_search"
+      ],
+      "turns": [
+        {
+          "index": 0,
+          "has_tool_calls": true,
+          "tool_names": [
+            "web_search",
+            "web_search"
+          ],
+          "reasoning_present": false,
+          "content_preview": ""
+        },
+        {
+          "index": 1,
+          "has_tool_calls": false,
+          "tool_names": [],
+          "reasoning_present": false,
+          "content_preview": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 ..."
+        }
+      ],
+      "tool_events": [
+        {
+          "tool_name": "web_search",
+          "tool_call_id": "web_search:0",
+          "source": "formula",
+          "formula_uri": "moonshot/web-search:latest",
+          "arguments_text": "{\"query\": \"恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件\", \"classes\": [\"medical\",\"finance\"]}",
+          "arguments_dict": {
+            "query": "恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件",
+            "classes": [
+              "medical",
+              "finance"
+            ]
+          },
+          "jsonable_ok": null,
+          "local_context_keys": [],
+          "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+          "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----/4caMAKU/hb2e82wx9hyY1l10ojwm7+o7qqTgYxidp8EkLbxUCC0673MoznJ6DeDcGk4MiH3dAtyfXUBOORNWPtOvi4YlvpN4thmgS8y6ZbmryaChc7SHAAACu1mrdxs2TNmPxFOaJMjRRGiAihiiLRJKkisrEIpiGRCR+HI..."
+        },
+        {
+          "tool_name": "web_search",
+          "tool_call_id": "web_search:1",
+          "source": "formula",
+          "formula_uri": "moonshot/web-search:latest",
+          "arguments_text": "{\"query\": \"恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响\", \"classes\": [\"finance\"]}",
+          "arguments_dict": {
+            "query": "恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响",
+            "classes": [
+              "finance"
+            ]
+          },
+          "jsonable_ok": null,
+          "local_context_keys": [],
+          "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+          "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPt..."
+        }
+      ],
+      "degrade_reason": null,
+      "final_content": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 | 年报会上管理层表示2026-2028年将迎来53项创新产品及新适应症获批上市，海外BD从\"偶发事件\"变为\"常态化\"经营 | 新浪财经"
+    }
+  },
+  "sources": [
+    {
+      "source": "web_search",
+      "kind": "web_search",
+      "title": "Web Search Evidence",
+      "published_at": "",
+      "url": null
+    },
+    {
+      "source": "web_search",
+      "kind": "web_search",
+      "title": "Web Search Evidence",
+      "published_at": "",
+      "url": null
+    }
+  ],
+  "error": null,
+  "error_category": null,
+  "data_ready": true,
+  "is_critical": true
+}
