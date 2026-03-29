@@ -3,18 +3,18 @@
   "result": {
     "status": "valid",
     "data": {
-      "symbol": "600438",
-      "company_name": "通威股份",
-      "asof": "2026-03-23",
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
+      "asof": "2026-03-27",
       "metrics": {
-        "price_last": 17.94,
-        "ret_1d": -0.028169014084507005,
-        "ret_5d": -0.04523682810005314,
-        "ret_20d": -0.014285714285714124,
-        "pe_ttm": -9.69,
-        "pb": 1.93,
-        "vol_20d": 0.4628983689883393,
-        "max_drawdown_1y": -0.3431516936671576
+        "price_last": 55.18,
+        "ret_1d": 0.06875847375556843,
+        "ret_5d": 0.0007254261878852919,
+        "ret_20d": -0.024398868458274436,
+        "pe_ttm": 47.5,
+        "pb": 5.98,
+        "vol_20d": 0.43256837936635617,
+        "max_drawdown_1y": -0.28756726921484743
       },
       "metrics_missing": [],
       "notes": [
@@ -23,38 +23,8 @@
       "akshare_calls": [
         {
           "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 41,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 1,
-          "retry_count": 0,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 58,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 2,
-          "retry_count": 1,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 63,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 3,
-          "retry_count": 2,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist_tx",
-          "symbol": "600438",
-          "latency_ms": 768,
+          "symbol": "600276",
+          "latency_ms": 50,
           "status": "ok",
           "error": "",
           "attempt": 1,
@@ -63,8 +33,8 @@
         },
         {
           "interface": "stock_zh_valuation_baidu",
-          "symbol": "600438",
-          "latency_ms": 204,
+          "symbol": "600276",
+          "latency_ms": 221,
           "status": "ok",
           "error": "",
           "attempt": 1,
@@ -73,8 +43,18 @@
         },
         {
           "interface": "stock_zh_valuation_baidu",
-          "symbol": "600438",
-          "latency_ms": 199,
+          "symbol": "600276",
+          "latency_ms": 263,
+          "status": "ok",
+          "error": "",
+          "attempt": 1,
+          "retry_count": 0,
+          "dedup_hit": false
+        },
+        {
+          "interface": "stock_financial_abstract",
+          "symbol": "600276",
+          "latency_ms": 681,
           "status": "ok",
           "error": "",
           "attempt": 1,
@@ -83,32 +63,39 @@
         }
       ],
       "data_origin": "live",
-      "network_evidence": [
+      "financial_series_5y": [
         {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 41,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 0,
-          "dedup_hit": false
+          "report_date": "20211231",
+          "year": "2021",
+          "revenue": 25905526375.8,
+          "net_profit": 4530217550.47
         },
         {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 58,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 1,
-          "dedup_hit": false
+          "report_date": "20221231",
+          "year": "2022",
+          "revenue": 21275270681.52,
+          "net_profit": 3906375067.36
         },
         {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 63,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250127&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 2,
-          "dedup_hit": false
+          "report_date": "20231231",
+          "year": "2023",
+          "revenue": 22819784741.31,
+          "net_profit": 4302435930.05
+        },
+        {
+          "report_date": "20241231",
+          "year": "2024",
+          "revenue": 27984605342.06,
+          "net_profit": 6336527014.75
+        },
+        {
+          "report_date": "20251231",
+          "year": "2025",
+          "revenue": 31629416193.83,
+          "net_profit": 7711054811.98
         }
       ],
+      "network_evidence": [],
       "recovered": true,
       "unrecovered_reason_code": null,
       "summary": "已输出核心行情与估值指标。"
@@ -117,8 +104,8 @@
       {
         "source": "AkShare",
         "kind": "akshare",
-        "published_at": "2026-03-23",
-        "title": "600438 实时行情与估值",
+        "published_at": "2026-03-27",
+        "title": "600276 实时行情与估值",
         "url": null
       }
     ],
@@ -130,7 +117,7 @@
   "trace": {
     "events": []
   },
-  "generated_at": "2026-03-23T15:36:44.714858+00:00",
+  "generated_at": "2026-03-29T05:37:55.595452+00:00",
   "runtime": {
     "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
     "python_version": "3.13.9",

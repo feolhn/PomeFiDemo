@@ -34,3 +34,13 @@ relationship
 先优化 timeline，把事件标进图里
 再优化 relationship，把 nodes/edges 画成 map
 最后再细修 summary/entity_info/watch_calendar 的视觉排版
+
+
+跑测试a/b test：
+```
+python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py --runs 3
+python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py --runs 3
+python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py --runs 2
+python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_relationship.py --runs 3
+
+```

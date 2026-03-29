@@ -1,203 +1,182 @@
 # progress.md
 
 ## Historical Summary
-- 已完成 Progressive Loading、本地 fixture 前端联调、五张单卡 JSON 调试链路。`timeline` 与 `watch_calendar` 已完成 live 修复并可稳定落盘 `valid` JSON；前端 `timeline/relationship` 的 timeout 主要来自误跑 live。当前重点是继续用本地 fixture 修前端，并单独收敛 `summary`。
+- 已完成 Progressive Loading、本地 fixture 联调、五张单卡 JSON 调试链路。`timeline/watch_calendar/entity_info/relationship` 已能稳定产出当前 contract；`summary` 后端现已接入 AkShare 新浪 `stock_financial_abstract`，可输出近五年营收/净利润序列。
 
 ## 当前阶段（Phase）
-- Phase: 本地 Fixture 前端联调 + Summary 单卡收敛
-- 日期: 2026-03-19
+- Phase: 本地 Fixture 前端收边 + `summary` 单卡收敛
+- 日期: 2026-03-24
 
 ## 本阶段目标
-- 用本地 fixture 验收五张卡前端，不让 live timeout 干扰 UI。
-- 保持 `timeline`、`watch_calendar`、`relationship` 的单卡 JSON contract 稳定。
-- 把 `summary.json` 从 `error` 拉回 `valid`。
+- 用本地 fixture 收尾五张卡前端显示。
+- 保持 `timeline/watch_calendar/relationship/entity_info` contract 稳定。
+- 决定 `summary` 的近五年营收/净利润数据如何进入前端展示。
 
-## 已完成要点
-- `app.py` 已支持“使用本地 Fixture 调试”，fixture 模式直接渲染最终 payload。
-- `timeline` 已修复：
-  - Kimi 事件支路可从 `trace.final_content` 回收事件
-  - 年份归一已修复
-  - live `debug_timeline_card.py` 已成功，`timeline.json=status=valid`
-  - 前端图表已改为显示全部 4 个事件空心点，hover 才显示事件名；table 也同步显示前 4 个事件
-- `relationship` 前端已从 chips 升级为 map。
-- `relationship` HTML 图路径已补上 `edges.relation` 文本，不再只显示节点不显示关系词。
-- `relationship` HTML 图路径已把关系词从边中点文字改成白底标签，并远离中心节点，避免被中心圆盖住。
-- `relationship` 图已进一步拉开几何布局：中心节点下移、上下游节点外扩、关系词沿边法线偏移，避免上半区拥挤。
-- `watch_calendar` 已修复两层：
-  - `items[].event` 在 skill 层压缩为短标题
-  - prompt 已改为“先判断行业，再最多 3 轮 web_search”
-  - date contract 已放宽为 `YYYY / YYYY-MM / YYYY-MM-DD`，禁止模型在未知具体日期时默认补月末
-  - summary 已改回 Kimi 生成；当前通过 prompt 明确约束时间范围表述，不再由 skill 层拼接
-  - `url` 已从 Kimi JSON 生成 contract 中移除，改为仅由 skill 层从 `web_search` tool 证据提取
-  - 前端 `watch_calendar` 已新增事件链接图标：事件与 `Set Reminder` 之间显示可点击的 `🔗`
-- `watch_calendar` 最新 live 结果已成功，且事件已变成前端可直接显示的短标题。
-  - 已验证 partial date 已替代伪造的 `2026-06-30`
-  - 已验证模型会返回 `2026年初`、`2026年4月3日`、`2026年中期` 这类自然时间表达
-- `entity_info` prompt 已改为按行业切换叙事维度：
-  - 高科技/制造/医药/消费/金融分别切不同描述重点
-  - 明确禁止空话与伪细节
-  - live `debug_entity_info_card.py` 已成功，`entity_info.json/status=valid`
-- 已新增单一调试标的配置文件：
-  - `config/target_stock.json`
-  - 五个单卡脚本已统一读取该文件，不再各自写死 `300750/宁德时代`
+## 最近确认
+- 前端 fixture 模式已稳定，页面不再依赖 live 链路才能验收。
+- `timeline` 已有 `sentiment`，图和表事件数量已统一。
+- `watch_calendar` 已支持短标题、自然时间表达、可选 `🔗`。
+- `entity_info` 已恢复 `investment_tags`。
+- `relationship` 已恢复语义化 `edges.relation`，前端 HTML 图也已开始渲染关系词。
+- `watch_calendar` 两步 prompt 已压缩，保留工具约束、日期粒度和 JSON schema，不改主链路行为。
+- `watch_calendar` 继续只保留 two-pass；one-pass 实验链路已判定为无价值并移除。
+- `watch_calendar` 压缩 prompt 后 two-pass 仍保持 `valid`，且体感延迟未变差；但当前 live 内容更偏“业绩预期/产能规划/行业判断”，不再完全是明确公告节点。
+- `watch_calendar` two-pass benchmark 已跑完：`3/3 valid`，但平均耗时约 `51.2s`，`source` 命名不稳定。
+- `watch_calendar` 已回退过强约束：保留 `source` 固定，移除 `certainty`，避免和来源语义重叠。
+- 已确认 `watch_calendar` 的“summary 说得更好、items 过于保守”主要出在第二阶段 JSON 抽取和本地事件压缩；现已放宽为允许“事件 + 结果短语”。
+- `watch_calendar` 已移除 `date` tool；今天日期改为后端直传 prompt，只保留 `web_search` 作为必需工具。
+- `watch_calendar` benchmark 现已按 run 落盘 `trace`，并静默底层过程输出；终端只保留最终 benchmark JSON。
+- `watch_calendar` benchmark 现已改为落可读 `trace`：保留 query、turns、evidence preview、sources，不再暴露整段加密 tool content。
+- `timeline` 已新增 Kimi-only benchmark：只看事件支路，不落 akshare/merged benchmark 结果。
+- `timeline` 两步链路保留不变，但事件支路 user prompt 已压缩，删掉了和 system/schema 重复的约束。
+- `timeline` 继续不使用 `date` tool；今天日期已由后端直传到两步 prompt，并明确只允许搜索/输出今天及之前的事件。
+- 已修复 `timeline` benchmark 的 prompt 注入错误：`today_text` 改用安全字符串替换，不再因 JSON schema 花括号触发 `KeyError`。
+- `timeline` 第一阶段事件筛选 prompt 已改成更接近 `watch_calendar` 的简洁结构，但仍保持“过去三个月、今天之前”的事件复盘口径。
+- `timeline` 现已切到“过去六个月 + 最多三次 web_search”的实验配置，且窗口天数、tool budget、prompt 三处已对齐。
+- `timeline` 的 AkShare 价格支路也已改成最近六个月窗口，不再只返回最近 90 条。
+- `timeline` 第二步 JSON contract 已升级为 `title + content + sentiment`，暂不要求前端对齐。
+- `entity_info` 已新增 Kimi-only benchmark：可多次对比行业、主业、摘要和标签稳定性。
+- `entity_info` JSON contract 已扩展：新增 `core_competencies` 和 `profit_analysis`，用于拆开内部护城河与盈利质量。
+- `entity_info` 已从一步直出 JSON 改成 two-pass：先 `web_search` 取证，再 `json_object` 结构化，降低标签和盈利分析乱编风险。
+- `relationship` 现已新增 benchmark 脚本，可多轮对比 `summary/nodes/edges/trace`，不再只靠单次 live 判断图谱质量。
+- `relationship` 的节点语义已拆分为：`company` 仅表示目标公司中心节点；`theme` 仅表示外部变量、政策、技术路线等非公司因素。
+- `relationship` 第一阶段证据摘要现已强制按“上游/下游/竞争/关键变量”四行输出，降低第二阶段从自由文本抽图谱时的漂移。
+- 已验证 AkShare 的新浪口径可拿到 5 年财务绝对值：`stock_financial_abstract` 可直接返回多报告期的 `营业总收入/归母净利润/净利润`，比东方财富链路更适合 `summary` 卡补 5 年财务序列。
+- `summary` 后端现已真正接入 `stock_financial_abstract`：`summary.data.financial_series_5y` 已包含近五年 `report_date/year/revenue/net_profit`。
+- `summary` 前端现已开始消费 `financial_series_5y`：在指标网格下方渲染“近五年营收 / 近五年净利润”竖向柱状图。
 
-## 进行中
-- 本机前端验收：`timeline` 图内事件、`relationship` map、`watch_calendar` 精简日历。
-- `render.py` 已切到单列移动端 + SVG timeline + HTML relationship graph；需继续做页面级验收，但当前未发现与本地 fixture 链路断开。
-- 本机前端验收：`timeline` 图内 marker 与 table 事件数量一致。
-- 本机前端验收：`relationship` 图中是否已显示 2-6 字中文关系词。
-- 本机前端验收：`relationship` 图中的中文关系词是否不再被中心节点遮挡。
-- 本机前端验收：`relationship` 上半区标签是否不再拥挤或压线。
-- 本机前端验收：`watch_calendar` 的 `🔗` 图标点击跳转。
-- `summary` 单卡 live 收敛。
-- 已确认 `summary` 当前仍是纯 AkShare 数值卡，不包含标签 schema；标签职责属于 `entity_info`。
-- `watch_calendar` summary 话术与时间范围一致性 live 复核。
-- `watch_calendar` summary 仍需再收一轮：当前会把短期事件与全年节点混在一句里。
-- `watch_calendar` 真实来源链接仍需再收敛：当前 live `web_search` 证据未提供可复用公开 URL，因此 item.url 为空。
-- `timeline` 前端事件数量不一致排查：图内标注与表格当前使用了不同裁剪规则。
-- `entity_info` 摘要字数仍可再收紧：当前 live 文案风格已改善，但仍偏长。
-- 已完成一次五卡 prompt 审计：当前 drift 主要出现在 `entity_info / relationship / timeline`；`summary/watch_calendar` 未发现同类 contract 回退。
-- 后续如果要支持前端切换标的，需要再决定是否让 `app.py` 也读取 `target_stock.json`。
+## 当前下一步
+1. 继续收 `relationship` 前端布局，直到关系词与节点不再互相遮挡。
+2. 若继续优化 `watch_calendar`，应收紧 prompt：优先明确公告/已披露节点，并保持 `source` 固定口径。
+3. 重新跑 `debug_watch_calendar_card.py`，验证移除 `date` tool 后耗时与结果质量是否保持稳定，并确认 items 保留“预计扭亏为盈”这类关键结果短语。
+4. 继续验收 `summary` 柱状图的可读性，包括移动端宽度、年份标签和单位表达。
+5. 如需继续收 `entity_info`，下一步看 benchmark 多轮 live 的稳定性，而不是再回到无工具链路。
+6. 如需继续收 `relationship`，下一步先跑 benchmark 看多轮 `nodes/edges` 稳定性，再决定是否继续调 prompt。
 
-## 下一步（Next Action）
-1. 运行 `streamlit run /Users/hujiawei/Documents/PomeFiDemo/app.py`
-2. 开启“使用本地 Fixture 调试”
-3. 验收：
-   - `timeline` 是否正常显示事件标注
-   - `timeline` 是否显示全部 4 个事件空心点，hover 才出现事件名
-   - `relationship` 是否正常显示 map
-   - `watch_calendar` 是否只显示短标题，不再带议案细节
-   - `watch_calendar` 每个事件右侧是否有 `🔗`，点击能跳转到对应来源
-   - `watch_calendar` summary 是否不再错误写成“未来一个月重点关注...”
-   - `timeline` 图内事件数与表格事件数是否已统一
-4. 运行 `python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py`
-5. 检查新的 `debug_outputs/stock_wiki/summary.json` 是否已变成 `status=valid`
+## 阻塞项
+- 默认代理环境仍会把 `summary` live 链路打成 `network_live_failed_cache_miss`；无代理环境下后端逻辑已验证可用。
+- `relationship` 仍存在移动端布局密度问题，属于前端渲染问题，不是后端 contract 问题。
 
-## 剩余边界条件/风险
-- 若未开启 fixture 模式，前端仍可能重新触发 live timeout。
-- 当前环境下 `streamlit` smoke 自动化仍有跳过，本机手动验收仍是主路径。
-- `summary` 仍是当前唯一未完全收敛的单卡。
+## 剩余风险
+- 未开 fixture 时，前端仍可能被 live timeout 干扰。
+- `watch_calendar` 的来源链接依然取决于 tool 证据是否提供可复用 URL。
+- `watch_calendar` 当前虽能稳定返回，但事件类型有向“预期驱动”漂移的风险，可能削弱日历卡的可执行性。
+- `watch_calendar` 当前平均 50s 级耗时偏高，不适合作为前端默认实时链路。
+- 即使收紧 prompt，`source` 仍可能受模型波动影响；若这轮 live 仍不稳，下一步应改为本地规则归一，而不是继续堆 prompt。
 
-## 最新验证结果（命令 + 结论）
-- 命令:
-`sed -n '1,260p' /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/stock_summary.py`
-`python - <<'PY' ...读取 debug_outputs/stock_wiki/summary.json ... PY`
-- 结论:
-  - `summary` 当前后端实现没有 LLM prompt，也没有 `investment_tags/summary_tags`
-  - `summary.json` 当前 schema 只有：`metrics/metrics_missing/notes/akshare_calls/data_origin/network_evidence/recovered/unrecovered_reason_code/summary`
-  - 之前加标签的是 `entity_info`，不是 `summary`
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/app.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_summary.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_entity.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-- 结论:
-  - `render.py` 当前语法正常，最小渲染回归通过（`6 passed`）
-  - `app.py` 仍通过 `debug_outputs/stock_wiki/{summary,entity_info,timeline,watch_calendar,relationship}.json` 组装本地 fixture payload
-  - `render.py` 不直接读取 `config/target_stock.json`；该文件只影响五个 debug 脚本产出的 JSON
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-- 结论:
-  - 当前页面走的 `relationship` HTML 图路径此前只渲染节点，不渲染 `edges.relation`
-  - 已补上 SVG 边与边中点中文关系词
-  - 已新增 HTML 字符串级测试锁住关系词渲染（`3 passed`）
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-- 结论:
-  - 截图暴露的问题不是无 relation，而是 relation 放在边中点后被中心节点遮挡
-  - 现已改成白底关系标签，并把位置偏向非 theme 节点
-  - 关系图最小回归仍通过（`3 passed`）
-
-- 命令:
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
-- 结论:
-  - live 成功，`timeline.json=status=valid`
-  - merged 结果包含事件，`series.event_desc` 已写入
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_ui_smoke.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_stock_wiki_ui_smoke.py`
-- 结论:
-  - 语法通过
-  - `timeline` 图表现已去掉默认 annotation，改为 4 个空心点 + hover 文案
-  - `timeline` table 现已同步展示前 4 个事件，不再出现图里 2 条、表里 3 条的不一致
-  - 当前测试环境无 `streamlit`，因此 UI smoke 被跳过（`1 skipped`）
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py`
-- 结论:
-  - 语法通过
-  - `timeline` 折线颜色已改为深灰色
-  - 事件空心圆点颜色保持不变
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
-- 结论:
-  - 通过（`4 passed`）
-  - `watch_calendar` 事件标题已压缩为前端短标题
-  - prompt 已切到“行业定向 + 最多 3 轮 web_search”
-  - `date` 现支持 `YYYY / YYYY-MM / YYYY-MM-DD`，不会再把 partial date 归一成空字符串
-  - `summary` 现由 Kimi 在 JSON 阶段生成；prompt 已明确约束时间范围表述必须与 items 的日期粒度一致
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_watch_calendar.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_watch_calendar.py`
-- 结论:
-  - 语法通过
-  - `watch_calendar` 前端已在事件右侧保留 `Set Reminder`，并新增中间的可点击 `🔗` 图标
-  - 当前测试环境无 `streamlit`，因此该渲染测试被跳过（`1 skipped`）
-
-- 命令:
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
-- 结论:
-  - live 成功，`watch_calendar.json=status=valid`
-  - 当前事件为短标题，不再输出股东大会议案细节
-  - 未知具体日期时，现已输出自然时间表达，不再统一补成 `2026-06-30`
-  - 当前 live 样例包括：`2026年4月3日`、`2026年初`、`2026年底`、`2026年中期`
-  - `url` 已不再由模型生成；当前 live 中未提取到可验证公开链接，因此 item.url 为空，前端不应显示 `🔗`
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py`
-- 结论:
-  - 语法通过，`test_debug_skill.py` 通过（`3 passed`）
-  - sandbox 内运行会因 Codex 代理环境返回 `Connection error.`
-  - 沙箱外 live 成功，`entity_info` 当前为 `status=valid`
-  - 新文案已按行业叙事输出，更接近 Equity Research 风格
-  - `investment_tags` 已重新恢复到后端 contract
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/relationship.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_entity.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
-- 结论:
-  - 已恢复 `entity_info` 的 `investment_tags` contract
-  - 已恢复 `relationship` 的语义化 `edges.relation`
-  - 已恢复 `timeline.events[].sentiment`
-  - 最小回归通过（`19 passed`）
-
-- 命令:
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py`
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_relationship_card.py`
-`/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
-`python - <<'PY' ...读取三份最新 JSON ... PY`
-- 结论:
-  - `entity_info.json` 已重新包含 `investment_tags`
-  - `relationship.json` 已重新包含语义化关系边，如“构成成本 / 供应硅料 / 价格竞争 / 驱动盈利 / 加速出清”
-  - `timeline.json` 已重新包含 `sentiment`
-  - 当前前端已具备消费这三类字段的能力，不存在新的 contract 断裂
-
-- 命令:
-`python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/target_stock.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_relationship_card.py`
-`pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_target_stock.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
-- 结论:
-  - 已新增 `config/target_stock.json`
-  - 五个单卡脚本统一读取该文件
-  - 最小回归通过（`5 passed`）
-
-## 阻塞项（如有）
-- 仍需要重跑 `python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py`，确认 `summary` 是否已恢复为 `valid`
+## 最新验证结果
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `watch_calendar` 现在只保留 two-pass 主链路，并已新增 benchmark 脚本。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `7 passed`
+  - `watch_calendar` 已移除 `date` tool，今天日期改为后端直传 prompt，主链路只要求 `web_search`。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+  - `7 passed`
+  - benchmark 每轮已落 `trace`，并吞掉 live 过程输出，只保留最终结果 JSON。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py`
+  - `11 passed`
+  - `timeline` 已新增仅覆盖 Kimi 事件支路的 benchmark，输出 events、sources 与可读 trace。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 事件支路 prompt 已压缩，保留两步架构、搜索预算和 JSON schema，不改 contract。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 已把今天日期改为后端直传，并在两步 prompt 中明确“只搜索/输出今天及之前、最近三个月的事件”。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline.kimi.benchmark` 的 `KeyError: "\\n  \"summary\""` 已修复；根因是 JSON system prompt 用 `.format()` 注入日期时误解析了 schema 花括号。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 第一阶段 prompt 已切到更接近 `watch_calendar` 的简洁筛选风格，但不改“过去事件”口径和 JSON contract。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 的“过去六个月 + 最多三次 web_search”已真正落到代码，不再只是 prompt 文案。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_timeline_card.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline` 的 AkShare 价格支路已从固定 `rows[-90:]` 改成按最近六个月窗口过滤，和事件支路对齐。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/timeline.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_timeline.py`
+  - `11 passed`
+  - `timeline.events[]` 现已保留 `title + content + sentiment`，benchmark 也会同步展示内容摘要。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 已新增 benchmark，输出多轮 live 的 `industry/main_business/summary_100cn/investment_tags` 与耗时统计。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 现已新增 `core_competencies` 与 `profit_analysis`，benchmark 同步输出这两个字段。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/entity_info.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/engine.py /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_skill.py /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_entity_info.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py`
+  - `4 passed`
+  - `entity_info` 已切到 `web_search -> json_object` two-pass，主流程、单卡 debug、benchmark 接线均已对齐。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_entity_info_card.py`
+  - live 结果：`entity_info.json.status=valid`
+  - 当前 live 已观测到 `2` 次 `web_search`，并成功产出 `industry/main_business/summary_100cn/core_competencies/profit_analysis/investment_tags`。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/relationship.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_relationship.py`
+  - `7 passed`
+  - `relationship` prompt 已去掉部分重复约束；`nodes.role` 保持小枚举，但目标公司已独立为 `company`，前端中心节点识别同步对齐。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/relationship.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_relationship.py`
+  - `4 passed`
+  - `relationship` 第一阶段现已强制按“上游/下游/竞争/关键变量”固定顺序输出摘要，便于第二阶段 JSON 抽取。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python` live probe
+  - `stock_financial_abstract(symbol="603618")` 成功返回 `80 x 52`，包含多报告期的 `营业总收入/归母净利润/净利润`
+  - `stock_financial_analysis_indicator(symbol="603618", start_year="2020")` 成功返回 `23 x 86`
+  - 结论：若要给 `summary` 卡加近五年营收/净利润，优先走新浪 `stock_financial_abstract`，不必优先走东方财富。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/tools/hooks.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/tools/akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/stock_summary.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_summary.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_akshare_tool.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_summary.py`
+  - `16 passed`
+  - `summary` 后端已新增 `financial_series_5y`，并通过单测覆盖。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/ui/render.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_summary.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_summary.py`
+  - `4 passed`
+  - `summary` 卡现已把近五年营收/净利润渲染为两个 vertical bar chart。
+- `env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy /Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_summary_card.py`
+  - live 结果：`summary.json.status=valid`
+  - `summary.data.financial_series_5y` 已返回 2020-2024 五年 `revenue/net_profit`
+  - 当前问题已从“后端没有五年财务序列”转为“前端如何展示这组数据”。
+- `/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+  - live 结果：`watch_calendar.json.status=valid`
+  - `observed_tools=["web_search"]`
+  - tool turns 变为：第 0 轮 `2` 次 `web_search`，第 1 轮输出证据摘要，不再调用 `date` tool。
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py`
+  - `6 passed`
+  - `watch_calendar` 第二阶段 event 规则已放宽，不再把“预计扭亏为盈”这类结果短语裁掉。
+- `python /Users/hujiawei/Documents/PomeFiDemo/scripts/debug_watch_calendar_card.py`
+  - live 结果：`watch_calendar.json.status=valid`
+  - 当前事件为：
+    - `2026年4月底 / 2026年一季报披露，预计扭亏为盈`
+    - `2026年5月 / 硅料产能丰水期恢复超产`
+    - `2026年 / 光伏行业周期筑底拐点之年`
+  - 结论：压缩 prompt 后主链路未退化，甚至体感更快；但结果质量更偏“预期/规划/主题判断”，若目标是严格事件日历，后续需收紧筛选口径。
+- `python /Users/hujiawei/Documents/PomeFiDemo/scripts/benchmark_watch_calendar.py --runs 3`
+  - `3/3 valid`
+  - `avg_latency_ms=51238`
+  - `source` 在三次运行中出现了：
+    - `证据摘要`
+    - `证据摘要-业绩披露事件`
+    - `行业政策公告`
+    - `公司公告/业绩预测`
+- `python -m py_compile /Users/hujiawei/Documents/PomeFiDemo/pomefi/stock_wiki/skills/watch_calendar.py`
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_watch_calendar_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_benchmark_watch_calendar.py`
+  - `6 passed`
+  - `watch_calendar` 已回退为更简单 contract：保留 `source`，移除 `certainty`。
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+  - `3 passed`
+  - `relationship` HTML 图已支持关系词标签，但仍需继续收布局。
+- `pytest -q /Users/hujiawei/Documents/PomeFiDemo/tests/test_debug_skill.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_relationship_loop.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_skills_timeline.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_entity.py /Users/hujiawei/Documents/PomeFiDemo/tests/test_render_relationship.py`
+  - `19 passed`
+  - `entity_info/relationship/timeline` 的后端 contract 已重新对齐前端。

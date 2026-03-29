@@ -17,40 +17,49 @@ from .common import classify_error, make_skill_result, run_tool_grounded_json_sk
 TIMELINE_PRICE_START_DATE = "20250101"
 TIMELINE_PRICE_TIMEOUT_SECONDS = 8.0
 TIMELINE_PRICE_MAX_ATTEMPTS = 3
+TIMELINE_EVENT_WINDOW_DAYS = 183
 
 TIMELINE_EVENT_TOOL_SYSTEM_PROMPT = """
 你是量化策略与事件研究员（Event Study Analyst）。
-你的任务是为目标公司抽取“股价相关的关键事件”，用于和本地价格时间序列叠加。
-必须先调用 web_search，再输出证据摘要。
-最多只允许 2 次 web_search；第 2 次只允许用于补“预期驱动事件”缺口。
-不要直接输出 JSON，不要跳过 tool_call。
+你的任务是为目标公司构建“股价 vs 关键事件”时间线的事件证据。
+今天是 {today_text}。
+必须调用 web_search，再输出证据摘要。
+禁止跳过工具调用。
+先根据 company_name 判断公司的 1-2 个核心行业/赛道。
 
+行业重大事件定义如下：
+- 科技/新能源车：交付数据、新品发布、技术日、电池日、监管准入、产能投放、价格调整
+- 生物医药：审批节点、临床数据、医学会议
+- 消费/零售：GMV、购物节、同店销售、新店计划
+- 半导体/工业：产能投产、大客户订单、行业景气度
+- 通用：边际变化、首次披露的财报、回购、指数纳入剔除、解禁
+最多调用 3 次 web_search：
+1. 行业定向搜索
+2. 通用资本市场事件搜索
+3. 仅在前两轮证据不足时，补 1 次高价值缺口搜索
 规则：
-- 只保留显著市场影响事件。
-- 禁止抓取常规公告、日常人事变动、普通参会、小额股权质押、一般性官宣。
-- 优先保留：
-  - 预期差事件：财报超预期/不及预期、业绩指引上修/下调
-  - 重大利好/利空：核心产品发布/失败、重大诉讼、监管调查
-  - 并购/拆分/战略转型
-  - 宏观/行业拐点：政策、行业标准、关键原材料价格冲击
-  - 关键人物言论、叙事外溢、监管/政策突发
-- 只有能清楚解释为何影响该公司股价时，才允许保留预期驱动事件。
-- tool_call 后必须只输出 1-4 行事件证据。
+- 禁止重复搜索相同意图。
+- 过去影响股价的重大事件，优先过去6个月。
+- tool_call 后必须只输出事件证据，不超过 5 行。
 - 每行格式固定为：YYYY-MM-DD | 事件标题 | 来源。
+- 新闻/网页报道的日期可以作为证据日期。
 - 如果证据没有明确日期，不得输出该行。
 """.strip()
 
 TIMELINE_EVENT_JSON_SYSTEM_PROMPT = """
 你是A股时间线抽取助手。必须输出 JSON object，不要 markdown。
-事件日期必须落在“今天往前最近三个月”的窗口内。
-如果证据里只出现“3月10日”这类月日，没有明确年份，必须结合今天推断正确年份，禁止输出窗口外年份。
+今天是 {today_text}。
+事件日期必须落在“今天往前最近六个月”的窗口内。
+事件只能发生在今天或今天之前，禁止输出未来日期。
+如果证据里只出现“3月10日”这类月日，没有明确年份，必须结合今天推断正确年份。
 schema:
 {
   "summary": "string",
   "events": [
     {
       "date": "YYYY-MM-DD",
-      "title": "string",
+      "title": "简短主标题",
+      "content": "1-2句内容，解释发生了什么以及为何影响股价",
       "source": "string",
       "url": "string",
       "sentiment": "positive|negative|neutral"
@@ -58,7 +67,7 @@ schema:
   ]
 }
 如果 evidence 中存在带 YYYY-MM-DD 的事件证据行，events 不得为空。
-- sentiment 必填；方向明确就写 positive 或 negative，不明确就写 neutral。
+- sentiment 必填；评价事件是正面（positive）负面（negative）不明确就写中性（neutral）。
 """.strip()
 
 
@@ -157,8 +166,11 @@ def _load_price_rows(symbol: str) -> dict[str, Any]:
         if close_value is None:
             close_value = row.get("收盘")
         rows.append({"date": date_text, "close": close_value, "event_desc": ""})
+    if rows:
+        window_start = (datetime.now().date() - timedelta(days=TIMELINE_EVENT_WINDOW_DAYS)).isoformat()
+        rows = [row for row in rows if str(row.get("date") or "") >= window_start]
     return {
-        "rows": rows[-90:],
+        "rows": rows,
         "asof": str(rows[-1].get("date") or "")[:10] if rows else "",
         "data_origin": "live",
         "network_evidence": extract_network_evidence(call_logs),
@@ -184,7 +196,7 @@ def _repair_event_year(date_text: str, *, today: datetime | None = None) -> str:
     except ValueError:
         return ""
     today_date = (today or datetime.now()).date()
-    window_start = today_date - timedelta(days=120)
+    window_start = today_date - timedelta(days=TIMELINE_EVENT_WINDOW_DAYS)
     if window_start <= parsed <= today_date:
         return normalized
     candidates: list[datetime.date] = []
@@ -220,6 +232,7 @@ def _normalize_events(items: Any, *, today: datetime | None = None) -> list[dict
                 "date": date_text,
                 "event_date": date_text,
                 "title": title,
+                "content": str(item.get("content") or "").strip(),
                 "source": str(item.get("source") or "web_search"),
                 "url": item.get("url"),
                 "sentiment": str(item.get("sentiment") or "neutral").strip().lower() if str(item.get("sentiment") or "").strip().lower() in {"positive", "negative", "neutral"} else "neutral",
@@ -252,6 +265,7 @@ def _parse_events_from_evidence_lines(text: str, *, today: datetime | None = Non
                 "date": date_text,
                 "event_date": date_text,
                 "title": title,
+                "content": "",
                 "source": source or "web_search",
                 "url": None,
                 "sentiment": "neutral",
@@ -381,36 +395,30 @@ async def _load_events_branch(
     event_handler: Callable[[dict[str, Any]], Any | Awaitable[Any]] | None = None,
 ) -> dict[str, Any]:
     started = time.perf_counter()
+    today_text = datetime.now().strftime("%Y-%m-%d")
     probe = await run_tool_grounded_json_skill(
         symbol=symbol,
         company_name=company_name,
         config=config,
         formula_client=formula_client,
-        tool_system_prompt=TIMELINE_EVENT_TOOL_SYSTEM_PROMPT,
+        tool_system_prompt=TIMELINE_EVENT_TOOL_SYSTEM_PROMPT.replace("{today_text}", today_text),
         tool_user_prompts=[
             (
                 f"标的：{company_name}({symbol})。"
-                f"今天是 {datetime.now().strftime('%Y-%m-%d')}。"
-                "不要直接回答。必须先调用 1 次 web_search，搜索过去三个月内影响该公司股价的重要事件。"
-                "优先搜索公司直接显著事件；如证据不足，可再补 1 次搜索专门查预期驱动事件。"
-                "重点关注财报、订单、产能、产品发布、监管、事故、合作、传闻澄清、关键人物言论、叙事外溢、政策突发。"
-                "拿到结果后立刻输出 1-4 行事件证据。"
-                "每行必须是“YYYY-MM-DD | 事件标题 | 来源”。"
-                "禁止输出散文摘要。"
+                "不要直接回答。按 system prompt 里的行业规则调用 web_search；"
+                "query 必须覆盖时间意图词（当前时间往前倒推六个月）和股价影响事件词。"
+                "拿到结果后立刻输出简短证据摘要，禁止重复 query。"
             ),
             (
                 f"标的：{company_name}({symbol})。"
-                "不要直接回答。必须调用 web_search 至少一次，最多两次；第二次只允许补预期驱动事件。"
-                "抽取过去三个月关键事件并输出 1-4 行事件证据；"
-                "每行必须是“YYYY-MM-DD | 事件标题 | 来源”；"
-                "若未调用工具，本轮视为失败。"
+                "不要直接回答。必须调用 web_search 至少一次，最多三次。"
+                "输出 1-4 行“YYYY-MM-DD | 事件标题 | 来源”事件证据；若未调用工具，本轮视为失败。"
             ),
         ],
-        json_system_prompt=TIMELINE_EVENT_JSON_SYSTEM_PROMPT,
+        json_system_prompt=TIMELINE_EVENT_JSON_SYSTEM_PROMPT.replace("{today_text}", today_text),
         json_user_prompt_builder=lambda evidence_text, _trace: (
             f"标的：{company_name}({symbol})。"
-            "请基于下列 tool-grounded 证据，抽取过去三个月关键事件 JSON。\n"
-            "每个事件都必须输出 sentiment；明确利好写 positive，明确利空写 negative，不明确写 neutral。\n"
+            "请基于下列 tool-grounded 证据，抽取今天之前、过去六个月关键事件 JSON。\n"
             f"{evidence_text}"
         ),
         event_scope="timeline",
@@ -418,9 +426,9 @@ async def _load_events_branch(
         event_handler=event_handler,
         disable_tool_thinking=True,
         tool_budget_limits=BudgetLimits(
-            max_search_calls=2,
-            max_tool_iterations=3,
-            max_total_turns=4,
+            max_search_calls=3,
+            max_tool_iterations=4,
+            max_total_turns=5,
         ),
         json_max_completion_tokens=1536,
     )

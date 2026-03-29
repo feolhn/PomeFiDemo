@@ -213,7 +213,7 @@ async def run_stock_wiki_analysis_stream(
 
         runners = {
             "summary": lambda s, n: get_stock_summary(s, n),
-            "entity_info": lambda s, n, **kw: get_entity_info(s, n, config=config, **kw),
+            "entity_info": lambda s, n, **kw: get_entity_info(s, n, config=config, formula_client=formula_client, **kw),
             "timeline": lambda s, n, **kw: get_timeline(s, n, config=config, formula_client=formula_client, **kw),
             "watch_calendar": lambda s, n, **kw: get_watch_calendar(s, n, config=config, formula_client=formula_client, **kw),
             "relationship": lambda s, n, **kw: get_relationship(s, n, config=config, formula_client=formula_client, **kw),

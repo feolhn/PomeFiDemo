@@ -23,6 +23,9 @@ FORMULA_URIS = [
     "moonshot/date:latest",
     "moonshot/web-search:latest",
 ]
+ENTITY_INFO_FORMULA_URIS = [
+    "moonshot/web-search:latest",
+]
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "debug_outputs" / "stock_wiki"
 
 
@@ -111,11 +114,18 @@ async def get_entity_info(
     company_name: str,
     *,
     config: Any,
+    formula_client: Any,
     event_handler: Any | None = None,
 ) -> dict[str, Any]:
     from pomefi.stock_wiki.skills.entity_info import get_entity_info as _get_entity_info
 
-    return await _get_entity_info(symbol, company_name, config=config, event_handler=event_handler)
+    return await _get_entity_info(
+        symbol,
+        company_name,
+        config=config,
+        formula_client=formula_client,
+        event_handler=event_handler,
+    )
 
 
 async def get_watch_calendar(
@@ -184,8 +194,19 @@ async def _run_skill(skill: str, symbol: str, company_name: str) -> dict[str, An
         return _finalize_payload({"skill": skill, "result": result, "trace": {"events": events}})
 
     if skill == "entity_info":
-        result = await get_entity_info(symbol, company_name or symbol, config=config, event_handler=_event_handler)
-        return _finalize_payload({"skill": skill, "result": result, "trace": {"events": events}})
+        formula_client = FormulaToolClient(base_url=config.base_url, api_key=config.api_key)
+        try:
+            await formula_client.load_tools(ENTITY_INFO_FORMULA_URIS)
+            result = await get_entity_info(
+                symbol,
+                company_name or symbol,
+                config=config,
+                formula_client=formula_client,
+                event_handler=_event_handler,
+            )
+            return _finalize_payload({"skill": skill, "result": result, "trace": {"events": events}})
+        finally:
+            await formula_client.aclose()
 
     formula_client = FormulaToolClient(base_url=config.base_url, api_key=config.api_key)
     try:

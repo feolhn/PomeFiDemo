@@ -22,7 +22,7 @@ def test_repair_event_year_reanchors_previous_year_date_into_recent_window() -> 
 def test_normalize_events_repairs_window_external_year() -> None:
     items = _normalize_events(
         [
-            {"date": "2025-03-10", "title": "宁德时代业绩说明会"},
+            {"date": "2025-03-10", "title": "宁德时代业绩说明会", "content": "披露了全年产能利用率和订单变化。"},
             {"date": "2025-03-10", "title": "宁德时代业绩说明会"},
         ],
         today=datetime(2026, 3, 18),
@@ -30,6 +30,7 @@ def test_normalize_events_repairs_window_external_year() -> None:
     assert len(items) == 1
     assert items[0]["date"] == "2026-03-10"
     assert items[0]["event_date"] == "2026-03-10"
+    assert items[0]["content"] == "披露了全年产能利用率和订单变化。"
 
 
 def test_parse_events_from_evidence_lines_recovers_events() -> None:
@@ -149,8 +150,8 @@ def test_get_timeline_returns_price_series_when_live_fetch_succeeds(monkeypatch)
                 "payload": {
                     "summary": "过去三个月共提取2个关键事件。",
                     "events": [
-                        {"date": "2026-03-01", "event_date": "2026-03-02", "title": "发布年报", "source": "web_search", "url": None},
-                        {"date": "2026-03-05", "event_date": "2026-03-06", "title": "签订大单", "source": "web_search", "url": None},
+                        {"date": "2026-03-01", "event_date": "2026-03-02", "title": "发布年报", "content": "收入与利润低于市场预期。", "source": "web_search", "url": None},
+                        {"date": "2026-03-05", "event_date": "2026-03-06", "title": "签订大单", "content": "新订单改善了全年产能消化预期。", "source": "web_search", "url": None},
                     ],
                     "trace": {
                         "tool_call_required": True,
@@ -185,6 +186,7 @@ def test_get_timeline_returns_price_series_when_live_fetch_succeeds(monkeypatch)
     assert result["data"]["trace"]["phase_status"] == {"price_series": "valid", "events_json": "valid"}
     assert result["data"]["trace"]["phase_error"]["events_json"] is None
     assert result["data"]["events"][0]["date"] == "2026-03-01"
+    assert result["data"]["events"][0]["content"] == "收入与利润低于市场预期。"
     assert result["data"]["series"][0]["event_desc"] == "发布年报"
 
 

@@ -17,7 +17,7 @@ _relationship_figure = render._relationship_figure
 def test_relationship_layout_places_theme_at_center() -> None:
     positions = _relationship_layout(
         [
-            {"id": "宁德时代", "role": "theme"},
+            {"id": "宁德时代", "role": "company"},
             {"id": "天赐材料", "role": "supplier"},
             {"id": "特斯拉", "role": "customer"},
             {"id": "LG新能源", "role": "competitor"},
@@ -31,7 +31,7 @@ def test_relationship_layout_places_theme_at_center() -> None:
 def test_relationship_figure_contains_edges_and_nodes() -> None:
     figure = _relationship_figure(
         nodes=[
-            {"id": "宁德时代", "role": "theme"},
+            {"id": "宁德时代", "role": "company"},
             {"id": "天赐材料", "role": "supplier"},
             {"id": "特斯拉", "role": "customer"},
         ],
@@ -48,9 +48,9 @@ def test_relationship_figure_contains_edges_and_nodes() -> None:
 def test_relationship_html_graph_contains_relation_labels() -> None:
     html = _build_relationship_graph_html(
         nodes=[
-            {"id": "隆基绿能", "role": "theme"},
+            {"id": "隆基绿能", "role": "company"},
             {"id": "通威股份", "role": "supplier"},
-            {"id": "BC电池", "role": "other"},
+            {"id": "BC电池", "role": "theme"},
         ],
         edges=[
             {"from": "通威股份", "to": "隆基绿能", "relation": "构成成本"},

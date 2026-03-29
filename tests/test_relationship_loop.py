@@ -16,7 +16,7 @@ def test_relationship_returns_structured_json(monkeypatch) -> None:
         return {
             "content_json": {
                 "summary": "产业链集中在材料与整车两端。",
-                "nodes": [{"id": "宁德时代", "role": "theme"}],
+                "nodes": [{"id": "宁德时代", "role": "company"}],
                 "edges": [],
             },
             "tool_trace": {
@@ -51,6 +51,7 @@ def test_relationship_returns_structured_json(monkeypatch) -> None:
     assert result["status"] == "valid"
     assert result["data"]["pending"] is False
     assert result["data"]["nodes"][0]["id"] == "宁德时代"
+    assert result["data"]["nodes"][0]["role"] == "company"
 
 
 def test_relationship_retries_when_no_tool_call(monkeypatch) -> None:
@@ -99,7 +100,7 @@ def test_relationship_normalizes_graph_consistency(monkeypatch) -> None:
         return {
             "content_json": {
                 "summary": "上游和竞争对手较多。",
-                "nodes": [{"id": "宁德时代", "role": "theme"}],
+                "nodes": [{"id": "宁德时代", "role": "company"}],
                 "edges": [
                     {"from": "容百科技", "to": "宁德时代", "relation": "supplies"},
                     {"from": "比亚迪", "to": "宁德时代", "relation": "competes"},
@@ -137,6 +138,7 @@ def test_relationship_normalizes_graph_consistency(monkeypatch) -> None:
     )
     node_ids = {item["id"] for item in result["data"]["nodes"]}
     assert {"宁德时代", "容百科技", "比亚迪", "固态电池"}.issubset(node_ids)
+    assert next(item for item in result["data"]["nodes"] if item["id"] == "宁德时代")["role"] == "company"
     for item in result["data"]["edges"]:
         assert item["from"] in node_ids
         assert item["to"] in node_ids

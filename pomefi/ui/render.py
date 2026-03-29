@@ -188,6 +188,12 @@ def inject_page_styles() -> None:
           font-weight: 500;
         }
 
+        .pf-chip-profit {
+          background: #efe7da;
+          border-color: #ddc6a7;
+          color: #6b4e2e;
+        }
+
         .pf-foot {
           border-top: 1px solid var(--line);
           margin-top: 0.75rem;
@@ -275,6 +281,33 @@ def inject_page_styles() -> None:
 
         .pf-kv-value-positive { color: var(--ok); }
         .pf-kv-value-negative { color: var(--err); }
+
+        .pf-fin-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.75rem;
+          margin-top: 0.75rem;
+        }
+
+        .pf-fin-card {
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          padding: 0.55rem 0.55rem 0.45rem 0.55rem;
+          background: #fbfcfd;
+        }
+
+        .pf-fin-title {
+          font-size: 0.76rem;
+          font-weight: 600;
+          color: var(--ink);
+          margin-bottom: 0.35rem;
+        }
+
+        .pf-fin-unit {
+          font-size: 0.68rem;
+          color: var(--muted);
+          margin-bottom: 0.25rem;
+        }
 
         .pf-empty {
           border: 1px dashed var(--line);
@@ -468,6 +501,11 @@ def inject_page_styles() -> None:
           .pf-kv-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 0.4rem 0.5rem;
+          }
+
+          .pf-fin-grid {
+            grid-template-columns: 1fr;
+            gap: 0.55rem;
           }
 
           .pf-section-title {
@@ -806,6 +844,7 @@ def render_summary_card(entry: dict[str, Any]) -> None:
     result = dict(entry.get("result") or {})
     data = dict(result.get("data") or {})
     metrics = dict(data.get("metrics") or {})
+    financial_series_5y = [dict(item) for item in list(data.get("financial_series_5y") or []) if isinstance(item, dict)]
     if state != "valid" and not metrics:
         _render_skill_error("Stock Summary", entry, "Source: AkShare · Updated: -")
         return
@@ -866,6 +905,7 @@ def render_summary_card(entry: dict[str, Any]) -> None:
     summary_text = str(data.get("summary") or "已输出核心行情与估值指标。")
     if state != "valid" and metrics:
         summary_text = "实时价格链路失败，先展示当前已拿到的估值指标。"
+    financial_charts_html = _summary_financial_charts_html(financial_series_5y)
     
     st.markdown(
         f"""
@@ -880,6 +920,7 @@ def render_summary_card(entry: dict[str, Any]) -> None:
           <div class="pf-big-num">{escape(price_text)}</div>
           {price_change_html}
           <div class="pf-kv-grid">{kv_html}</div>
+          {financial_charts_html}
           <div style="font-size:0.875rem;color:var(--muted);">{escape(summary_text)}</div>
           <div class="pf-foot">{escape(_source_footer(result, "AkShare"))}</div>
         </section>
@@ -904,6 +945,11 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
     industry = data.get('industry', '')
     main_business = data.get('main_business', '')
     investment_tags = data.get('investment_tags', [])
+    core_competencies = [str(item).strip() for item in list(data.get("core_competencies") or []) if str(item).strip()]
+    profit_analysis = dict(data.get("profit_analysis") or {})
+    profit_text = str(profit_analysis.get("revenue_structure") or "").strip()
+    profit_tag = str(profit_analysis.get("profit_tag") or "").strip()
+    summary_text = str(data.get("summary_100cn") or data.get("summary") or "暂无公司主体介绍。").strip()
     
     # Build info chips from various sources
     chips = []
@@ -921,6 +967,9 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
                 chips.append(str(tag))
     
     chip_html = "".join(f"<span class='pf-chip'>{escape(item)}</span>" for item in chips[:8])
+    profit_tag_html = f"<div class='pf-chip-row'><span class='pf-chip pf-chip-profit'>{escape(profit_tag)}</span></div>" if profit_tag else ""
+    core_html = "".join(f"<li>{escape(item)}</li>" for item in core_competencies[:2])
+    section_title_style = "font-size:0.82rem;font-weight:600;color:var(--ink);margin-top:0.85rem;margin-bottom:0.35rem;"
     
     st.markdown(
         f"""
@@ -932,8 +981,13 @@ def render_entity_info_card(entry: dict[str, Any], company: str, symbol: str) ->
             </div>
             <div class="pf-card-badge">{escape(industry or "Tech & Auto")}</div>
           </div>
-          <div style="line-height:1.6;color:#3c4043;">{escape(str(data.get("summary") or "暂无公司主体介绍。"))}</div>
+          <div style="line-height:1.6;color:#3c4043;">{escape(summary_text)}</div>
           {f"<div class='pf-chip-row'>{chip_html}</div>" if chip_html else ""}
+          {"<div style='" + section_title_style + "'>核心竞争力</div>" if core_html else ""}
+          {f"<ol class='pf-list' style='margin:0.1rem 0 0.35rem 1.1rem;padding-left:0.9rem;color:#3c4043;'>{core_html}</ol>" if core_html else ""}
+          {"<div style='" + section_title_style + "'>盈利分析</div>" if profit_text else ""}
+          {f"<div style='line-height:1.6;color:#3c4043;margin-bottom:0.2rem;'>{escape(profit_text)}</div>" if profit_text else ""}
+          {profit_tag_html}
           <div class="pf-foot">{escape(_source_footer(result, "kimi"))}</div>
         </section>
         """,
@@ -1177,16 +1231,10 @@ def render_watch_calendar_card(entry: dict[str, Any]) -> None:
     for item in rows:
         date_text = escape(str(item.get('date') or '-'))
         event_text = escape(str(item.get('event') or ''))
-        certainty = str(item.get('certainty', ''))
-        certainty_badge = ""
-        if certainty == "high":
-            certainty_badge = "<span style='font-size:0.65rem;padding:0.1rem 0.4rem;background:#e6f4ea;color:#1e8e3e;border-radius:999px;margin-left:0.5rem;'>高确定性</span>"
-        elif certainty == "medium":
-            certainty_badge = "<span style='font-size:0.65rem;padding:0.1rem 0.4rem;background:#fef7e0;color:#b06000;border-radius:999px;margin-left:0.5rem;'>中确定性</span>"
         
         row_html += (
             f"<div class='pf-calendar-item'>"
-            f"<div style='display:flex;align-items:center;'><span class='pf-calendar-date'>{date_text}</span>{certainty_badge}</div>"
+            f"<div style='display:flex;align-items:center;'><span class='pf-calendar-date'>{date_text}</span></div>"
             f"<div class='pf-calendar-event'>{event_text}</div>"
             f"{_watch_calendar_actions_html(item.get('url'))}</div>"
         )
@@ -1259,15 +1307,15 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
     positions = _relationship_html_layout(nodes)
 
     # Group nodes by role
-    grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
+    grouped: dict[str, list[str]] = {"company": [], "theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
     for node in nodes:
         role = str(node.get("role", "other"))
         node_id = str(node.get("id", ""))
         if node_id:
             grouped.setdefault(role, []).append(node_id)
     
-    # Get theme node (center)
-    theme_node = grouped["theme"][0] if grouped["theme"] else "中心"
+    # Get center node
+    center_node = grouped["company"][0] if grouped["company"] else (grouped["theme"][0] if grouped["theme"] else "中心")
     
     svg_lines = []
     label_html = []
@@ -1285,14 +1333,14 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
             f"<line x1='{x1}' y1='{y1}' x2='{x2}' y2='{y2}' stroke='rgba(150,150,150,0.45)' stroke-width='1.3' />"
         )
         if relation:
-            label_x, label_y = _relationship_label_position(start_id, end_id, x1, y1, x2, y2, theme_node)
+            label_x, label_y = _relationship_label_position(start_id, end_id, x1, y1, x2, y2, center_node)
             label_html.append(
                 f"<div class='pf-rel-label' style='left:{label_x}%;top:{label_y}%;'>{relation}</div>"
             )
 
     nodes_html = []
-    if theme_node in positions:
-        nodes_html.append(f'<div class="pf-rel-center">{escape(theme_node)}</div>')
+    if center_node in positions:
+        nodes_html.append(f'<div class="pf-rel-center">{escape(center_node)}</div>')
 
     for node_id in grouped.get("supplier", [])[:3]:
         x, y = positions.get(node_id, (12.0, 55.0))
@@ -1306,7 +1354,10 @@ def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict
             f'<div class="pf-rel-node pf-rel-node-customer" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
         )
 
-    for node_id in grouped.get("other", [])[:2]:
+    top_nodes = list(grouped.get("theme", [])) + list(grouped.get("other", []))
+    if center_node in top_nodes:
+        top_nodes = [item for item in top_nodes if item != center_node]
+    for node_id in top_nodes[:2]:
         x, y = positions.get(node_id, (50.0, 12.0))
         nodes_html.append(
             f'<div class="pf-rel-node pf-rel-node-other" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
@@ -1336,7 +1387,7 @@ def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[fl
     - 竞争对手 (competitor): 底部，水平分布
     - 其他 (other): 顶部，水平分布
     """
-    grouped: dict[str, list[str]] = {"theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
+    grouped: dict[str, list[str]] = {"company": [], "theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
     for node in nodes:
         role = str(node.get("role") or "other")
         node_id = str(node.get("id") or "")
@@ -1345,9 +1396,10 @@ def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[fl
 
     positions: dict[str, tuple[float, float]] = {}
     
-    # 中心节点 (theme) - 稍微偏下一点，给顶部标签留空间
-    if grouped["theme"]:
-        positions[grouped["theme"][0]] = (50.0, 55.0)
+    # 中心节点 (company) - 稍微偏下一点，给顶部标签留空间
+    center_nodes = grouped.get("company") or grouped.get("theme") or []
+    if center_nodes:
+        positions[center_nodes[0]] = (50.0, 55.0)
 
     # 供应商 (supplier) - 左侧，垂直分布，根据数量调整间距
     suppliers = grouped.get("supplier", [])[:3]
@@ -1378,15 +1430,21 @@ def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[fl
             positions[customers[1]] = (88.0, 55.0)
             positions[customers[2]] = (88.0, 85.0)
 
-    # 其他 (other) - 顶部，水平分布
-    others = grouped.get("other", [])[:2]
+    # 关键变量 (theme) 和其他 (other) - 顶部，水平分布
+    others = (grouped.get("theme", []) + grouped.get("other", []))[:3]
+    if center_nodes:
+        others = [item for item in others if item != center_nodes[0]]
     if others:
         n = len(others)
         if n == 1:
             positions[others[0]] = (50.0, 12.0)
-        else:  # n == 2
+        elif n == 2:
             positions[others[0]] = (28.0, 12.0)
             positions[others[1]] = (72.0, 12.0)
+        else:
+            positions[others[0]] = (18.0, 12.0)
+            positions[others[1]] = (50.0, 12.0)
+            positions[others[2]] = (82.0, 12.0)
 
     # 竞争对手 (competitor) - 底部，水平分布
     competitors = grouped.get("competitor", [])[:2]
@@ -1689,6 +1747,107 @@ def _summary_sections(
     return kv_rows[:8], bullets[:6]
 
 
+def _format_financial_bar_value_to_yi(value: Any) -> float | None:
+    try:
+        return float(value) / 1e8
+    except (TypeError, ValueError):
+        return None
+
+
+def _build_single_financial_bar_svg(
+    rows: list[dict[str, Any]],
+    *,
+    value_key: str,
+    title: str,
+    color: str,
+) -> str:
+    points: list[tuple[str, float]] = []
+    for row in rows:
+        year = str(row.get("year") or "").strip()
+        numeric = _format_financial_bar_value_to_yi(row.get(value_key))
+        if year and numeric is not None:
+            points.append((year, numeric))
+    if not points:
+        return ""
+
+    width = 160
+    height = 132
+    left = 10
+    right = 6
+    top = 8
+    bottom = 24
+    chart_w = width - left - right
+    chart_h = height - top - bottom
+
+    values = [value for _, value in points]
+    max_val = max(values)
+    min_val = min(values)
+    upper = max(max_val, 0.0)
+    lower = min(min_val, 0.0)
+    span = upper - lower if upper != lower else 1.0
+
+    def y_scale(value: float) -> float:
+        return top + ((upper - value) / span) * chart_h
+
+    baseline_y = y_scale(0.0)
+    slot = chart_w / max(len(points), 1)
+    bar_w = min(18.0, slot * 0.56)
+
+    bar_parts: list[str] = []
+    label_parts: list[str] = []
+    for idx, (year, value) in enumerate(points):
+        x_center = left + slot * idx + slot / 2
+        y_val = y_scale(value)
+        rect_y = min(y_val, baseline_y)
+        rect_h = max(abs(baseline_y - y_val), 1.5)
+        bar_parts.append(
+            f"<rect x='{x_center - bar_w / 2:.1f}' y='{rect_y:.1f}' width='{bar_w:.1f}' height='{rect_h:.1f}' "
+            f"rx='3' fill='{color}' opacity='0.92'><title>{escape(year)}: {value:.2f}亿</title></rect>"
+        )
+        label_parts.append(
+            f"<text x='{x_center:.1f}' y='{height - 8}' text-anchor='middle' font-size='9' fill='#6b7280'>{escape(year[-2:])}</text>"
+        )
+
+    zero_line = ""
+    if lower < 0 < upper:
+        zero_line = f"<line x1='{left}' y1='{baseline_y:.1f}' x2='{width - right}' y2='{baseline_y:.1f}' stroke='rgba(31,35,40,0.18)' stroke-width='1' />"
+
+    max_label = f"{max(abs(upper), abs(lower)):.1f}亿"
+    return (
+        "<div class='pf-fin-card'>"
+        f"<div class='pf-fin-title'>{escape(title)}</div>"
+        "<div class='pf-fin-unit'>单位：亿元</div>"
+        f"<svg width='100%' height='{height}' viewBox='0 0 {width} {height}' preserveAspectRatio='none'>"
+        f"<text x='{left}' y='10' font-size='9' fill='#6b7280'>{escape(max_label)}</text>"
+        f"{zero_line}"
+        + "".join(bar_parts)
+        + "".join(label_parts)
+        + "</svg></div>"
+    )
+
+
+def _summary_financial_charts_html(rows: list[dict[str, Any]]) -> str:
+    clean_rows = [dict(item) for item in rows if isinstance(item, dict)]
+    if not clean_rows:
+        return ""
+    revenue_html = _build_single_financial_bar_svg(
+        clean_rows,
+        value_key="revenue",
+        title="近五年营收",
+        color="#678ecf",
+    )
+    profit_html = _build_single_financial_bar_svg(
+        clean_rows,
+        value_key="net_profit",
+        title="近五年净利润",
+        color="#d28666",
+    )
+    blocks = [item for item in (revenue_html, profit_html) if item]
+    if not blocks:
+        return ""
+    return f"<div class='pf-fin-grid'>{''.join(blocks)}</div>"
+
+
 def _masked_or_default(
     *,
     skill: str,
@@ -1839,9 +1998,10 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
 
     positions: dict[str, tuple[float, float]] = {}
     
-    # Center theme node
-    if grouped.get("theme"):
-        positions[grouped["theme"][0]] = (0.0, 0.0)
+    # Center company node
+    center_nodes = grouped.get("company") or grouped.get("theme") or []
+    if center_nodes:
+        positions[center_nodes[0]] = (0.0, 0.0)
     
     # Left side: suppliers (arranged vertically)
     left_nodes = grouped.get("supplier", [])
@@ -1861,8 +2021,10 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
         x_pos = -0.5 + idx * 1.0 if len(bottom_nodes) > 1 else 0
         positions[node_id] = (x_pos, -0.8)
     
-    # Top: others (horizontal)
-    top_nodes = grouped.get("other", [])
+    # Top: themes / others (horizontal)
+    top_nodes = list(grouped.get("theme", [])) + list(grouped.get("other", []))
+    if center_nodes:
+        top_nodes = [item for item in top_nodes if item != center_nodes[0]]
     for idx, node_id in enumerate(top_nodes[:2]):
         x_pos = -0.5 + idx * 1.0 if len(top_nodes) > 1 else 0
         positions[node_id] = (x_pos, 0.8)
@@ -1873,9 +2035,10 @@ def _relationship_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, 
 def _relationship_color(role: str) -> str:
     """Soft pastel colors matching the reference style."""
     return {
-        "theme": "#e8e8e8",      # Gray center
-        "supplier": "#e8d5c4",   # Warm beige
-        "customer": "#d4e4d1",   # Soft green
+        "company": "#e8e8e8",    # Gray center
+        "theme": "#d9d2f3",      # Soft purple
+        "supplier": "#dbeafe",   # Blue
+        "customer": "#fed7aa",   # Orange
         "competitor": "#e4d4d1", # Soft pink/beige
         "other": "#d4d8e4",      # Soft blue
     }.get(role, "#e0e0e0")
@@ -1903,7 +2066,7 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
         )
     
     # Draw nodes as markers (theme is circle, others use rounded rect effect via marker symbol)
-    role_order = ["supplier", "customer", "competitor", "other", "theme"]
+    role_order = ["supplier", "customer", "competitor", "theme", "other", "company"]
     for role in role_order:
         role_nodes = [item for item in nodes if str(item.get("role") or "other") == role]
         if not role_nodes:
@@ -1924,7 +2087,7 @@ def _relationship_figure(nodes: list[dict[str, Any]], edges: list[dict[str, Any]
             continue
             
         # Theme node is circular and larger, others are smaller
-        if role == "theme":
+        if role == "company":
             figure.add_trace(
                 go.Scatter(
                     x=xs,

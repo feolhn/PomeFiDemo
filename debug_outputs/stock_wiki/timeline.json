@@ -3,541 +3,627 @@
   "result": {
     "status": "valid",
     "data": {
-      "symbol": "600438",
-      "company_name": "通威股份",
+      "symbol": "600276",
+      "company_name": "恒瑞医药",
       "series": [
         {
+          "date": "2025-09-29",
+          "close": 69.2,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-09-30",
+          "close": 71.55,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-09",
+          "close": 71.15,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-10",
+          "close": 68.2,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-13",
+          "close": 66.98,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-14",
+          "close": 64.27,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-15",
+          "close": 66.4,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-16",
+          "close": 66.84,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-17",
+          "close": 65.1,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-20",
+          "close": 65.13,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-21",
+          "close": 66.0,
+          "event_desc": ""
+        },
+        {
+          "date": "2025-10-22",
+          "close": 65.26,
+          "event_desc": ""
+        },
+        {
           "date": "2025-10-23",
-          "close": 22.87,
+          "close": 65.14,
           "event_desc": ""
         },
         {
           "date": "2025-10-24",
-          "close": 22.21,
+          "close": 65.5,
           "event_desc": ""
         },
         {
           "date": "2025-10-27",
-          "close": 22.93,
+          "close": 67.01,
           "event_desc": ""
         },
         {
           "date": "2025-10-28",
-          "close": 22.61,
+          "close": 63.62,
           "event_desc": ""
         },
         {
           "date": "2025-10-29",
-          "close": 24.87,
+          "close": 64.02,
           "event_desc": ""
         },
         {
           "date": "2025-10-30",
-          "close": 24.78,
+          "close": 62.88,
           "event_desc": ""
         },
         {
           "date": "2025-10-31",
-          "close": 24.78,
+          "close": 64.15,
           "event_desc": ""
         },
         {
           "date": "2025-11-03",
-          "close": 25.21,
+          "close": 63.4,
           "event_desc": ""
         },
         {
           "date": "2025-11-04",
-          "close": 24.3,
+          "close": 61.92,
           "event_desc": ""
         },
         {
           "date": "2025-11-05",
-          "close": 24.4,
+          "close": 61.96,
           "event_desc": ""
         },
         {
           "date": "2025-11-06",
-          "close": 24.96,
+          "close": 62.42,
           "event_desc": ""
         },
         {
           "date": "2025-11-07",
-          "close": 26.65,
+          "close": 61.58,
           "event_desc": ""
         },
         {
           "date": "2025-11-10",
-          "close": 27.16,
+          "close": 61.83,
           "event_desc": ""
         },
         {
           "date": "2025-11-11",
-          "close": 26.72,
+          "close": 61.06,
           "event_desc": ""
         },
         {
           "date": "2025-11-12",
-          "close": 25.1,
+          "close": 62.1,
           "event_desc": ""
         },
         {
           "date": "2025-11-13",
-          "close": 25.62,
+          "close": 63.56,
           "event_desc": ""
         },
         {
           "date": "2025-11-14",
-          "close": 25.76,
+          "close": 62.9,
           "event_desc": ""
         },
         {
           "date": "2025-11-17",
-          "close": 25.22,
+          "close": 61.8,
           "event_desc": ""
         },
         {
           "date": "2025-11-18",
-          "close": 24.88,
+          "close": 61.78,
           "event_desc": ""
         },
         {
           "date": "2025-11-19",
-          "close": 25.91,
+          "close": 61.11,
           "event_desc": ""
         },
         {
           "date": "2025-11-20",
-          "close": 24.59,
+          "close": 60.63,
           "event_desc": ""
         },
         {
           "date": "2025-11-21",
-          "close": 22.97,
+          "close": 59.5,
           "event_desc": ""
         },
         {
           "date": "2025-11-24",
-          "close": 22.72,
+          "close": 60.66,
           "event_desc": ""
         },
         {
           "date": "2025-11-25",
-          "close": 22.73,
+          "close": 60.88,
           "event_desc": ""
         },
         {
           "date": "2025-11-26",
-          "close": 22.86,
+          "close": 62.36,
           "event_desc": ""
         },
         {
           "date": "2025-11-27",
-          "close": 23.0,
+          "close": 62.09,
           "event_desc": ""
         },
         {
           "date": "2025-11-28",
-          "close": 22.88,
+          "close": 62.08,
           "event_desc": ""
         },
         {
           "date": "2025-12-01",
-          "close": 23.32,
+          "close": 61.94,
           "event_desc": ""
         },
         {
           "date": "2025-12-02",
-          "close": 22.35,
+          "close": 61.12,
           "event_desc": ""
         },
         {
           "date": "2025-12-03",
-          "close": 22.02,
+          "close": 60.97,
           "event_desc": ""
         },
         {
           "date": "2025-12-04",
-          "close": 21.72,
+          "close": 61.25,
           "event_desc": ""
         },
         {
           "date": "2025-12-05",
-          "close": 21.84,
+          "close": 61.62,
           "event_desc": ""
         },
         {
           "date": "2025-12-08",
-          "close": 21.89,
+          "close": 62.46,
           "event_desc": ""
         },
         {
           "date": "2025-12-09",
-          "close": 22.68,
+          "close": 63.08,
           "event_desc": ""
         },
         {
           "date": "2025-12-10",
-          "close": 22.0,
+          "close": 63.38,
           "event_desc": ""
         },
         {
           "date": "2025-12-11",
-          "close": 21.26,
+          "close": 63.4,
           "event_desc": ""
         },
         {
           "date": "2025-12-12",
-          "close": 21.62,
+          "close": 63.28,
           "event_desc": ""
         },
         {
           "date": "2025-12-15",
-          "close": 21.74,
+          "close": 61.38,
           "event_desc": ""
         },
         {
           "date": "2025-12-16",
-          "close": 20.8,
+          "close": 59.15,
           "event_desc": ""
         },
         {
           "date": "2025-12-17",
-          "close": 21.18,
+          "close": 60.3,
           "event_desc": ""
         },
         {
           "date": "2025-12-18",
-          "close": 20.76,
+          "close": 60.0,
           "event_desc": ""
         },
         {
           "date": "2025-12-19",
-          "close": 20.8,
+          "close": 60.85,
           "event_desc": ""
         },
         {
           "date": "2025-12-22",
-          "close": 20.84,
+          "close": 60.93,
           "event_desc": ""
         },
         {
           "date": "2025-12-23",
-          "close": 20.86,
+          "close": 61.8,
           "event_desc": ""
         },
         {
           "date": "2025-12-24",
-          "close": 21.04,
+          "close": 61.23,
           "event_desc": ""
         },
         {
           "date": "2025-12-25",
-          "close": 21.38,
+          "close": 61.4,
           "event_desc": ""
         },
         {
           "date": "2025-12-26",
-          "close": 21.8,
+          "close": 61.06,
           "event_desc": ""
         },
         {
           "date": "2025-12-29",
-          "close": 21.51,
+          "close": 60.51,
           "event_desc": ""
         },
         {
           "date": "2025-12-30",
-          "close": 21.01,
+          "close": 60.18,
           "event_desc": ""
         },
         {
           "date": "2025-12-31",
-          "close": 20.52,
+          "close": 59.57,
           "event_desc": ""
         },
         {
           "date": "2026-01-05",
-          "close": 21.11,
+          "close": 63.08,
           "event_desc": ""
         },
         {
           "date": "2026-01-06",
-          "close": 21.59,
+          "close": 63.06,
           "event_desc": ""
         },
         {
           "date": "2026-01-07",
-          "close": 21.65,
+          "close": 63.85,
           "event_desc": ""
         },
         {
           "date": "2026-01-08",
-          "close": 21.66,
+          "close": 63.6,
           "event_desc": ""
         },
         {
           "date": "2026-01-09",
-          "close": 20.83,
+          "close": 63.78,
           "event_desc": ""
         },
         {
           "date": "2026-01-12",
-          "close": 21.27,
+          "close": 63.85,
           "event_desc": ""
         },
         {
           "date": "2026-01-13",
-          "close": 20.45,
+          "close": 64.52,
           "event_desc": ""
         },
         {
           "date": "2026-01-14",
-          "close": 20.57,
+          "close": 63.61,
           "event_desc": ""
         },
         {
           "date": "2026-01-15",
-          "close": 20.02,
+          "close": 63.17,
           "event_desc": ""
         },
         {
           "date": "2026-01-16",
-          "close": 20.02,
+          "close": 61.94,
           "event_desc": ""
         },
         {
           "date": "2026-01-19",
-          "close": 19.27,
+          "close": 61.12,
           "event_desc": ""
         },
         {
           "date": "2026-01-20",
-          "close": 18.59,
+          "close": 60.5,
           "event_desc": ""
         },
         {
           "date": "2026-01-21",
-          "close": 18.49,
+          "close": 60.1,
           "event_desc": ""
         },
         {
           "date": "2026-01-22",
-          "close": 18.82,
+          "close": 59.44,
           "event_desc": ""
         },
         {
           "date": "2026-01-23",
-          "close": 20.28,
+          "close": 58.99,
           "event_desc": ""
         },
         {
           "date": "2026-01-26",
-          "close": 19.6,
+          "close": 58.16,
           "event_desc": ""
         },
         {
           "date": "2026-01-27",
-          "close": 19.5,
+          "close": 57.2,
           "event_desc": ""
         },
         {
           "date": "2026-01-28",
-          "close": 19.02,
+          "close": 56.55,
           "event_desc": ""
         },
         {
           "date": "2026-01-29",
-          "close": 19.06,
+          "close": 58.11,
           "event_desc": ""
         },
         {
           "date": "2026-01-30",
-          "close": 18.2,
+          "close": 58.16,
           "event_desc": ""
         },
         {
           "date": "2026-02-02",
-          "close": 17.84,
+          "close": 56.49,
           "event_desc": ""
         },
         {
           "date": "2026-02-03",
-          "close": 18.66,
+          "close": 57.47,
           "event_desc": ""
         },
         {
           "date": "2026-02-04",
-          "close": 19.56,
+          "close": 57.6,
           "event_desc": ""
         },
         {
           "date": "2026-02-05",
-          "close": 18.37,
+          "close": 58.16,
           "event_desc": ""
         },
         {
           "date": "2026-02-06",
-          "close": 18.57,
+          "close": 57.31,
           "event_desc": ""
         },
         {
           "date": "2026-02-09",
-          "close": 19.08,
+          "close": 57.45,
           "event_desc": ""
         },
         {
           "date": "2026-02-10",
-          "close": 18.85,
+          "close": 58.4,
           "event_desc": ""
         },
         {
           "date": "2026-02-11",
-          "close": 18.67,
+          "close": 58.9,
           "event_desc": ""
         },
         {
           "date": "2026-02-12",
-          "close": 18.42,
+          "close": 58.74,
           "event_desc": ""
         },
         {
           "date": "2026-02-13",
-          "close": 18.01,
+          "close": 58.23,
           "event_desc": ""
         },
         {
           "date": "2026-02-24",
-          "close": 18.16,
+          "close": 58.01,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-02-25",
+          "close": 57.86,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-02-26",
+          "close": 56.72,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-02-27",
+          "close": 56.56,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-02",
+          "close": 54.54,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-03",
+          "close": 53.61,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-04",
+          "close": 52.98,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-05",
+          "close": 53.72,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-06",
+          "close": 55.56,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-09",
+          "close": 54.94,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-10",
+          "close": 56.55,
           "event_desc": ""
         },
         {
           "date": "2026-03-11",
-          "close": 18.62,
+          "close": 55.83,
           "event_desc": ""
         },
         {
           "date": "2026-03-12",
-          "close": 19.55,
+          "close": 55.3,
           "event_desc": ""
         },
         {
           "date": "2026-03-13",
-          "close": 19.32,
+          "close": 55.11,
           "event_desc": ""
         },
         {
           "date": "2026-03-16",
-          "close": 18.79,
+          "close": 55.59,
           "event_desc": ""
         },
         {
           "date": "2026-03-17",
-          "close": 18.44,
+          "close": 56.3,
           "event_desc": ""
         },
         {
           "date": "2026-03-18",
-          "close": 18.35,
+          "close": 56.88,
           "event_desc": ""
         },
         {
           "date": "2026-03-19",
-          "close": 18.1,
+          "close": 56.02,
           "event_desc": ""
         },
         {
           "date": "2026-03-20",
-          "close": 18.46,
-          "event_desc": "通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元"
+          "close": 55.14,
+          "event_desc": ""
         },
         {
           "date": "2026-03-23",
-          "close": 17.94,
+          "close": 52.78,
           "event_desc": ""
+        },
+        {
+          "date": "2026-03-24",
+          "close": 53.64,
+          "event_desc": ""
+        },
+        {
+          "date": "2026-03-25",
+          "close": 54.1,
+          "event_desc": "恒瑞医药披露2025年年报"
+        },
+        {
+          "date": "2026-03-26",
+          "close": 51.63,
+          "event_desc": "年报摘要发布创新药进展"
+        },
+        {
+          "date": "2026-03-27",
+          "close": 55.18,
+          "event_desc": "管理层展望2026-2028年创新药爆发期"
         }
       ],
       "events": [
         {
-          "date": "2026-03-20",
-          "event_date": "2026-03-20",
-          "title": "通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期",
-          "source": "新浪财经",
+          "date": "2026-03-25",
+          "event_date": "2026-03-25",
+          "title": "恒瑞医药披露2025年年报",
+          "content": "2025年营收316.29亿元同比增长13.02%，归母净利润77.11亿元同比增长21.69%，创新药收入163.42亿元占比超50%达26.09%高增速，但股价已连跌6个月反映市场担忧",
+          "source": "ZAKER新闻",
           "url": "",
-          "sentiment": "negative"
+          "sentiment": "neutral"
         },
         {
-          "date": "2026-03-20",
-          "event_date": "2026-03-20",
-          "title": "公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元",
+          "date": "2026-03-26",
+          "event_date": "2026-03-26",
+          "title": "年报摘要发布创新药进展",
+          "content": "2025年7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元显示国际化BD能力突破",
+          "source": "上海证券报",
+          "url": "",
+          "sentiment": "positive"
+        },
+        {
+          "date": "2026-03-27",
+          "event_date": "2026-03-27",
+          "title": "管理层展望2026-2028年创新药爆发期",
+          "content": "年报会上披露2026-2028年将迎53项创新产品及新适应症获批，海外BD从'偶发事件'升级为'常态化'经营，强化长期增长预期",
           "source": "新浪财经",
           "url": "",
-          "sentiment": "negative"
+          "sentiment": "positive"
         }
       ],
-      "summary": "通威股份2025年年度业绩预告显示归母净利润亏损90-100亿元，大幅低于机构预期，同时计提长期资产减值15-20亿元，其中光伏电站业务减值约10亿元，业绩暴雷对股价形成重大利空压力。",
+      "summary": "恒瑞医药(600276)在2026年3月下旬密集披露2025年年报及未来战略，业绩稳健增长但股价承压，创新药管线与国际化BD成为关注焦点",
       "data_origin": "live",
-      "network_evidence": [
-        {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 57,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 0,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 65,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 1,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "status": "error",
-          "latency_ms": 60,
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "retry_count": 2,
-          "dedup_hit": false
-        }
-      ],
+      "network_evidence": [],
       "akshare_calls": [
         {
           "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 57,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 1,
-          "retry_count": 0,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 65,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 2,
-          "retry_count": 1,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist",
-          "symbol": "600438",
-          "latency_ms": 60,
-          "status": "error",
-          "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-          "attempt": 3,
-          "retry_count": 2,
-          "dedup_hit": false
-        },
-        {
-          "interface": "stock_zh_a_hist_tx",
-          "symbol": "600438",
-          "latency_ms": 716,
+          "symbol": "600276",
+          "latency_ms": 72,
           "status": "ok",
           "error": "",
           "attempt": 1,
@@ -557,6 +643,7 @@
             "index": 0,
             "has_tool_calls": true,
             "tool_names": [
+              "web_search",
               "web_search"
             ],
             "reasoning_present": false,
@@ -567,7 +654,7 @@
             "has_tool_calls": false,
             "tool_names": [],
             "reasoning_present": false,
-            "content_preview": "2026-03-20 | 通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期（机构预期约-59亿元） | 新浪财经\n\n2026-03-20 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元 | 新浪财经"
+            "content_preview": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 ..."
           }
         ],
         "tool_events": [
@@ -576,24 +663,41 @@
             "tool_call_id": "web_search:0",
             "source": "formula",
             "formula_uri": "moonshot/web-search:latest",
-            "arguments_text": "{\"query\": \"通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告\", \"classes\": [\"finance\",\"all\"]}",
+            "arguments_text": "{\"query\": \"恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件\", \"classes\": [\"medical\",\"finance\"]}",
             "arguments_dict": {
-              "query": "通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告",
+              "query": "恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件",
               "classes": [
-                "finance",
-                "all"
+                "medical",
+                "finance"
               ]
             },
             "jsonable_ok": null,
             "local_context_keys": [],
-            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
-            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----oMjcdlf8N8ji+tsGwZ1IDvlX9jxEA2AbQ7UwuqIg4IvArRiaDoOQo7O7zwB0JnyyZJzg8j6OQCNmhskHJi2h550UyAWHzoHt3Rl+nA4rhzMbTBB0aa7UyEckESVZCm3lKgbvE4S4nVkSnFEuJhJ/SsDI8gOLVkCNBLxHV5CS..."
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----/4caMAKU/hb2e82wx9hyY1l10ojwm7+o7qqTgYxidp8EkLbxUCC0673MoznJ6DeDcGk4MiH3dAtyfXUBOORNWPtOvi4YlvpN4thmgS8y6ZbmryaChc7SHAAACu1mrdxs2TNmPxFOaJMjRRGiAihiiLRJKkisrEIpiGRCR+HI..."
+          },
+          {
+            "tool_name": "web_search",
+            "tool_call_id": "web_search:1",
+            "source": "formula",
+            "formula_uri": "moonshot/web-search:latest",
+            "arguments_text": "{\"query\": \"恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响\", \"classes\": [\"finance\"]}",
+            "arguments_dict": {
+              "query": "恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响",
+              "classes": [
+                "finance"
+              ]
+            },
+            "jsonable_ok": null,
+            "local_context_keys": [],
+            "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+            "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPt..."
           }
         ],
         "degrade_reason": null,
         "phase_latency_ms": {
-          "price_series": 1960,
-          "events_json": 12646
+          "price_series": 180,
+          "events_json": 21768
         },
         "phase_status": {
           "price_series": "valid",
@@ -611,8 +715,15 @@
       {
         "source": "AkShare",
         "kind": "akshare",
-        "title": "600438 近三个月K线",
-        "published_at": "2026-03-23",
+        "title": "600276 近三个月K线",
+        "published_at": "2026-03-27",
+        "url": null
+      },
+      {
+        "source": "web_search",
+        "kind": "web_search",
+        "title": "Web Search Evidence",
+        "published_at": "",
         "url": null
       },
       {
@@ -632,7 +743,7 @@
     "events": [
       {
         "type": "session_start",
-        "prompt": "标的：通威股份(600438)。今天是 2026-03-23。不要直接回答。必须先调用 1 次 web_search，搜索过去三个月内影响该公司股价的重要事件。优先搜索公司直接显著事件；如证据不足，可再补 1 次搜索专门查预期驱动事件。重点关注财报、订单、产能、产品发布、监管、事故、合作、传闻澄清、关键人物言论、叙事外溢、政策突发。拿到结果后立刻输出 1-4 行事件证据。每行必须是“YYYY-MM-DD | 事件标题 | 来源”。禁止输出散文摘要。",
+        "prompt": "标的：恒瑞医药(600276)。不要直接回答。按 system prompt 里的行业规则调用 web_search；query 必须覆盖时间意图词（当前时间往前倒推六个月）和股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
         "model": "kimi-k2.5",
         "tool_count": 2
       },
@@ -640,7 +751,7 @@
         "type": "timeline_phase",
         "phase": "price_series",
         "status": "valid",
-        "latency_ms": 1960,
+        "latency_ms": 180,
         "error": null
       },
       {
@@ -649,12 +760,12 @@
         "tool_name": "web_search",
         "tool_call_id": "web_search:0",
         "source": "formula",
-        "arguments_text": "{\"query\": \"通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告\", \"classes\": [\"finance\",\"all\"]}",
+        "arguments_text": "{\"query\": \"恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件\", \"classes\": [\"medical\",\"finance\"]}",
         "arguments": {
-          "query": "通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告",
+          "query": "恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件",
           "classes": [
-            "finance",
-            "all"
+            "medical",
+            "finance"
           ]
         }
       },
@@ -665,7 +776,32 @@
         "tool_call_id": "web_search:0",
         "source": "formula",
         "formula_uri": "moonshot/web-search:latest",
-        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----oMjcdlf8N8ji+tsGwZ1IDvlX9jxEA2AbQ7UwuqIg4IvArRiaDoOQo7O7zwB0JnyyZJzg8j6OQCNmhskHJi2h550UyAWHzoHt3Rl+nA4rhzMbTBB0aa7UyEckESVZCm3lKgbvE4S4nVkSnFEuJhJ/SsDI8gOLVkCNBLxHV5CS...",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----/4caMAKU/hb2e82wx9hyY1l10ojwm7+o7qqTgYxidp8EkLbxUCC0673MoznJ6DeDcGk4MiH3dAtyfXUBOORNWPtOvi4YlvpN4thmgS8y6ZbmryaChc7SHAAACu1mrdxs2TNmPxFOaJMjRRGiAihiiLRJKkisrEIpiGRCR+HI...",
+        "jsonable_ok": null,
+        "local_context_keys": []
+      },
+      {
+        "type": "tool_call",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "arguments_text": "{\"query\": \"恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响\", \"classes\": [\"finance\"]}",
+        "arguments": {
+          "query": "恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响",
+          "classes": [
+            "finance"
+          ]
+        }
+      },
+      {
+        "type": "tool_result",
+        "turn_index": 0,
+        "tool_name": "web_search",
+        "tool_call_id": "web_search:1",
+        "source": "formula",
+        "formula_uri": "moonshot/web-search:latest",
+        "content_preview": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPt...",
         "jsonable_ok": null,
         "local_context_keys": []
       },
@@ -697,7 +833,7 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "20"
+        "delta": "25"
       },
       {
         "type": "llm_content_delta",
@@ -712,22 +848,22 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "通"
+        "delta": "恒"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "威"
+        "delta": "瑞"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "股份"
+        "delta": "医药"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "发布"
+        "delta": "披露"
       },
       {
         "type": "llm_content_delta",
@@ -742,17 +878,7 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "年"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "年度"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "业绩预告"
+        "delta": "年年报"
       },
       {
         "type": "llm_content_delta",
@@ -762,7 +888,62 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "预计"
+        "delta": "营收"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "316"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "29"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "+"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "13"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "02"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "），"
       },
       {
         "type": "llm_content_delta",
@@ -782,47 +963,22 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "亏损"
+        "delta": "77"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "90"
+        "delta": "."
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "-"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "100"
+        "delta": "11"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
         "delta": "亿元"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "，"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "亏损"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "幅度"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "超预期"
       },
       {
         "type": "llm_content_delta",
@@ -832,27 +988,62 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "机构"
+        "delta": "+"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "预期"
+        "delta": "21"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "约"
+        "delta": "."
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "-"
+        "delta": "69"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "59"
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "），"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "163"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "42"
       },
       {
         "type": "llm_content_delta",
@@ -862,7 +1053,67 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "）"
+        "delta": "（"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "+"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "26"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "09"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "），"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "股价"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "却"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "连"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "跌"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "个月"
       },
       {
         "type": "llm_content_delta",
@@ -872,17 +1123,22 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": " "
+        "delta": " Z"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "新浪财经"
+        "delta": "AKER"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "\n\n"
+        "delta": "新闻"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\n"
       },
       {
         "type": "llm_content_delta",
@@ -912,7 +1168,7 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "20"
+        "delta": "26"
       },
       {
         "type": "llm_content_delta",
@@ -927,52 +1183,42 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "公司"
+        "delta": "恒"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "计提"
+        "delta": "瑞"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "长期"
+        "delta": "医药"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "资产"
+        "delta": "202"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "减值"
+        "delta": "5"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "约"
+        "delta": "年年报"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "15"
+        "delta": "摘要"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "-"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "20"
-      },
-      {
-        "type": "llm_content_delta",
-        "turn_index": 1,
-        "delta": "亿元"
+        "delta": "发布"
       },
       {
         "type": "llm_content_delta",
@@ -982,42 +1228,367 @@
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "其中"
+        "delta": "7"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "光伏电站"
+        "delta": "款"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "业务"
+        "delta": "1"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "计提"
+        "delta": "类"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "减值"
+        "delta": "创新"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "约"
+        "delta": "药"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
-        "delta": "10"
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "上市"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "15"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "上市"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "申请"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "N"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "MP"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "受理"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "对外"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "许可"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "33"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "92"
       },
       {
         "type": "llm_content_delta",
         "turn_index": 1,
         "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " |"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "上海"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "证券"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "报"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\n"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "03"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "27"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " |"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": " "
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年报"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "会上"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "管理层"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "表示"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "8"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "将迎来"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "53"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "产品及"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "新"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "上市"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "从"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\""
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "偶"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "发"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\""
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "变为"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\""
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "常态化"
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "\""
+      },
+      {
+        "type": "llm_content_delta",
+        "turn_index": 1,
+        "delta": "经营"
       },
       {
         "type": "llm_content_delta",
@@ -1037,12 +1608,13 @@
       {
         "type": "session_done",
         "trace": {
-          "prompt": "标的：通威股份(600438)。今天是 2026-03-23。不要直接回答。必须先调用 1 次 web_search，搜索过去三个月内影响该公司股价的重要事件。优先搜索公司直接显著事件；如证据不足，可再补 1 次搜索专门查预期驱动事件。重点关注财报、订单、产能、产品发布、监管、事故、合作、传闻澄清、关键人物言论、叙事外溢、政策突发。拿到结果后立刻输出 1-4 行事件证据。每行必须是“YYYY-MM-DD | 事件标题 | 来源”。禁止输出散文摘要。",
+          "prompt": "标的：恒瑞医药(600276)。不要直接回答。按 system prompt 里的行业规则调用 web_search；query 必须覆盖时间意图词（当前时间往前倒推六个月）和股价影响事件词。拿到结果后立刻输出简短证据摘要，禁止重复 query。",
           "turns": [
             {
               "index": 0,
               "has_tool_calls": true,
               "tool_names": [
+                "web_search",
                 "web_search"
               ],
               "reasoning_present": false,
@@ -1053,7 +1625,7 @@
               "has_tool_calls": false,
               "tool_names": [],
               "reasoning_present": false,
-              "content_preview": "2026-03-20 | 通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期（机构预期约-59亿元） | 新浪财经\n\n2026-03-20 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元 | 新浪财经"
+              "content_preview": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 ..."
             }
           ],
           "tool_events": [
@@ -1062,26 +1634,43 @@
               "tool_call_id": "web_search:0",
               "source": "formula",
               "formula_uri": "moonshot/web-search:latest",
-              "arguments_text": "{\"query\": \"通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_text": "{\"query\": \"恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件\", \"classes\": [\"medical\",\"finance\"]}",
               "arguments_dict": {
-                "query": "通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告",
+                "query": "恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件",
                 "classes": [
-                  "finance",
-                  "all"
+                  "medical",
+                  "finance"
                 ]
               },
               "jsonable_ok": null,
               "local_context_keys": [],
-              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
-              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----oMjcdlf8N8ji+tsGwZ1IDvlX9jxEA2AbQ7UwuqIg4IvArRiaDoOQo7O7zwB0JnyyZJzg8j6OQCNmhskHJi2h550UyAWHzoHt3Rl+nA4rhzMbTBB0aa7UyEckESVZCm3lKgbvE4S4nVkSnFEuJhJ/SsDI8gOLVkCNBLxHV5CS..."
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----/4caMAKU/hb2e82wx9hyY1l10ojwm7+o7qqTgYxidp8EkLbxUCC0673MoznJ6DeDcGk4MiH3dAtyfXUBOORNWPtOvi4YlvpN4thmgS8y6ZbmryaChc7SHAAACu1mrdxs2TNmPxFOaJMjRRGiAihiiLRJKkisrEIpiGRCR+HI..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响\", \"classes\": [\"finance\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响",
+                "classes": [
+                  "finance"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPt..."
             }
           ],
           "local_context": {},
-          "final_content": "2026-03-20 | 通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期（机构预期约-59亿元） | 新浪财经\n\n2026-03-20 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元 | 新浪财经",
+          "final_content": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 | 年报会上管理层表示2026-2028年将迎来53项创新产品及新适应症获批上市，海外BD从\"偶发事件\"变为\"常态化\"经营 | 新浪财经",
           "usage": {
-            "prompt_tokens": 2663,
-            "completion_tokens": 151,
-            "total_tokens": 2814
+            "prompt_tokens": 4304,
+            "completion_tokens": 264,
+            "total_tokens": 4568
           },
           "degrade_reason": null,
           "events": []
@@ -1105,17 +1694,77 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "通"
+        "delta": "恒"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "威"
+        "delta": "瑞"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "股份"
+        "delta": "医药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "("
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "600"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "276"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": ")"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "在"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "3"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "月下旬"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "密集"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "披露"
       },
       {
         "type": "llm_content_delta",
@@ -1130,177 +1779,22 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "年"
+        "delta": "年年报"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "年度"
+        "delta": "及"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "业绩预告"
+        "delta": "未来"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "显示"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "归"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "母"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "净利润"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "亏损"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "90"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "-"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "100"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "亿元"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "，"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "大幅"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "低于"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "机构"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "预期"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "，"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "同时"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "计提"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "长期"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "资产"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "减值"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "15"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "-"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "20"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "亿元"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "，"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "其中"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "光伏电站"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "业务"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "减值"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "约"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "10"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "亿元"
+        "delta": "战略"
       },
       {
         "type": "llm_content_delta",
@@ -1315,17 +1809,17 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "暴"
+        "delta": "稳健"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "雷"
+        "delta": "增长"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "对"
+        "delta": "但"
       },
       {
         "type": "llm_content_delta",
@@ -1335,27 +1829,57 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "形成"
+        "delta": "承压"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "重大"
+        "delta": "，"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "利空"
+        "delta": "创新"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "压力"
+        "delta": "药"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "。"
+        "delta": "管线"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "与"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "国际化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "成为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "关注"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "焦点"
       },
       {
         "type": "llm_content_delta",
@@ -1410,7 +1934,7 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "20"
+        "delta": "25"
       },
       {
         "type": "llm_content_delta",
@@ -1430,22 +1954,52 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "通"
+        "delta": "恒"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "威"
+        "delta": "瑞"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "股份"
+        "delta": "医药"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "发布"
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年年报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "content"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
       },
       {
         "type": "llm_content_delta",
@@ -1465,22 +2019,52 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "年度"
+        "delta": "营收"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "业绩预告"
+        "delta": "316"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "，"
+        "delta": "."
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "预计"
+        "delta": "29"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "同比增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "13"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "02"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "%，"
       },
       {
         "type": "llm_content_delta",
@@ -1500,22 +2084,17 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "亏损"
+        "delta": "77"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "90"
+        "delta": "."
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "-"
-      },
-      {
-        "type": "llm_content_delta",
-        "scope": "timeline_json",
-        "delta": "100"
+        "delta": "11"
       },
       {
         "type": "llm_content_delta",
@@ -1525,22 +2104,172 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
+        "delta": "同比增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "21"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "69"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "%，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "163"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "42"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "占比"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "超"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "50"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "达"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "26"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "09"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "%"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "高"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "增速"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
         "delta": "，"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "亏损"
+        "delta": "但"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "幅度"
+        "delta": "股价"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "超预期"
+        "delta": "已"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "连"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "跌"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "个月"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "反映"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "市场"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "担忧"
       },
       {
         "type": "llm_content_delta",
@@ -1560,7 +2289,17 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "新浪财经"
+        "delta": "Z"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "AKER"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "新闻"
       },
       {
         "type": "llm_content_delta",
@@ -1595,7 +2334,7 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "negative"
+        "delta": "neutral"
       },
       {
         "type": "llm_content_delta",
@@ -1640,7 +2379,7 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "20"
+        "delta": "26"
       },
       {
         "type": "llm_content_delta",
@@ -1660,52 +2399,102 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "公司"
+        "delta": "年报"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "计提"
+        "delta": "摘要"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "长期"
+        "delta": "发布"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "资产"
+        "delta": "创新"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "减值"
+        "delta": "药"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "约"
+        "delta": "进展"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "15"
+        "delta": "\",\""
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "-"
+        "delta": "content"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "20"
+        "delta": "\":\""
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "亿元"
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "5"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "7"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "款"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "1"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "类"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "上市"
       },
       {
         "type": "llm_content_delta",
@@ -1715,42 +2504,492 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "其中"
+        "delta": "15"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "光伏电站"
+        "delta": "项"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "业务"
+        "delta": "上市"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "计提"
+        "delta": "申请"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "减值"
+        "delta": "获"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "约"
+        "delta": "N"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "10"
+        "delta": "MP"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "A"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "受理"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "对外"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "许可"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "收入"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "33"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "."
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "92"
       },
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
         "delta": "亿元"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "显示"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "国际化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "能力"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "突破"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "source"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "上海"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "证券"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "url"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\"\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "sent"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "iment"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "positive"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\"},{\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "date"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "03"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "27"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "title"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "管理层"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "展望"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "8"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "药"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "爆发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\",\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "content"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "\":\""
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年报"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "会上"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "披露"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "6"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "-"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "202"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "8"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "年将"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "迎"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "53"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "项"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "创新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "产品及"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "新"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "适应症"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "获批"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "海外"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "BD"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "从"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "'"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "偶"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "发"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "事件"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "'"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "升级为"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "'"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "常态化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "'"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "经营"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "，"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "强化"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "长期"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "增长"
+      },
+      {
+        "type": "llm_content_delta",
+        "scope": "timeline_json",
+        "delta": "预期"
       },
       {
         "type": "llm_content_delta",
@@ -1805,7 +3044,7 @@
       {
         "type": "llm_content_delta",
         "scope": "timeline_json",
-        "delta": "negative"
+        "delta": "positive"
       },
       {
         "type": "llm_content_delta",
@@ -1820,23 +3059,33 @@
       {
         "type": "structured_json_done",
         "scope": "timeline_json",
-        "content": "{\"summary\":\"通威股份2025年年度业绩预告显示归母净利润亏损90-100亿元，大幅低于机构预期，同时计提长期资产减值15-20亿元，其中光伏电站业务减值约10亿元，业绩暴雷对股价形成重大利空压力。\",\"events\":[{\"date\":\"2026-03-20\",\"title\":\"通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期\",\"source\":\"新浪财经\",\"url\":\"\",\"sentiment\":\"negative\"},{\"date\":\"2026-03-20\",\"title\":\"公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元\",\"source\":\"新浪财经\",\"url\":\"\",\"sentiment\":\"negative\"}]}",
+        "content": "{\"summary\":\"恒瑞医药(600276)在2026年3月下旬密集披露2025年年报及未来战略，业绩稳健增长但股价承压，创新药管线与国际化BD成为关注焦点\",\"events\":[{\"date\":\"2026-03-25\",\"title\":\"恒瑞医药披露2025年年报\",\"content\":\"2025年营收316.29亿元同比增长13.02%，归母净利润77.11亿元同比增长21.69%，创新药收入163.42亿元占比超50%达26.09%高增速，但股价已连跌6个月反映市场担忧\",\"source\":\"ZAKER新闻\",\"url\":\"\",\"sentiment\":\"neutral\"},{\"date\":\"2026-03-26\",\"title\":\"年报摘要发布创新药进展\",\"content\":\"2025年7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元显示国际化BD能力突破\",\"source\":\"上海证券报\",\"url\":\"\",\"sentiment\":\"positive\"},{\"date\":\"2026-03-27\",\"title\":\"管理层展望2026-2028年创新药爆发期\",\"content\":\"年报会上披露2026-2028年将迎53项创新产品及新适应症获批，海外BD从'偶发事件'升级为'常态化'经营，强化长期增长预期\",\"source\":\"新浪财经\",\"url\":\"\",\"sentiment\":\"positive\"}]}",
         "json": {
-          "summary": "通威股份2025年年度业绩预告显示归母净利润亏损90-100亿元，大幅低于机构预期，同时计提长期资产减值15-20亿元，其中光伏电站业务减值约10亿元，业绩暴雷对股价形成重大利空压力。",
+          "summary": "恒瑞医药(600276)在2026年3月下旬密集披露2025年年报及未来战略，业绩稳健增长但股价承压，创新药管线与国际化BD成为关注焦点",
           "events": [
             {
-              "date": "2026-03-20",
-              "title": "通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期",
-              "source": "新浪财经",
+              "date": "2026-03-25",
+              "title": "恒瑞医药披露2025年年报",
+              "content": "2025年营收316.29亿元同比增长13.02%，归母净利润77.11亿元同比增长21.69%，创新药收入163.42亿元占比超50%达26.09%高增速，但股价已连跌6个月反映市场担忧",
+              "source": "ZAKER新闻",
               "url": "",
-              "sentiment": "negative"
+              "sentiment": "neutral"
             },
             {
-              "date": "2026-03-20",
-              "title": "公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元",
+              "date": "2026-03-26",
+              "title": "年报摘要发布创新药进展",
+              "content": "2025年7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元显示国际化BD能力突破",
+              "source": "上海证券报",
+              "url": "",
+              "sentiment": "positive"
+            },
+            {
+              "date": "2026-03-27",
+              "title": "管理层展望2026-2028年创新药爆发期",
+              "content": "年报会上披露2026-2028年将迎53项创新产品及新适应症获批，海外BD从'偶发事件'升级为'常态化'经营，强化长期增长预期",
               "source": "新浪财经",
               "url": "",
-              "sentiment": "negative"
+              "sentiment": "positive"
             }
           ]
         }
@@ -1845,7 +3094,7 @@
         "type": "timeline_phase",
         "phase": "events_json",
         "status": "valid",
-        "latency_ms": 12646,
+        "latency_ms": 21768,
         "error": null
       }
     ]
@@ -1854,523 +3103,598 @@
     "akshare": {
       "status": "valid",
       "data": {
-        "symbol": "600438",
-        "company_name": "通威股份",
+        "symbol": "600276",
+        "company_name": "恒瑞医药",
         "series": [
           {
+            "date": "2025-09-29",
+            "close": 69.2,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-09-30",
+            "close": 71.55,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-09",
+            "close": 71.15,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-10",
+            "close": 68.2,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-13",
+            "close": 66.98,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-14",
+            "close": 64.27,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-15",
+            "close": 66.4,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-16",
+            "close": 66.84,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-17",
+            "close": 65.1,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-20",
+            "close": 65.13,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-21",
+            "close": 66.0,
+            "event_desc": ""
+          },
+          {
+            "date": "2025-10-22",
+            "close": 65.26,
+            "event_desc": ""
+          },
+          {
             "date": "2025-10-23",
-            "close": 22.87,
+            "close": 65.14,
             "event_desc": ""
           },
           {
             "date": "2025-10-24",
-            "close": 22.21,
+            "close": 65.5,
             "event_desc": ""
           },
           {
             "date": "2025-10-27",
-            "close": 22.93,
+            "close": 67.01,
             "event_desc": ""
           },
           {
             "date": "2025-10-28",
-            "close": 22.61,
+            "close": 63.62,
             "event_desc": ""
           },
           {
             "date": "2025-10-29",
-            "close": 24.87,
+            "close": 64.02,
             "event_desc": ""
           },
           {
             "date": "2025-10-30",
-            "close": 24.78,
+            "close": 62.88,
             "event_desc": ""
           },
           {
             "date": "2025-10-31",
-            "close": 24.78,
+            "close": 64.15,
             "event_desc": ""
           },
           {
             "date": "2025-11-03",
-            "close": 25.21,
+            "close": 63.4,
             "event_desc": ""
           },
           {
             "date": "2025-11-04",
-            "close": 24.3,
+            "close": 61.92,
             "event_desc": ""
           },
           {
             "date": "2025-11-05",
-            "close": 24.4,
+            "close": 61.96,
             "event_desc": ""
           },
           {
             "date": "2025-11-06",
-            "close": 24.96,
+            "close": 62.42,
             "event_desc": ""
           },
           {
             "date": "2025-11-07",
-            "close": 26.65,
+            "close": 61.58,
             "event_desc": ""
           },
           {
             "date": "2025-11-10",
-            "close": 27.16,
+            "close": 61.83,
             "event_desc": ""
           },
           {
             "date": "2025-11-11",
-            "close": 26.72,
+            "close": 61.06,
             "event_desc": ""
           },
           {
             "date": "2025-11-12",
-            "close": 25.1,
+            "close": 62.1,
             "event_desc": ""
           },
           {
             "date": "2025-11-13",
-            "close": 25.62,
+            "close": 63.56,
             "event_desc": ""
           },
           {
             "date": "2025-11-14",
-            "close": 25.76,
+            "close": 62.9,
             "event_desc": ""
           },
           {
             "date": "2025-11-17",
-            "close": 25.22,
+            "close": 61.8,
             "event_desc": ""
           },
           {
             "date": "2025-11-18",
-            "close": 24.88,
+            "close": 61.78,
             "event_desc": ""
           },
           {
             "date": "2025-11-19",
-            "close": 25.91,
+            "close": 61.11,
             "event_desc": ""
           },
           {
             "date": "2025-11-20",
-            "close": 24.59,
+            "close": 60.63,
             "event_desc": ""
           },
           {
             "date": "2025-11-21",
-            "close": 22.97,
+            "close": 59.5,
             "event_desc": ""
           },
           {
             "date": "2025-11-24",
-            "close": 22.72,
+            "close": 60.66,
             "event_desc": ""
           },
           {
             "date": "2025-11-25",
-            "close": 22.73,
+            "close": 60.88,
             "event_desc": ""
           },
           {
             "date": "2025-11-26",
-            "close": 22.86,
+            "close": 62.36,
             "event_desc": ""
           },
           {
             "date": "2025-11-27",
-            "close": 23.0,
+            "close": 62.09,
             "event_desc": ""
           },
           {
             "date": "2025-11-28",
-            "close": 22.88,
+            "close": 62.08,
             "event_desc": ""
           },
           {
             "date": "2025-12-01",
-            "close": 23.32,
+            "close": 61.94,
             "event_desc": ""
           },
           {
             "date": "2025-12-02",
-            "close": 22.35,
+            "close": 61.12,
             "event_desc": ""
           },
           {
             "date": "2025-12-03",
-            "close": 22.02,
+            "close": 60.97,
             "event_desc": ""
           },
           {
             "date": "2025-12-04",
-            "close": 21.72,
+            "close": 61.25,
             "event_desc": ""
           },
           {
             "date": "2025-12-05",
-            "close": 21.84,
+            "close": 61.62,
             "event_desc": ""
           },
           {
             "date": "2025-12-08",
-            "close": 21.89,
+            "close": 62.46,
             "event_desc": ""
           },
           {
             "date": "2025-12-09",
-            "close": 22.68,
+            "close": 63.08,
             "event_desc": ""
           },
           {
             "date": "2025-12-10",
-            "close": 22.0,
+            "close": 63.38,
             "event_desc": ""
           },
           {
             "date": "2025-12-11",
-            "close": 21.26,
+            "close": 63.4,
             "event_desc": ""
           },
           {
             "date": "2025-12-12",
-            "close": 21.62,
+            "close": 63.28,
             "event_desc": ""
           },
           {
             "date": "2025-12-15",
-            "close": 21.74,
+            "close": 61.38,
             "event_desc": ""
           },
           {
             "date": "2025-12-16",
-            "close": 20.8,
+            "close": 59.15,
             "event_desc": ""
           },
           {
             "date": "2025-12-17",
-            "close": 21.18,
+            "close": 60.3,
             "event_desc": ""
           },
           {
             "date": "2025-12-18",
-            "close": 20.76,
+            "close": 60.0,
             "event_desc": ""
           },
           {
             "date": "2025-12-19",
-            "close": 20.8,
+            "close": 60.85,
             "event_desc": ""
           },
           {
             "date": "2025-12-22",
-            "close": 20.84,
+            "close": 60.93,
             "event_desc": ""
           },
           {
             "date": "2025-12-23",
-            "close": 20.86,
+            "close": 61.8,
             "event_desc": ""
           },
           {
             "date": "2025-12-24",
-            "close": 21.04,
+            "close": 61.23,
             "event_desc": ""
           },
           {
             "date": "2025-12-25",
-            "close": 21.38,
+            "close": 61.4,
             "event_desc": ""
           },
           {
             "date": "2025-12-26",
-            "close": 21.8,
+            "close": 61.06,
             "event_desc": ""
           },
           {
             "date": "2025-12-29",
-            "close": 21.51,
+            "close": 60.51,
             "event_desc": ""
           },
           {
             "date": "2025-12-30",
-            "close": 21.01,
+            "close": 60.18,
             "event_desc": ""
           },
           {
             "date": "2025-12-31",
-            "close": 20.52,
+            "close": 59.57,
             "event_desc": ""
           },
           {
             "date": "2026-01-05",
-            "close": 21.11,
+            "close": 63.08,
             "event_desc": ""
           },
           {
             "date": "2026-01-06",
-            "close": 21.59,
+            "close": 63.06,
             "event_desc": ""
           },
           {
             "date": "2026-01-07",
-            "close": 21.65,
+            "close": 63.85,
             "event_desc": ""
           },
           {
             "date": "2026-01-08",
-            "close": 21.66,
+            "close": 63.6,
             "event_desc": ""
           },
           {
             "date": "2026-01-09",
-            "close": 20.83,
+            "close": 63.78,
             "event_desc": ""
           },
           {
             "date": "2026-01-12",
-            "close": 21.27,
+            "close": 63.85,
             "event_desc": ""
           },
           {
             "date": "2026-01-13",
-            "close": 20.45,
+            "close": 64.52,
             "event_desc": ""
           },
           {
             "date": "2026-01-14",
-            "close": 20.57,
+            "close": 63.61,
             "event_desc": ""
           },
           {
             "date": "2026-01-15",
-            "close": 20.02,
+            "close": 63.17,
             "event_desc": ""
           },
           {
             "date": "2026-01-16",
-            "close": 20.02,
+            "close": 61.94,
             "event_desc": ""
           },
           {
             "date": "2026-01-19",
-            "close": 19.27,
+            "close": 61.12,
             "event_desc": ""
           },
           {
             "date": "2026-01-20",
-            "close": 18.59,
+            "close": 60.5,
             "event_desc": ""
           },
           {
             "date": "2026-01-21",
-            "close": 18.49,
+            "close": 60.1,
             "event_desc": ""
           },
           {
             "date": "2026-01-22",
-            "close": 18.82,
+            "close": 59.44,
             "event_desc": ""
           },
           {
             "date": "2026-01-23",
-            "close": 20.28,
+            "close": 58.99,
             "event_desc": ""
           },
           {
             "date": "2026-01-26",
-            "close": 19.6,
+            "close": 58.16,
             "event_desc": ""
           },
           {
             "date": "2026-01-27",
-            "close": 19.5,
+            "close": 57.2,
             "event_desc": ""
           },
           {
             "date": "2026-01-28",
-            "close": 19.02,
+            "close": 56.55,
             "event_desc": ""
           },
           {
             "date": "2026-01-29",
-            "close": 19.06,
+            "close": 58.11,
             "event_desc": ""
           },
           {
             "date": "2026-01-30",
-            "close": 18.2,
+            "close": 58.16,
             "event_desc": ""
           },
           {
             "date": "2026-02-02",
-            "close": 17.84,
+            "close": 56.49,
             "event_desc": ""
           },
           {
             "date": "2026-02-03",
-            "close": 18.66,
+            "close": 57.47,
             "event_desc": ""
           },
           {
             "date": "2026-02-04",
-            "close": 19.56,
+            "close": 57.6,
             "event_desc": ""
           },
           {
             "date": "2026-02-05",
-            "close": 18.37,
+            "close": 58.16,
             "event_desc": ""
           },
           {
             "date": "2026-02-06",
-            "close": 18.57,
+            "close": 57.31,
             "event_desc": ""
           },
           {
             "date": "2026-02-09",
-            "close": 19.08,
+            "close": 57.45,
             "event_desc": ""
           },
           {
             "date": "2026-02-10",
-            "close": 18.85,
+            "close": 58.4,
             "event_desc": ""
           },
           {
             "date": "2026-02-11",
-            "close": 18.67,
+            "close": 58.9,
             "event_desc": ""
           },
           {
             "date": "2026-02-12",
-            "close": 18.42,
+            "close": 58.74,
             "event_desc": ""
           },
           {
             "date": "2026-02-13",
-            "close": 18.01,
+            "close": 58.23,
             "event_desc": ""
           },
           {
             "date": "2026-02-24",
-            "close": 18.16,
+            "close": 58.01,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-02-25",
+            "close": 57.86,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-02-26",
+            "close": 56.72,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-02-27",
+            "close": 56.56,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-02",
+            "close": 54.54,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-03",
+            "close": 53.61,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-04",
+            "close": 52.98,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-05",
+            "close": 53.72,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-06",
+            "close": 55.56,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-09",
+            "close": 54.94,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-10",
+            "close": 56.55,
             "event_desc": ""
           },
           {
             "date": "2026-03-11",
-            "close": 18.62,
+            "close": 55.83,
             "event_desc": ""
           },
           {
             "date": "2026-03-12",
-            "close": 19.55,
+            "close": 55.3,
             "event_desc": ""
           },
           {
             "date": "2026-03-13",
-            "close": 19.32,
+            "close": 55.11,
             "event_desc": ""
           },
           {
             "date": "2026-03-16",
-            "close": 18.79,
+            "close": 55.59,
             "event_desc": ""
           },
           {
             "date": "2026-03-17",
-            "close": 18.44,
+            "close": 56.3,
             "event_desc": ""
           },
           {
             "date": "2026-03-18",
-            "close": 18.35,
+            "close": 56.88,
             "event_desc": ""
           },
           {
             "date": "2026-03-19",
-            "close": 18.1,
+            "close": 56.02,
             "event_desc": ""
           },
           {
             "date": "2026-03-20",
-            "close": 18.46,
+            "close": 55.14,
             "event_desc": ""
           },
           {
             "date": "2026-03-23",
-            "close": 17.94,
+            "close": 52.78,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-24",
+            "close": 53.64,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-25",
+            "close": 54.1,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-26",
+            "close": 51.63,
+            "event_desc": ""
+          },
+          {
+            "date": "2026-03-27",
+            "close": 55.18,
             "event_desc": ""
           }
         ],
-        "asof": "2026-03-23",
+        "asof": "2026-03-27",
         "data_origin": "live",
-        "network_evidence": [
-          {
-            "interface": "stock_zh_a_hist",
-            "status": "error",
-            "latency_ms": 57,
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "retry_count": 0,
-            "dedup_hit": false
-          },
-          {
-            "interface": "stock_zh_a_hist",
-            "status": "error",
-            "latency_ms": 65,
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "retry_count": 1,
-            "dedup_hit": false
-          },
-          {
-            "interface": "stock_zh_a_hist",
-            "status": "error",
-            "latency_ms": 60,
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "retry_count": 2,
-            "dedup_hit": false
-          }
-        ],
+        "network_evidence": [],
         "akshare_calls": [
           {
             "interface": "stock_zh_a_hist",
-            "symbol": "600438",
-            "latency_ms": 57,
-            "status": "error",
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "attempt": 1,
-            "retry_count": 0,
-            "dedup_hit": false
-          },
-          {
-            "interface": "stock_zh_a_hist",
-            "symbol": "600438",
-            "latency_ms": 65,
-            "status": "error",
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "attempt": 2,
-            "retry_count": 1,
-            "dedup_hit": false
-          },
-          {
-            "interface": "stock_zh_a_hist",
-            "symbol": "600438",
-            "latency_ms": 60,
-            "status": "error",
-            "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-            "attempt": 3,
-            "retry_count": 2,
-            "dedup_hit": false
-          },
-          {
-            "interface": "stock_zh_a_hist_tx",
-            "symbol": "600438",
-            "latency_ms": 716,
+            "symbol": "600276",
+            "latency_ms": 72,
             "status": "ok",
             "error": "",
             "attempt": 1,
@@ -2380,7 +3704,7 @@
         ],
         "trace": {
           "phase_latency_ms": {
-            "price_series": 1960
+            "price_series": 180
           },
           "phase_status": {
             "price_series": "valid"
@@ -2394,8 +3718,8 @@
         {
           "source": "AkShare",
           "kind": "akshare",
-          "title": "600438 近三个月K线",
-          "published_at": "2026-03-23",
+          "title": "600276 近三个月K线",
+          "published_at": "2026-03-27",
           "url": null
         }
       ],
@@ -2407,27 +3731,38 @@
     "kimi": {
       "status": "valid",
       "data": {
-        "symbol": "600438",
-        "company_name": "通威股份",
+        "symbol": "600276",
+        "company_name": "恒瑞医药",
         "events": [
           {
-            "date": "2026-03-20",
-            "event_date": "2026-03-20",
-            "title": "通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期",
-            "source": "新浪财经",
+            "date": "2026-03-25",
+            "event_date": "2026-03-25",
+            "title": "恒瑞医药披露2025年年报",
+            "content": "2025年营收316.29亿元同比增长13.02%，归母净利润77.11亿元同比增长21.69%，创新药收入163.42亿元占比超50%达26.09%高增速，但股价已连跌6个月反映市场担忧",
+            "source": "ZAKER新闻",
             "url": "",
-            "sentiment": "negative"
+            "sentiment": "neutral"
           },
           {
-            "date": "2026-03-20",
-            "event_date": "2026-03-20",
-            "title": "公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元",
+            "date": "2026-03-26",
+            "event_date": "2026-03-26",
+            "title": "年报摘要发布创新药进展",
+            "content": "2025年7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元显示国际化BD能力突破",
+            "source": "上海证券报",
+            "url": "",
+            "sentiment": "positive"
+          },
+          {
+            "date": "2026-03-27",
+            "event_date": "2026-03-27",
+            "title": "管理层展望2026-2028年创新药爆发期",
+            "content": "年报会上披露2026-2028年将迎53项创新产品及新适应症获批，海外BD从'偶发事件'升级为'常态化'经营，强化长期增长预期",
             "source": "新浪财经",
             "url": "",
-            "sentiment": "negative"
+            "sentiment": "positive"
           }
         ],
-        "summary": "通威股份2025年年度业绩预告显示归母净利润亏损90-100亿元，大幅低于机构预期，同时计提长期资产减值15-20亿元，其中光伏电站业务减值约10亿元，业绩暴雷对股价形成重大利空压力。",
+        "summary": "恒瑞医药(600276)在2026年3月下旬密集披露2025年年报及未来战略，业绩稳健增长但股价承压，创新药管线与国际化BD成为关注焦点",
         "trace": {
           "tool_call_required": true,
           "tool_call_observed": true,
@@ -2440,6 +3775,7 @@
               "index": 0,
               "has_tool_calls": true,
               "tool_names": [
+                "web_search",
                 "web_search"
               ],
               "reasoning_present": false,
@@ -2450,7 +3786,7 @@
               "has_tool_calls": false,
               "tool_names": [],
               "reasoning_present": false,
-              "content_preview": "2026-03-20 | 通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期（机构预期约-59亿元） | 新浪财经\n\n2026-03-20 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元 | 新浪财经"
+              "content_preview": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 ..."
             }
           ],
           "tool_events": [
@@ -2459,25 +3795,49 @@
               "tool_call_id": "web_search:0",
               "source": "formula",
               "formula_uri": "moonshot/web-search:latest",
-              "arguments_text": "{\"query\": \"通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告\", \"classes\": [\"finance\",\"all\"]}",
+              "arguments_text": "{\"query\": \"恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件\", \"classes\": [\"medical\",\"finance\"]}",
               "arguments_dict": {
-                "query": "通威股份 600438 2025年12月 2026年1月 2026年2月 2026年3月 股价 重大事件 财报 业绩 订单 产能 监管 合作 公告",
+                "query": "恒瑞医药 2025年9月至2026年3月 新药审批 临床数据 股价 重大事件",
                 "classes": [
-                  "finance",
-                  "all"
+                  "medical",
+                  "finance"
                 ]
               },
               "jsonable_ok": null,
               "local_context_keys": [],
-              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
-              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----oMjcdlf8N8ji+tsGwZ1IDvlX9jxEA2AbQ7UwuqIg4IvArRiaDoOQo7O7zwB0JnyyZJzg8j6OQCNmhskHJi2h550UyAWHzoHt3Rl+nA4rhzMbTBB0aa7UyEckESVZCm3lKgbvE4S4nVkSnFEuJhJ/SsDI8gOLVkCNBLxHV5CS..."
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----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----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----/4caMAKU/hb2e82wx9hyY1l10ojwm7+o7qqTgYxidp8EkLbxUCC0673MoznJ6DeDcGk4MiH3dAtyfXUBOORNWPtOvi4YlvpN4thmgS8y6ZbmryaChc7SHAAACu1mrdxs2TNmPxFOaJMjRRGiAihiiLRJKkisrEIpiGRCR+HI..."
+            },
+            {
+              "tool_name": "web_search",
+              "tool_call_id": "web_search:1",
+              "source": "formula",
+              "formula_uri": "moonshot/web-search:latest",
+              "arguments_text": "{\"query\": \"恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响\", \"classes\": [\"finance\"]}",
+              "arguments_dict": {
+                "query": "恒瑞医药 600276 2025年9月至2026年3月 财报 回购 解禁 指数纳入 股价影响",
+                "classes": [
+                  "finance"
+                ]
+              },
+              "jsonable_ok": null,
+              "local_context_keys": [],
+              "tool_content": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPtU01LQ0O2nJRol+XCAzPpn169E8udbly6xiXxAdVasA5Udv1c1k4Hv1Y8OTFI063zkhlXnLfuskGerXD3ruCE+QxBpE2tYGmwjJBCixSASBwAe16ql8fMuesjfL++06CH1kVxGzC0RgfJENRhdLxe2VaEN+UuSreJ8J6PDUMK7GJOQ3ymhJkmLA5irUhjRDKvRqBftbajbDTfH27Ie8QZr1n7Bl4zsRtWO0Lw7KqaSSFRnKkv9RpQp+ocVeK2XRxaS6he+UEPPTbRDEPMT+WdQoEWfRgDF5bntqJBBAEbcny4tH0m7Z3zRHC3dTMJqX6AfENb35W/vIHI6CI8QS0FLy2LfX5apO1uMhG914rSVqm8HuzzTfx3kG0N6zh/2lQZJSTWPl0pB4MLAjGRd/uu/nNjEhLINOFhVprn5kpDOuy+3+8W0RWdJiVNt5z2y8U3bptpUbes8ppL7dilf6bDQHSuexMpEptS3vMxbA3NrPTGcdEKzgopTDpR/YMap7eQMCr5Nbqtl/6MFvRrQ/fpsc9jC1gcchNXP5UnQP6RhN8ClOvOXqitm9lGxCZ2FPRXI3eeDW4m3fmat7UWA5fyvDDEaHarwCx5lM5z+zevwfANd2HIA/CD01GhNXuJcpnjtSQxusnLqnQ8ErR9c5qfs3YUpAwTF6zuWvxhMCeFvxR1Rc/aRalRiJc8EnhBJj370waOs9PY40LkwwM8aAM8y+tXkSMqHAF92fjPyDrCgXfrjKUOt5eLLc1WHAwOF9Is4OGNam0jA8EYBaBmRfZPlRTZHQx51Gm3wrfbN3ts+7QnI6J9deKz5OJRKRpRfzQSCGHAea/8RU4NDEmIYob6BkMMAf8SyW2F57/tjyBe0iVsqZj1zXyaLnvxnVOtWqdMgQCfWLZAbZcwI0pimYNl4KCbrPEwdVLW//r7IB7eEpfQD/7B4sNQ3bf1gNc/IVlyvq3qsG2DqXJ/L6hzwWcO0VwJqYQFyhigEMK3dF/jprcUQV54Jvzq2rhQYBuXOZgU2Sxz2Q3lGG+qWo48hJHi+cM/MYc6XJ6DWZRxY32lPYYIjqwVDIqduDnlE8/t3cGNl1fGPcxLkk+ry+ptYjbM2Ylrhp4OuUj0A2TeulyghXqYDVWg6MES78JxaKyPsTChDcW9mulvYjLO48G5ss2FBSrIshbEF8U3jjEVuivythDmaKqYH3qi7te5v8DgrVGhXPwv7EPFGUwRerEfBBG5P2JekQwVBKcKYIRF9ODGc+sQ3wnenww8O96IHykx/vIohklJVulJuI+5C3aU5dk7PzBg1zzNh4F9Efng5e/1qsHVHQe6Z5e+gPe1f58waCnVSvAy/+8k9+A9NdsTj1J4qcX2BrI64f4cNQT4/3T+dkXREWkPYxj5BqyQpHyiEHPvIGSSWraZAZlUfZuilzYgEDHhoE7UaEmhEDS99w+ldEw36FC6cheM5l6KVM8Uos3fyHCV5aF6vmg3c96Boo1uhI3sdgcLIh1hg80JhluhGY5ohQZou8uIMEiHOLn1rcsYygm3jByBhXCeDwRv8d5Bemeh4O93snc0Mzp0toa/EWAG5nn3zywrE52AL/Q5uoShpaK7tooX0aGzIeZCQCOhbpfOyEuvoqqR2UHDSmhuLaHd1/OT87IeZSFEKQXskNdlsgj6LBOwmmWB1Yt36iit0I/Q0pbo8KraGPU5xPRO5r1MEkpdbQkR0ka4tkjR2ZSnrrBd1Jx1TcyCac/+b9x0kSajtjYCnSbUSkAtY34mlg+slUrcRaN6YHFuwdJfEnYSHrmUlfqjnWcBR+dUqqaWT7YQmGnHfSaWEZk/V8OviGTaERqDHsEtZSlrIu/ITMCSVdP/xJSmSLTicONqQekx5kvIld2Z7tvUtsrsxgWbU1yllay38d9VZJGJmFaI9A2/E7CqdUa2KGJqFJG66F7cI/cKMqfwozr7nJhCFuGcr9Q2KXR0y6ZNFOQUBCDFRpK4cTMKHRRk/yWe4FjFqmpm0RmHkQW36OzyKfreDOvoZPMsnjnlHRy5zmBu72ci1tOiJt+ZDY9UV0xiKqOqJHkuhFV/fB5uwJiiDe3X/VHWQrHLurU7uWq1BeZuPsune0XogwuP4R2l5tHU6gmWVVqe2cx3thJBmsCeBHzybvQBSuurQzGVDJHcGd6T7obW+/wTyhrRsnAdVyF5+Lwf3uacwvimkvBXFnTyFIp9TGpPwVV4hytal02NEWn4LCb5XbczXmuqBbAmIXthBnOVco2Y06UGRzTCFh5qu+X9b++PILf51mrTfLLc+51lAzRNO4GH+YIz9kG7Nrsa80owNeHMDHo6KU+MsDHM4ogAmZ8H4aFTj5nQHl7D1Rb9mgrYNB5KqlLbp3qEhKBM/BCsWssAU9bXqWmgwkUDkzBu5GsiKKNBV3gKlJvm24DKiYBcR5+JxphpnDNAb9S8Ynaxt1wvtWZ18tBc4zR6lwf27icA4PzRvSexzqzBGj983buSXwCemXhkP4fAgETb32QyKhK0+rEF3zuEJMOUC8rw/3lONAmKgsRAuGYefsKWtt9iM/rLpOsjeyVHm9u1ncHQJFp4KzkJ6MIVn+48Q346J16dAnzyvzST0mvCj/+uJkCtdIfm4BJoNGHNmRKSZk03BtjT760NR/MsA7H9xcZajM9YaRGZLHVjaaNnpjcm8QJkYE0doMtFn7MkYvJdBMtM2WaRPl1O0UBBfiUt0MrAvBF9tsCPSHWzrEhc31P6wq9CHY8phR1wVFAvB59hL4TSWnrL1TgCJw7lf1Hh8qdjdgkzZwzm/3XX2sEv9R93+VHFY8qnf2Y4NwgpKWMV625pt8Zt2wLTg2LyBPnD+mScpgPX7jiXbjgKGkjJuStixoP2yUr0ta027abZuZYQsUcvtC3a6OhSCtjLxF7ySY02dTmqYazDxCR3JYt4kQTIZ6/2IgzjTILtrepFfSwkvVOSr/BARNPdH3Q+56rwCopOMNqoM+Kzx5+lPXlpBFn1S4nKtwfY3+N6dyHX5g2+0oMzYEF+MPoEYlHsVbUEhQhBsEQ1inxLq/1yYSH9gxGc6hgFnVMMPHHaBwCht6+CsmREKA7T5yeY5ck7OSaahrV1VSjNfDSYZXS7OSEzDudkMgdfJV9ylFVyyBbZ7/a+KMccJwYt7B4cWtnitCJXApQZGLiTDEZXLvHfba8pf07arHr97EC/Pw9QbT3bEO970PIvBxhfFL0o53pxUY8BnGjzgbPrtH4aV5FtiZEhkMGXEj9YPAG14mOrwrXJYNo8k9nJaed/TSSOC2Q9GHYx6NF0+/beWOzFtmtnXflfIde9jqGENE8dbKDo2TIpAAoYt+3glJmGghnarM81fuwvERsP9LT1yYpJijIe8W7FBt8krBbFPa5cHywSeeCwnoYx3IkZ1Znw3KZK93Yk5mr47f46IzmCh37cjkr3RfgVtgUgDZPoCNzWD1sdhsOvR0qoJM1r/fzTuYnEP8J1gBha4Pj898T/ct4QO604dfb0jF9pzkNyqZd0chTlCxHiVxP3LTVc2Qj8QWosFcmUBrPkADMTy6CZfJEZadlsuXJBOGq7g4d5ijz92379oY3p65RBLWjXAEylbI00dFp8Yd0YJF0mB5AEGX5kSaBEizfFcBHuqMAwwnc5bTmbeXTjY7BbewNFEBEX8FKWvjzQtdOQsZiLqX/ZrRMX4MVeJZPU+H0fyKLHn3IMSxRUfGIb5ykLh2QF5oqNYmRKyCoz3zVkEFpoWIQd4ttVkEoX+nTS5Krmmzi7A3FkUs6VgcY9kKqLvS97T/TCOCUshlihLRL9+/oV6ycOJ32b11YrjWpAE2cRsBdTm+rignfkW/BNS1FksXk9EqWEYIXY810zd2uvbPQLaR1PfYMuDleQmYe3rVuewOL7mXZh9qO7QqAMua5etSUC+iRMRc0G90W1czjr26oRCFvjx9TRg0OmoaJRvEhjA8NzecCxXH1RsmQZmSzEAlEHwxUjPERBcKWNa1zakjyNlaDFX833uHrXwpCGj4x7AuzNwh+xLFXsDzmyMZfo/SXnUKtSaOJ9NZVO7PZLZNGADijApH5GRCtfHIxO72mUFXVzVDAz4tg2V34GJHi7u7auJYI9M/xyiODzLrCC/m8y7DprT33glJa7TaaX9Mad7g67NhEJzObSkO4E2nW/bCfkXBU7XbvjdzlG4alRp0wH2gcos4X6IH9EWnnAk0y6Ga1VfjpL23kTqgmWEiIoSktre6gftJGhi21xGvhvOHRGA5JE30F0O04rGVQuebaqdSpRHr1G23mbjR200KJmxD9qirbXpMTCo64ta+ZSZgjH2EQ6+6JwDBTBQJu2SQMQfA4gVRfzIlHDemsH1NMkQaOSJfKn9kwFkoJEo4CKdb8ere+WG2KJ+g8Q+tA4h+kgfcnh8L4HY7AR3MW4qF/vPdrOpWh/vysPFyg9jD4XH1C0bGEM5Fr+WIDNaOPUGiSuDBazeVAhqjlkhXe7oNS1nCt4M9J9a611N2THAX5clHzC2PeEIFnbdPakeURy1dCv2a0LH43fKeWSuOmImVdwx8lhYl/tED831SrlZeJnRBuRa/Usm2W8YwWJrBpK3yJayJ5LoX2K1O0t3hyI9ISpdja7A1b0DfOq+UzVCoQJMGADoY3ySmc0YkKFbNo+qISQ0MH6pUBTRIezvWNV7Yf/ixZROjMkU/0o7Z0zmXAxU6VcZo2NEw8J2ofTpDmYoDonSuq6af/5M9YNGKLCR8QI/+walL1UiaO90pXct9LKbr9rfiJdgYYyklcVi9wc44gaIJm8mHyF/zjC6r5zBHyTQnl18rAhFAGUVTjUoHmFFQyjTgUeF0hbLUh0EH9I1jEOCdIzwXh2NNTs13yeB/gbt8ckk7TP6Xpcd4VEhPKlcfl15NoTx6eFmE8Q2Jy12SVqI2Ackw62YlVKUXzBKVBl70NXzOBGSp9IVn5sXJb1JHuOIXo6BpqFZSCrEEqIIEB2AV5aeGrSoYZn49ie9ghd9tEWFrzDpJYxfAT036nzi9KwvsORYRxrHUMyPhiCcnuMTz4ck8/HXE6PN7DDtOdGW3w5SRFl3w5Y14nJZWGfDzJxgFivz1ZFs7z1MpiRQUXT5i7s/SwIqSsBFukFuqAnblSnY/MqR3oO8L6Vb4hgK2mq8d4e3ngKPN0HL3A6hGur8xQ9KwBM5EcrZcDjEXTPgfM/993fZjzyH3IWZvwwuJ8LAe4Cjw1ssPcNrCycGSHdCKY3GNltoY1AGS6Cgc1ZG8CCbdBXa8oHdptsXw2x71CC8L/WRoMWhS6DJsr8bMZ5rN/b5CxB4mU0/0+S1yPxbonUnw3QNLajk068Yk32JTzDo1rxFokqVxGaFBqdMMvflZ8Fz0ZVPL0XlLlIQc19lxpRBG1p86816qPfsqKYeRxTZsVxaHD6y7Dnhpj9yyNsxgbeBkyDAiF2vX/hTBTDLOwqqy+rcoKJH4MoL1fJv4+O1/isOVI58newd6jPANkkRjuTk1/W8BdOmVX+0S++a3sLY+bq3jECH+UrrjCMvHmU8QjPzC6Fiu8Ka5hO3mqObO1TWd8mRCBTZPMF6MrP1uF2MvQRFS/F5zUNRgHE5Idnr3rsBKXg2UQTOCQ3x/BTE+8z+5lNbzkfDZoBb3FlPki7UhpChq40iazncjXZDBNr25zQv/MsECsu4WsV3dArUKLk+swFuWLDo/F6MFuZHzydGCm0W118//MfVCqqUWDiF1E0urekoWxfnplix3nOycEOpLEGC04Nr42HAVc4eKgXVg1j0dZahFAs94nH/BVOFFd88hPu20yTF6ONk5mw9wHWXLKgEPIAxAnsOm7ObxviGhpvPNEIpVAhlrXRGg+09WrDpKYEqO1Hqsr+HCy9xp4Lmx+afaarZFnj8Z0DZOzkArkaE9z5VdmwpNn01cHpzw2KXjGtzGYMEV5DlauZpisdpWF8Voy4oziOe0fTLRcxWDCZpXqmW9r8YK2mKofwo8pqerxKcXBLxtptKgwsrPRUQACJIT5d/MEutOvq9IScmQ0j----MOONSHOT ENCRYPTED END----",
+              "tool_content_preview": "----MOONSHOT ENCRYPTED BEGIN----W26Gq7gupjqxebcU4VtgKu76Abr/oa9etjkCzhoVrbV08S0Rl1hZXHecX3Pt7BSW5Sx2GYNFW4I+nyEVjzHXPq6oUygUZ4uhjF91T9U7GPN218sri+EGqwMhkgqvJ0Drzr3XMv4sqReaN2N5xBbIzJNdT56a+nJaLzI1FHPt..."
             }
           ],
           "degrade_reason": null,
-          "final_content": "2026-03-20 | 通威股份发布2025年年度业绩预告，预计归母净利润亏损90-100亿元，亏损幅度超预期（机构预期约-59亿元） | 新浪财经\n\n2026-03-20 | 公司计提长期资产减值约15-20亿元，其中光伏电站业务计提减值约10亿元 | 新浪财经"
+          "final_content": "2026-03-25 | 恒瑞医药披露2025年年报，营收316.29亿元（+13.02%），归母净利润77.11亿元（+21.69%），创新药收入163.42亿元（+26.09%），股价却连跌6个月 | ZAKER新闻\n2026-03-26 | 恒瑞医药2025年年报摘要发布，7款1类创新药获批上市，15项上市申请获NMPA受理，对外许可收入33.92亿元 | 上海证券报\n2026-03-27 | 年报会上管理层表示2026-2028年将迎来53项创新产品及新适应症获批上市，海外BD从\"偶发事件\"变为\"常态化\"经营 | 新浪财经"
         }
       },
       "sources": [
+        {
+          "source": "web_search",
+          "kind": "web_search",
+          "title": "Web Search Evidence",
+          "published_at": "",
+          "url": null
+        },
         {
           "source": "web_search",
           "kind": "web_search",
@@ -2492,23 +3852,18 @@
       "is_critical": true
     }
   },
-  "generated_at": "2026-03-23T15:47:24.546805+00:00",
+  "generated_at": "2026-03-29T05:44:58.477103+00:00",
   "runtime": {
     "python_executable": "/Users/hujiawei/Documents/PomeFiDemo/venv/bin/python",
     "python_version": "3.13.9",
     "cwd": "/Users/hujiawei/Documents/PomeFiDemo",
-    "venv": null,
+    "venv": "/Users/hujiawei/Documents/PomeFiDemo/venv",
     "packages": {
       "akshare": "1.18.26",
       "python-dotenv": "1.2.1",
       "httpx": "0.28.1",
       "openai": "2.21.0"
     },
-    "proxy_env": {
-      "HTTP_PROXY": "http://127.0.0.1:7897",
-      "HTTPS_PROXY": "http://127.0.0.1:7897",
-      "http_proxy": "http://127.0.0.1:7897",
-      "https_proxy": "http://127.0.0.1:7897"
-    }
+    "proxy_env": {}
   }
 }

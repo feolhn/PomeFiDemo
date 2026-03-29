@@ -1,523 +1,598 @@
 {
   "status": "valid",
   "data": {
-    "symbol": "600438",
-    "company_name": "通威股份",
+    "symbol": "600276",
+    "company_name": "恒瑞医药",
     "series": [
       {
+        "date": "2025-09-29",
+        "close": 69.2,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-09-30",
+        "close": 71.55,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-09",
+        "close": 71.15,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-10",
+        "close": 68.2,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-13",
+        "close": 66.98,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-14",
+        "close": 64.27,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-15",
+        "close": 66.4,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-16",
+        "close": 66.84,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-17",
+        "close": 65.1,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-20",
+        "close": 65.13,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-21",
+        "close": 66.0,
+        "event_desc": ""
+      },
+      {
+        "date": "2025-10-22",
+        "close": 65.26,
+        "event_desc": ""
+      },
+      {
         "date": "2025-10-23",
-        "close": 22.87,
+        "close": 65.14,
         "event_desc": ""
       },
       {
         "date": "2025-10-24",
-        "close": 22.21,
+        "close": 65.5,
         "event_desc": ""
       },
       {
         "date": "2025-10-27",
-        "close": 22.93,
+        "close": 67.01,
         "event_desc": ""
       },
       {
         "date": "2025-10-28",
-        "close": 22.61,
+        "close": 63.62,
         "event_desc": ""
       },
       {
         "date": "2025-10-29",
-        "close": 24.87,
+        "close": 64.02,
         "event_desc": ""
       },
       {
         "date": "2025-10-30",
-        "close": 24.78,
+        "close": 62.88,
         "event_desc": ""
       },
       {
         "date": "2025-10-31",
-        "close": 24.78,
+        "close": 64.15,
         "event_desc": ""
       },
       {
         "date": "2025-11-03",
-        "close": 25.21,
+        "close": 63.4,
         "event_desc": ""
       },
       {
         "date": "2025-11-04",
-        "close": 24.3,
+        "close": 61.92,
         "event_desc": ""
       },
       {
         "date": "2025-11-05",
-        "close": 24.4,
+        "close": 61.96,
         "event_desc": ""
       },
       {
         "date": "2025-11-06",
-        "close": 24.96,
+        "close": 62.42,
         "event_desc": ""
       },
       {
         "date": "2025-11-07",
-        "close": 26.65,
+        "close": 61.58,
         "event_desc": ""
       },
       {
         "date": "2025-11-10",
-        "close": 27.16,
+        "close": 61.83,
         "event_desc": ""
       },
       {
         "date": "2025-11-11",
-        "close": 26.72,
+        "close": 61.06,
         "event_desc": ""
       },
       {
         "date": "2025-11-12",
-        "close": 25.1,
+        "close": 62.1,
         "event_desc": ""
       },
       {
         "date": "2025-11-13",
-        "close": 25.62,
+        "close": 63.56,
         "event_desc": ""
       },
       {
         "date": "2025-11-14",
-        "close": 25.76,
+        "close": 62.9,
         "event_desc": ""
       },
       {
         "date": "2025-11-17",
-        "close": 25.22,
+        "close": 61.8,
         "event_desc": ""
       },
       {
         "date": "2025-11-18",
-        "close": 24.88,
+        "close": 61.78,
         "event_desc": ""
       },
       {
         "date": "2025-11-19",
-        "close": 25.91,
+        "close": 61.11,
         "event_desc": ""
       },
       {
         "date": "2025-11-20",
-        "close": 24.59,
+        "close": 60.63,
         "event_desc": ""
       },
       {
         "date": "2025-11-21",
-        "close": 22.97,
+        "close": 59.5,
         "event_desc": ""
       },
       {
         "date": "2025-11-24",
-        "close": 22.72,
+        "close": 60.66,
         "event_desc": ""
       },
       {
         "date": "2025-11-25",
-        "close": 22.73,
+        "close": 60.88,
         "event_desc": ""
       },
       {
         "date": "2025-11-26",
-        "close": 22.86,
+        "close": 62.36,
         "event_desc": ""
       },
       {
         "date": "2025-11-27",
-        "close": 23.0,
+        "close": 62.09,
         "event_desc": ""
       },
       {
         "date": "2025-11-28",
-        "close": 22.88,
+        "close": 62.08,
         "event_desc": ""
       },
       {
         "date": "2025-12-01",
-        "close": 23.32,
+        "close": 61.94,
         "event_desc": ""
       },
       {
         "date": "2025-12-02",
-        "close": 22.35,
+        "close": 61.12,
         "event_desc": ""
       },
       {
         "date": "2025-12-03",
-        "close": 22.02,
+        "close": 60.97,
         "event_desc": ""
       },
       {
         "date": "2025-12-04",
-        "close": 21.72,
+        "close": 61.25,
         "event_desc": ""
       },
       {
         "date": "2025-12-05",
-        "close": 21.84,
+        "close": 61.62,
         "event_desc": ""
       },
       {
         "date": "2025-12-08",
-        "close": 21.89,
+        "close": 62.46,
         "event_desc": ""
       },
       {
         "date": "2025-12-09",
-        "close": 22.68,
+        "close": 63.08,
         "event_desc": ""
       },
       {
         "date": "2025-12-10",
-        "close": 22.0,
+        "close": 63.38,
         "event_desc": ""
       },
       {
         "date": "2025-12-11",
-        "close": 21.26,
+        "close": 63.4,
         "event_desc": ""
       },
       {
         "date": "2025-12-12",
-        "close": 21.62,
+        "close": 63.28,
         "event_desc": ""
       },
       {
         "date": "2025-12-15",
-        "close": 21.74,
+        "close": 61.38,
         "event_desc": ""
       },
       {
         "date": "2025-12-16",
-        "close": 20.8,
+        "close": 59.15,
         "event_desc": ""
       },
       {
         "date": "2025-12-17",
-        "close": 21.18,
+        "close": 60.3,
         "event_desc": ""
       },
       {
         "date": "2025-12-18",
-        "close": 20.76,
+        "close": 60.0,
         "event_desc": ""
       },
       {
         "date": "2025-12-19",
-        "close": 20.8,
+        "close": 60.85,
         "event_desc": ""
       },
       {
         "date": "2025-12-22",
-        "close": 20.84,
+        "close": 60.93,
         "event_desc": ""
       },
       {
         "date": "2025-12-23",
-        "close": 20.86,
+        "close": 61.8,
         "event_desc": ""
       },
       {
         "date": "2025-12-24",
-        "close": 21.04,
+        "close": 61.23,
         "event_desc": ""
       },
       {
         "date": "2025-12-25",
-        "close": 21.38,
+        "close": 61.4,
         "event_desc": ""
       },
       {
         "date": "2025-12-26",
-        "close": 21.8,
+        "close": 61.06,
         "event_desc": ""
       },
       {
         "date": "2025-12-29",
-        "close": 21.51,
+        "close": 60.51,
         "event_desc": ""
       },
       {
         "date": "2025-12-30",
-        "close": 21.01,
+        "close": 60.18,
         "event_desc": ""
       },
       {
         "date": "2025-12-31",
-        "close": 20.52,
+        "close": 59.57,
         "event_desc": ""
       },
       {
         "date": "2026-01-05",
-        "close": 21.11,
+        "close": 63.08,
         "event_desc": ""
       },
       {
         "date": "2026-01-06",
-        "close": 21.59,
+        "close": 63.06,
         "event_desc": ""
       },
       {
         "date": "2026-01-07",
-        "close": 21.65,
+        "close": 63.85,
         "event_desc": ""
       },
       {
         "date": "2026-01-08",
-        "close": 21.66,
+        "close": 63.6,
         "event_desc": ""
       },
       {
         "date": "2026-01-09",
-        "close": 20.83,
+        "close": 63.78,
         "event_desc": ""
       },
       {
         "date": "2026-01-12",
-        "close": 21.27,
+        "close": 63.85,
         "event_desc": ""
       },
       {
         "date": "2026-01-13",
-        "close": 20.45,
+        "close": 64.52,
         "event_desc": ""
       },
       {
         "date": "2026-01-14",
-        "close": 20.57,
+        "close": 63.61,
         "event_desc": ""
       },
       {
         "date": "2026-01-15",
-        "close": 20.02,
+        "close": 63.17,
         "event_desc": ""
       },
       {
         "date": "2026-01-16",
-        "close": 20.02,
+        "close": 61.94,
         "event_desc": ""
       },
       {
         "date": "2026-01-19",
-        "close": 19.27,
+        "close": 61.12,
         "event_desc": ""
       },
       {
         "date": "2026-01-20",
-        "close": 18.59,
+        "close": 60.5,
         "event_desc": ""
       },
       {
         "date": "2026-01-21",
-        "close": 18.49,
+        "close": 60.1,
         "event_desc": ""
       },
       {
         "date": "2026-01-22",
-        "close": 18.82,
+        "close": 59.44,
         "event_desc": ""
       },
       {
         "date": "2026-01-23",
-        "close": 20.28,
+        "close": 58.99,
         "event_desc": ""
       },
       {
         "date": "2026-01-26",
-        "close": 19.6,
+        "close": 58.16,
         "event_desc": ""
       },
       {
         "date": "2026-01-27",
-        "close": 19.5,
+        "close": 57.2,
         "event_desc": ""
       },
       {
         "date": "2026-01-28",
-        "close": 19.02,
+        "close": 56.55,
         "event_desc": ""
       },
       {
         "date": "2026-01-29",
-        "close": 19.06,
+        "close": 58.11,
         "event_desc": ""
       },
       {
         "date": "2026-01-30",
-        "close": 18.2,
+        "close": 58.16,
         "event_desc": ""
       },
       {
         "date": "2026-02-02",
-        "close": 17.84,
+        "close": 56.49,
         "event_desc": ""
       },
       {
         "date": "2026-02-03",
-        "close": 18.66,
+        "close": 57.47,
         "event_desc": ""
       },
       {
         "date": "2026-02-04",
-        "close": 19.56,
+        "close": 57.6,
         "event_desc": ""
       },
       {
         "date": "2026-02-05",
-        "close": 18.37,
+        "close": 58.16,
         "event_desc": ""
       },
       {
         "date": "2026-02-06",
-        "close": 18.57,
+        "close": 57.31,
         "event_desc": ""
       },
       {
         "date": "2026-02-09",
-        "close": 19.08,
+        "close": 57.45,
         "event_desc": ""
       },
       {
         "date": "2026-02-10",
-        "close": 18.85,
+        "close": 58.4,
         "event_desc": ""
       },
       {
         "date": "2026-02-11",
-        "close": 18.67,
+        "close": 58.9,
         "event_desc": ""
       },
       {
         "date": "2026-02-12",
-        "close": 18.42,
+        "close": 58.74,
         "event_desc": ""
       },
       {
         "date": "2026-02-13",
-        "close": 18.01,
+        "close": 58.23,
         "event_desc": ""
       },
       {
         "date": "2026-02-24",
-        "close": 18.16,
+        "close": 58.01,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-02-25",
+        "close": 57.86,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-02-26",
+        "close": 56.72,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-02-27",
+        "close": 56.56,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-02",
+        "close": 54.54,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-03",
+        "close": 53.61,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-04",
+        "close": 52.98,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-05",
+        "close": 53.72,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-06",
+        "close": 55.56,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-09",
+        "close": 54.94,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-10",
+        "close": 56.55,
         "event_desc": ""
       },
       {
         "date": "2026-03-11",
-        "close": 18.62,
+        "close": 55.83,
         "event_desc": ""
       },
       {
         "date": "2026-03-12",
-        "close": 19.55,
+        "close": 55.3,
         "event_desc": ""
       },
       {
         "date": "2026-03-13",
-        "close": 19.32,
+        "close": 55.11,
         "event_desc": ""
       },
       {
         "date": "2026-03-16",
-        "close": 18.79,
+        "close": 55.59,
         "event_desc": ""
       },
       {
         "date": "2026-03-17",
-        "close": 18.44,
+        "close": 56.3,
         "event_desc": ""
       },
       {
         "date": "2026-03-18",
-        "close": 18.35,
+        "close": 56.88,
         "event_desc": ""
       },
       {
         "date": "2026-03-19",
-        "close": 18.1,
+        "close": 56.02,
         "event_desc": ""
       },
       {
         "date": "2026-03-20",
-        "close": 18.46,
+        "close": 55.14,
         "event_desc": ""
       },
       {
         "date": "2026-03-23",
-        "close": 17.94,
+        "close": 52.78,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-24",
+        "close": 53.64,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-25",
+        "close": 54.1,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-26",
+        "close": 51.63,
+        "event_desc": ""
+      },
+      {
+        "date": "2026-03-27",
+        "close": 55.18,
         "event_desc": ""
       }
     ],
-    "asof": "2026-03-23",
+    "asof": "2026-03-27",
     "data_origin": "live",
-    "network_evidence": [
-      {
-        "interface": "stock_zh_a_hist",
-        "status": "error",
-        "latency_ms": 57,
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "retry_count": 0,
-        "dedup_hit": false
-      },
-      {
-        "interface": "stock_zh_a_hist",
-        "status": "error",
-        "latency_ms": 65,
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "retry_count": 1,
-        "dedup_hit": false
-      },
-      {
-        "interface": "stock_zh_a_hist",
-        "status": "error",
-        "latency_ms": 60,
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "retry_count": 2,
-        "dedup_hit": false
-      }
-    ],
+    "network_evidence": [],
     "akshare_calls": [
       {
         "interface": "stock_zh_a_hist",
-        "symbol": "600438",
-        "latency_ms": 57,
-        "status": "error",
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "attempt": 1,
-        "retry_count": 0,
-        "dedup_hit": false
-      },
-      {
-        "interface": "stock_zh_a_hist",
-        "symbol": "600438",
-        "latency_ms": 65,
-        "status": "error",
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "attempt": 2,
-        "retry_count": 1,
-        "dedup_hit": false
-      },
-      {
-        "interface": "stock_zh_a_hist",
-        "symbol": "600438",
-        "latency_ms": 60,
-        "status": "error",
-        "error": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600438&beg=20250101&end=20260323 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
-        "attempt": 3,
-        "retry_count": 2,
-        "dedup_hit": false
-      },
-      {
-        "interface": "stock_zh_a_hist_tx",
-        "symbol": "600438",
-        "latency_ms": 716,
+        "symbol": "600276",
+        "latency_ms": 72,
         "status": "ok",
         "error": "",
         "attempt": 1,
@@ -527,7 +602,7 @@
     ],
     "trace": {
       "phase_latency_ms": {
-        "price_series": 1960
+        "price_series": 180
       },
       "phase_status": {
         "price_series": "valid"
@@ -541,8 +616,8 @@
     {
       "source": "AkShare",
       "kind": "akshare",
-      "title": "600438 近三个月K线",
-      "published_at": "2026-03-23",
+      "title": "600276 近三个月K线",
+      "published_at": "2026-03-27",
       "url": null
     }
   ],

@@ -21,6 +21,7 @@ if PROJECT_ROOT_TEXT not in sys.path:
 from pomefi.tools.hooks import (
     build_hook_payload,
     normalize_financial_rows,
+    normalize_financial_series_rows,
     normalize_price_history_rows,
     normalize_valuation_rows,
     to_local_tool_result,
@@ -695,6 +696,80 @@ def _safe_financial_indicators(symbol: str, notes: list[str], call_logs: list[di
     return financial_df
 
 
+def _safe_financial_abstract(symbol: str, notes: list[str], call_logs: list[dict[str, Any]]) -> pd.DataFrame:
+    try:
+        abstract_df = _call_ak_with_diag(
+            func=ak.stock_financial_abstract,
+            interface="stock_financial_abstract",
+            symbol_code=symbol,
+            call_logs=call_logs,
+            symbol=symbol,
+        )
+    except Exception as exc:
+        notes.append(f"stock_financial_abstract failed: {exc}")
+        return pd.DataFrame()
+
+    if abstract_df.empty:
+        notes.append("stock_financial_abstract returned empty dataframe")
+        return abstract_df
+    return abstract_df.copy()
+
+
+def _extract_financial_series_5y(abstract_df: pd.DataFrame, notes: list[str]) -> list[dict[str, Any]]:
+    if abstract_df.empty:
+        return []
+
+    metric_col = "指标" if "指标" in abstract_df.columns else None
+    if metric_col is None:
+        notes.append("stock_financial_abstract missing 指标 column")
+        return []
+
+    report_columns = [
+        str(column)
+        for column in abstract_df.columns
+        if str(column).isdigit() and len(str(column)) == 8 and str(column).endswith("1231")
+    ]
+    if not report_columns:
+        notes.append("stock_financial_abstract did not contain annual report columns")
+        return []
+
+    report_columns = sorted(report_columns)[-5:]
+    metric_names = abstract_df[metric_col].astype(str)
+
+    revenue_candidates = {"营业总收入", "营业收入", "主营业务收入"}
+    net_profit_candidates = {"归母净利润", "净利润"}
+
+    revenue_row = abstract_df.loc[metric_names.isin(revenue_candidates)]
+    net_profit_row = abstract_df.loc[metric_names.isin(net_profit_candidates)]
+
+    if revenue_row.empty:
+        notes.append("financial_series_5y revenue row missing from stock_financial_abstract")
+    if net_profit_row.empty:
+        notes.append("financial_series_5y net profit row missing from stock_financial_abstract")
+    if revenue_row.empty or net_profit_row.empty:
+        return []
+
+    revenue_row = revenue_row.iloc[0]
+    net_profit_row = net_profit_row.iloc[0]
+    series: list[dict[str, Any]] = []
+    for report_date in report_columns:
+        revenue = _to_float(revenue_row.get(report_date))
+        net_profit = _to_float(net_profit_row.get(report_date))
+        if revenue is None and net_profit is None:
+            continue
+        series.append(
+            {
+                "report_date": report_date,
+                "year": report_date[:4],
+                "revenue": revenue,
+                "net_profit": net_profit,
+            }
+        )
+    if not series:
+        notes.append("financial_series_5y could not be resolved from stock_financial_abstract")
+    return series
+
+
 def _extract_named_rate(financial_df: pd.DataFrame, candidates: list[str]) -> float | None:
     if financial_df.empty:
         return None
@@ -728,6 +803,7 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
     invalid_metrics = [metric for metric in metrics if metric not in AKSHARE_METRICS]
     if invalid_metrics:
         raise RuntimeError(f"Unsupported metrics requested: {invalid_metrics}")
+    include_financial_series_5y = bool(arguments.get("include_financial_series_5y"))
 
     notes: list[str] = ["rate-like metrics are normalized to decimal fractions"]
     call_logs: list[dict[str, Any]] = []
@@ -751,6 +827,7 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
     pe_df = _safe_valuation_series(symbol, notes, "市盈率(TTM)", call_logs) if needs_pe else pd.DataFrame()
     pb_df = _safe_valuation_series(symbol, notes, "市净率", call_logs) if needs_pb else pd.DataFrame()
     financial_df = _safe_financial_indicators(symbol, notes, call_logs) if needs_financial else pd.DataFrame()
+    abstract_df = _safe_financial_abstract(symbol, notes, call_logs) if include_financial_series_5y else pd.DataFrame()
     spot_df = pd.DataFrame()
     spot_map: dict[str, Any] = {}
 
@@ -842,6 +919,7 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         preview_rows["profit_yoy"] = _extract_named_rate(financial_df, PROFIT_YOY_CANDIDATES)
         latest_row = preview_rows.tail(1).to_dict(orient="records")
         financial_rows = normalize_financial_rows(latest_row)
+    financial_series_rows = normalize_financial_series_rows(_extract_financial_series_5y(abstract_df, notes))
 
     data_origin = infer_price_data_origin(call_logs)
     network_evidence = extract_network_evidence(call_logs)
@@ -858,6 +936,7 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         "price_history_1y": normalize_price_history_rows(price_df.tail(252).to_dict(orient="records")) if not price_df.empty else [],
         "valuation_5y": valuation_merged,
         "financial_indicators": financial_rows,
+        "financial_series_5y": financial_series_rows,
     }
 
     hook_payload = build_hook_payload(
@@ -871,4 +950,6 @@ def execute(arguments: dict[str, Any]) -> dict[str, Any]:
         data_origin=data_origin,
         network_evidence=network_evidence,
     )
+    if include_financial_series_5y:
+        hook_payload["metrics_data"]["financial_series_5y"] = financial_series_rows
     return to_local_tool_result(hook_payload)

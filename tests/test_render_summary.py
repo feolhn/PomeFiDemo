@@ -57,3 +57,19 @@ def test_summary_sections_include_ret_20d_and_avoid_duplicate_primary_metrics() 
     assert not any(item.startswith("近20日:") for item in bullets)
     assert not any(item.startswith("20日波动:") for item in bullets)
     assert not any(item.startswith("Data Origin:") for item in bullets)
+
+
+def test_summary_financial_charts_html_renders_revenue_and_profit_bars() -> None:
+    html = render._summary_financial_charts_html(
+        [
+            {"report_date": "20211231", "year": "2021", "revenue": 10.5e8, "net_profit": 1.2e8},
+            {"report_date": "20221231", "year": "2022", "revenue": 11.8e8, "net_profit": 1.4e8},
+            {"report_date": "20231231", "year": "2023", "revenue": 13.1e8, "net_profit": 1.6e8},
+        ]
+    )
+    assert "近五年营收" in html
+    assert "近五年净利润" in html
+    assert "21" in html
+    assert "22" in html
+    assert "23" in html
+    assert "<rect" in html
