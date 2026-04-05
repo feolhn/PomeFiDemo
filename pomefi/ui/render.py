@@ -373,113 +373,146 @@ def inject_page_styles() -> None:
           font-size: 0.875rem;
         }
 
-        /* Relationship Graph - Flat Design */
+        /* Relationship Graph - grouped layout for mobile readability */
         .pf-rel-graph {
-          position: relative;
-          padding: 1.25rem 0.5rem;
-          min-height: 220px;
-          margin: 0.75rem -0.5rem 0.5rem -0.5rem;
+          margin-top: 0.75rem;
         }
 
-        .pf-rel-svg {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          overflow: visible;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .pf-rel-center {
-          position: absolute;
-          left: 50%;
-          top: 55%;
-          transform: translate(-50%, -50%);
-          width: 68px;
-          height: 68px;
-          border-radius: 50%;
-          background: #e8e8e8;
-          border: 2px solid #d0d0d0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #333;
-          z-index: 2;
-          text-align: center;
-          line-height: 1.2;
-          padding: 0.25rem;
-        }
-
-        .pf-rel-node {
-          position: absolute;
-          padding: 0.35rem 0.6rem;
+        .pf-rel-center-card {
+          border: 1px solid var(--line);
           border-radius: 14px;
+          background: linear-gradient(180deg, #fafbfc 0%, #f5f7f9 100%);
+          padding: 0.8rem 0.9rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .pf-rel-center-kicker {
+          font-size: 0.68rem;
+          font-weight: 700;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          margin-bottom: 0.2rem;
+        }
+
+        .pf-rel-center-name {
+          font-size: 1rem;
+          font-weight: 700;
+          color: var(--ink);
+          line-height: 1.25;
+        }
+
+        .pf-rel-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.65rem;
+          margin-bottom: 0.8rem;
+        }
+
+        .pf-rel-group {
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          background: #fbfcfd;
+          padding: 0.7rem;
+        }
+
+        .pf-rel-group-title {
           font-size: 0.72rem;
-          font-weight: 500;
-          color: #444;
-          border: 1px solid rgba(0,0,0,0.08);
-          box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-          white-space: nowrap;
-          z-index: 2;
-          transform: translate(-50%, -50%);
-          max-width: 90px;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          font-weight: 700;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          margin-bottom: 0.55rem;
         }
 
-        .pf-rel-node-supplier {
-          background: #f0e6dc;
-          color: #5a4a3a;
+        .pf-rel-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
         }
 
-        .pf-rel-node-customer {
-          background: #e0f0e0;
-          color: #3a5a3a;
-        }
-
-        .pf-rel-node-competitor {
-          background: #f0e0e0;
-          color: #5a3a3a;
-        }
-
-        .pf-rel-node-other {
-          background: #e0e8f0;
-          color: #3a4a5a;
-        }
-
-        .pf-rel-line {
-          position: absolute;
-          background: #ccc;
-          z-index: 1;
-        }
-
-        .pf-rel-edge-text {
-          font-size: 0.58rem;
-          font-weight: 600;
-          fill: #5f6368;
-        }
-
-        .pf-rel-label {
-          position: absolute;
-          transform: translate(-50%, -50%);
-          padding: 0.15rem 0.45rem;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.98);
+        .pf-rel-chip {
+          border-radius: 12px;
           border: 1px solid rgba(0,0,0,0.06);
-          box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-          color: #5f6368;
-          font-size: 0.6rem;
+          padding: 0.42rem 0.58rem;
+          font-size: 0.76rem;
+          line-height: 1.35;
           font-weight: 500;
-          line-height: 1.2;
+          word-break: break-word;
+        }
+
+        .pf-rel-chip-supplier {
+          background: #dbeafe;
+          color: #1e3a5f;
+        }
+
+        .pf-rel-chip-customer {
+          background: #fed7aa;
+          color: #7a3b00;
+        }
+
+        .pf-rel-chip-theme {
+          background: #e9ddfb;
+          color: #573a7a;
+        }
+
+        .pf-rel-chip-competitor {
+          background: #f5d8d8;
+          color: #6f2f2f;
+        }
+
+        .pf-rel-relations {
+          border-top: 1px solid var(--line);
+          padding-top: 0.7rem;
+        }
+
+        .pf-rel-relations-title {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          margin-bottom: 0.5rem;
+        }
+
+        .pf-rel-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+          gap: 0.5rem;
+          align-items: center;
+          padding: 0.45rem 0;
+          border-bottom: 1px dashed rgba(31,35,40,0.08);
+        }
+
+        .pf-rel-row:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
+        }
+
+        .pf-rel-entity {
+          font-size: 0.8rem;
+          color: var(--ink);
+          line-height: 1.35;
+          word-break: break-word;
+        }
+
+        .pf-rel-entity-from {
+          text-align: right;
+        }
+
+        .pf-rel-entity-to {
+          text-align: left;
+        }
+
+        .pf-rel-relation {
+          border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.08);
+          background: #fff;
+          padding: 0.18rem 0.5rem;
+          font-size: 0.68rem;
+          font-weight: 600;
+          color: #5f6368;
           white-space: nowrap;
-          z-index: 3;
-          pointer-events: none;
-          max-width: 70px;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
 
         /* Responsive adjustments */
@@ -504,6 +537,11 @@ def inject_page_styles() -> None:
           }
 
           .pf-fin-grid {
+            grid-template-columns: 1fr;
+            gap: 0.55rem;
+          }
+
+          .pf-rel-grid {
             grid-template-columns: 1fr;
             gap: 0.55rem;
           }
@@ -1303,78 +1341,76 @@ def render_relationship_card(entry: dict[str, Any]) -> None:
 
 
 def _build_relationship_graph_html(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> str:
-    """Build flat-design relationship graph using HTML/CSS."""
-    positions = _relationship_html_layout(nodes)
-
-    # Group nodes by role
+    """Build a mobile-safe grouped relationship view."""
     grouped: dict[str, list[str]] = {"company": [], "theme": [], "supplier": [], "customer": [], "competitor": [], "other": []}
     for node in nodes:
         role = str(node.get("role", "other"))
-        node_id = str(node.get("id", ""))
+        node_id = str(node.get("id", "")).strip()
         if node_id:
             grouped.setdefault(role, []).append(node_id)
-    
-    # Get center node
+
     center_node = grouped["company"][0] if grouped["company"] else (grouped["theme"][0] if grouped["theme"] else "中心")
-    
-    svg_lines = []
-    label_html = []
-    for edge in edges:
-        start_id = str(edge.get("from") or "")
-        end_id = str(edge.get("to") or "")
-        start = positions.get(start_id)
-        end = positions.get(end_id)
+
+    def _group_block(title: str, items: list[str], role_class: str) -> str:
+        if not items:
+            return ""
+        chips = "".join(
+            f"<div class='pf-rel-chip {role_class}'>{escape(_compact_text(item, limit=36))}</div>"
+            for item in items
+        )
+        return (
+            "<div class='pf-rel-group'>"
+            f"<div class='pf-rel-group-title'>{escape(title)}</div>"
+            f"<div class='pf-rel-stack'>{chips}</div>"
+            "</div>"
+        )
+
+    top_nodes = [item for item in grouped.get("theme", []) + grouped.get("other", []) if item != center_node]
+    group_html = "".join(
+        block
+        for block in (
+            _group_block("上游", grouped.get("supplier", [])[:3], "pf-rel-chip-supplier"),
+            _group_block("下游", grouped.get("customer", [])[:3], "pf-rel-chip-customer"),
+            _group_block("关键变量", top_nodes[:3], "pf-rel-chip-theme"),
+            _group_block("竞争", grouped.get("competitor", [])[:2], "pf-rel-chip-competitor"),
+        )
+        if block
+    )
+
+    relation_rows = []
+    for edge in edges[:6]:
+        start = _compact_text(str(edge.get("from") or "").strip(), limit=24)
+        end = _compact_text(str(edge.get("to") or "").strip(), limit=24)
+        relation = _compact_text(str(edge.get("relation") or "").strip(), limit=10)
         if not start or not end:
             continue
-        relation = escape(_compact_text(str(edge.get("relation") or ""), limit=8))
-        x1, y1 = start
-        x2, y2 = end
-        svg_lines.append(
-            f"<line x1='{x1}' y1='{y1}' x2='{x2}' y2='{y2}' stroke='rgba(150,150,150,0.45)' stroke-width='1.3' />"
-        )
-        if relation:
-            label_x, label_y = _relationship_label_position(start_id, end_id, x1, y1, x2, y2, center_node)
-            label_html.append(
-                f"<div class='pf-rel-label' style='left:{label_x}%;top:{label_y}%;'>{relation}</div>"
-            )
-
-    nodes_html = []
-    if center_node in positions:
-        nodes_html.append(f'<div class="pf-rel-center">{escape(center_node)}</div>')
-
-    for node_id in grouped.get("supplier", [])[:3]:
-        x, y = positions.get(node_id, (12.0, 55.0))
-        nodes_html.append(
-            f'<div class="pf-rel-node pf-rel-node-supplier" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+        relation_rows.append(
+            "<div class='pf-rel-row'>"
+            f"<div class='pf-rel-entity pf-rel-entity-from'>{escape(start)}</div>"
+            f"<div class='pf-rel-relation'>{escape(relation or '关联')}</div>"
+            f"<div class='pf-rel-entity pf-rel-entity-to'>{escape(end)}</div>"
+            "</div>"
         )
 
-    for node_id in grouped.get("customer", [])[:3]:
-        x, y = positions.get(node_id, (88.0, 55.0))
-        nodes_html.append(
-            f'<div class="pf-rel-node pf-rel-node-customer" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
+    relations_html = ""
+    if relation_rows:
+        relations_html = (
+            "<div class='pf-rel-relations'>"
+            "<div class='pf-rel-relations-title'>关键关系</div>"
+            + "".join(relation_rows)
+            + "</div>"
         )
 
-    top_nodes = list(grouped.get("theme", [])) + list(grouped.get("other", []))
-    if center_node in top_nodes:
-        top_nodes = [item for item in top_nodes if item != center_node]
-    for node_id in top_nodes[:2]:
-        x, y = positions.get(node_id, (50.0, 12.0))
-        nodes_html.append(
-            f'<div class="pf-rel-node pf-rel-node-other" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
-        )
-
-    for node_id in grouped.get("competitor", [])[:2]:
-        x, y = positions.get(node_id, (50.0, 88.0))
-        nodes_html.append(
-            f'<div class="pf-rel-node pf-rel-node-competitor" style="left:{x}%;top:{y}%;">{escape(node_id)}</div>'
-        )
-
-    svg_html = (
-        "<svg class='pf-rel-svg' viewBox='0 0 100 100' preserveAspectRatio='none'>"
-        + "".join(svg_lines)
-        + "</svg>"
+    return (
+        "<div class='pf-rel-graph'>"
+        "<div class='pf-rel-center-card'>"
+        "<div class='pf-rel-center-kicker'>中心公司</div>"
+        f"<div class='pf-rel-center-name'>{escape(center_node)}</div>"
+        "</div>"
+        f"<div class='pf-rel-grid'>{group_html}</div>"
+        f"{relations_html}"
+        "</div>"
     )
-    return f"<div class='pf-rel-graph'>{svg_html}{''.join(label_html)}{''.join(nodes_html)}</div>"
 
 
 def _relationship_html_layout(nodes: list[dict[str, Any]]) -> dict[str, tuple[float, float]]:
@@ -2352,16 +2388,10 @@ def _render_stock_wiki_cards(result: dict[str, Any]) -> None:
         unsafe_allow_html=True,
     )
     if nodes:
-        st.plotly_chart(
-            _relationship_figure(nodes, edges),
-            use_container_width=True,
-            config={"displayModeBar": False},
-            key=f"relationship-full-{len(nodes)}-{len(edges)}",
-        )
+        st.markdown(_build_relationship_graph_html(nodes, edges), unsafe_allow_html=True)
     st.markdown(
         f"""
         <section class="pf-mobile-card" style="margin-top:-0.35rem;">
-          <div class="pf-chip-row">{chips}</div>
           <div class="pf-foot">{escape(_source_footer(relationship_skill, "Crunchbase"))}</div>
         </section>
         """,
